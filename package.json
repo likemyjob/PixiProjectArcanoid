@@ -1,0 +1,28 @@
+{
+  "name": "startPixiProject",
+  "version": "1.0.0",
+  "description": "begin project",
+  "main": "main.js",
+  "dependencies": {
+    "pixi-particles": "^2.1.1",
+    "pixi.js": "^4.3.4",
+    "typedi": "^0.4.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/korolariya/startPixiProject.git"
+  },
+  "devDependencies": {
+    "pixi-typescript": "https://github.com/pixijs/pixi-typescript.git#v4.x",
+    "@types/socket.io-client": "^1.4.29",
+    "browserify": "latest",
+    "watchify": "latest"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "browserify src/Main.js > main.js | browserify node_modules/typedi/index.js > typeid.js",
+    "watch-js": "watchify src/Main.js -o main.js"
+  },
+  "author": "korolariya",
+  "license": "MIT"
+}
