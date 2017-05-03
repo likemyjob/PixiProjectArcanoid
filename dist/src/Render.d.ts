@@ -5,11 +5,11 @@ export declare class Render {
     app: PIXI.Application;
     width: number;
     height: number;
-    private resources;
+    resources: any;
     private updating;
     constructor();
     addUpdating(obj: GameObjectInterface): void;
     private resize();
-    update(): void;
+    update(delta: number): void;
     onLoaded(loader: any, res: any): void;
 }

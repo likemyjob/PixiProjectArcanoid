@@ -7,13 +7,13 @@ export class Render {
     public app: PIXI.Application;
     public width: number;
     public height: number;
-    private resources: any;
+    public resources: any;
 
     private updating: any = [];
 
     constructor() {
         PIXI.loader
-            .add('shader', 'Assets/image.jpg')
+            .add('sample', 'Assets/sample.png')
             .load(this.onLoaded.bind(this));
     }
 
@@ -32,9 +32,9 @@ export class Render {
         };
     }
 
-    public update() {
+    public update(delta: number) {
         this.updating.forEach(function (object: GameObjectInterface) {
-            object.update();
+            object.update(delta);
         });
     }
 
@@ -51,11 +51,17 @@ export class Render {
 
         let sample = Container.get(Sample);
 
+        setTimeout(function () {
+            sample.destroy();
+            setTimeout(function () {
+                sample.build();
+            }, 1000);
+        }, 5000);
 
         this.app.start();
         let that = this;
         this.app.ticker.add(function (delta: number) {
-            that.update();
+            that.update(delta);
         });
     }
 }
