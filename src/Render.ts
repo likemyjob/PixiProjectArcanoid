@@ -11,4 +11,5 @@ namespace Template {
             return this._x;
         }
     }
+
 }
