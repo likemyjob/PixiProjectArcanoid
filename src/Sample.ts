@@ -1,17 +1,18 @@
-import {Container, Service} from "typedi";
 import {GameObjectAbstract} from "./abstract/GameObjectAbstract";
 import {Control} from "./Control";
 import {ComponentInterface} from "./interfaces/ComponentInterface";
-@Service()
+import {ControlMouse} from "./ControlMouse";
 export class Sample extends GameObjectAbstract {
 
-    private text: string = 'sample test';
     private alpha: number = 0;
 
     public speed: number = 2;
 
+    public movement: boolean = false;
+
     private components: ComponentInterface[] = [
-        Container.get(Control)
+        new Control(),
+        new ControlMouse()
     ];
 
     build() {
@@ -27,6 +28,10 @@ export class Sample extends GameObjectAbstract {
         this.components.forEach(function (component: any) {
             component.init(that);
         });
+    }
+
+    setPosition(point: PIXI.Point) {
+        this.view.position = point;
     }
 
     update(delta: number) {

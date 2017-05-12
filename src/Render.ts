@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
-import {Container, Service} from "typedi";
+import {Service} from "typedi";
 import {Sample} from "./Sample";
 import {GameObjectInterface} from "./interfaces/GameObjectInterface";
 @Service()
@@ -49,14 +49,10 @@ export class Render {
         this.app.stop();
         this.resources = res;
 
-        let sample = Container.get(Sample);
+        let sample1 = new Sample();
+        let sample2 = new Sample();
 
-        // setTimeout(function () {
-        //     sample.destroy();
-        //     setTimeout(function () {
-        //         sample.build();
-        //     }, 1000);
-        // }, 5000);
+        sample2.setPosition(new PIXI.Point(300, 100));
 
         this.app.start();
         let that = this;

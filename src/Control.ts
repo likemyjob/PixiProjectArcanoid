@@ -1,11 +1,9 @@
-import {Service} from "typedi";
-import {ComponentInterface} from "./interfaces/ComponentInterface";
 import {GameObjectInterface} from "./interfaces/GameObjectInterface";
 import {Vector} from "./Vector";
-@Service()
-export class Control implements ComponentInterface {
+import {Component} from "./abstract/Component";
+export class Control extends Component {
 
-    private entity: GameObjectInterface;
+    protected entity: GameObjectInterface;
 
     private directionVector: Vector = new Vector(0, 0);
 
@@ -36,7 +34,7 @@ export class Control implements ComponentInterface {
         this.keys[this.keyCodes[keyCode]] = check;
     };
 
-    private eventsListener() {
+    protected eventsListener() {
         let that = this;
         document.addEventListener('keydown', function (e: KeyboardEvent) {
             that.keyDown(e);
@@ -48,10 +46,11 @@ export class Control implements ComponentInterface {
 
     private keyDown(e: KeyboardEvent) {
         if (e.keyCode in this.keyCodes) {
-            this.handler(e.keyCode, true);
-
             if (this.pressed.indexOf(e.keyCode) == -1) {
+                this.handler(e.keyCode, true);
+
                 this.directionVector.addVector(this.values[e.keyCode]);
+
                 this.pressed.push(e.keyCode)
             }
         }
@@ -59,25 +58,19 @@ export class Control implements ComponentInterface {
 
     private keyUp(e: KeyboardEvent) {
         if (e.keyCode in this.keyCodes) {
-            this.handler(e.keyCode, false);
             let index = this.pressed.indexOf(e.keyCode);
             if (index >= 0) {
+                this.handler(e.keyCode, false);
+
                 this.directionVector.subVector(this.values[e.keyCode]);
+
                 this.pressed.splice(index, 1);
             }
         }
     }
 
-    public constructor() {
-        this.eventsListener();
-    }
-
-    public init(entity: GameObjectInterface) {
-        this.entity = entity;
-    }
-
     public move() {
-        if (!this.directionVector.isNull()) {
+        if (!this.directionVector.isNull() && !this.entity.movement) {
             let module = Math.sqrt(Math.pow(this.directionVector.x, 2) + Math.pow(this.directionVector.y, 2));
             this.entity.view.position.x += this.entity.speed * this.directionVector.x / module;
             this.entity.view.position.y += this.entity.speed * this.directionVector.y / module;

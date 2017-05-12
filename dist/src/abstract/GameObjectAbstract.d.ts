@@ -6,6 +6,7 @@ export declare abstract class GameObjectAbstract implements GameObjectInterface 
     protected render: Render;
     view: PIXI.Sprite;
     speed: number;
+    movement: boolean;
     constructor();
     build(): void;
     status(): boolean;
