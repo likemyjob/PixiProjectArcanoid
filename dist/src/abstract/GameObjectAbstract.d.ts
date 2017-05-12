@@ -4,7 +4,8 @@ import { Render } from "../Render";
 export declare abstract class GameObjectAbstract implements GameObjectInterface {
     protected active: boolean;
     protected render: Render;
-    protected view: PIXI.Sprite;
+    view: PIXI.Sprite;
+    speed: number;
     constructor();
     build(): void;
     status(): boolean;

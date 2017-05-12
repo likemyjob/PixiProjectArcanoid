@@ -51,12 +51,12 @@ export class Render {
 
         let sample = Container.get(Sample);
 
-        setTimeout(function () {
-            sample.destroy();
-            setTimeout(function () {
-                sample.build();
-            }, 1000);
-        }, 5000);
+        // setTimeout(function () {
+        //     sample.destroy();
+        //     setTimeout(function () {
+        //         sample.build();
+        //     }, 1000);
+        // }, 5000);
 
         this.app.start();
         let that = this;

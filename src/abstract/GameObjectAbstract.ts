@@ -5,7 +5,8 @@ export abstract class GameObjectAbstract implements GameObjectInterface {
 
     protected active: boolean;
     protected render: Render;
-    protected view: PIXI.Sprite;
+    public view: PIXI.Sprite;
+    public speed:number;
 
     constructor() {
         this.render = Container.get(Render);

@@ -1,6 +1,8 @@
 export interface GameObjectInterface {
-    build():void;
+    view: PIXI.Sprite;
+    speed:number;
+    build(): void;
     status(): boolean;
-    update(delta:number): void;
+    update(delta: number): void;
     destroy(): void;
 }
