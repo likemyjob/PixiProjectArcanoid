@@ -1,6 +1,6 @@
 import {Container} from "typedi";
 import {Render} from "../Render";
-export abstract class Component {
+export abstract class Entity {
 
     private render: Render;
 

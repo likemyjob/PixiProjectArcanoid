@@ -1,5 +1,3 @@
-import {Service} from "typedi";
-@Service()
 export class Vector extends PIXI.Point {
     public addVector(vec: Vector) {
         this.x += vec.x;

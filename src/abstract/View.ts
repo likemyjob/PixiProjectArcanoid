@@ -1,11 +1,10 @@
 import {Container} from "typedi";
 import {Render} from "../Render";
-export abstract class Component {
+export abstract class View {
 
-    private render: Render;
+    protected render: Render;
 
     constructor() {
         this.render = Container.get(Render);
-        this.render.addEntity(this);
     }
 }

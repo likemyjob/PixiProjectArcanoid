@@ -1,7 +1,7 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
 import {Service} from "typedi";
-import {Sample} from "./Sample";
-import {GameObjectInterface} from "./interfaces/GameObjectInterface";
+import {Sample} from "./entities/Sample";
+import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
 @Service()
 export class Render {
     public app: PIXI.Application;
@@ -9,7 +9,8 @@ export class Render {
     public height: number;
     public resources: any;
 
-    private updating: any = [];
+    public entities: any = [];
+    private systems: any = [];
 
     constructor() {
         PIXI.loader
@@ -17,8 +18,12 @@ export class Render {
             .load(this.onLoaded.bind(this));
     }
 
-    addUpdating(obj: GameObjectInterface) {
-        this.updating.push(obj);
+    addEntity(obj: any) {
+        this.entities.push(obj);
+    }
+
+    addSystem(obj: any) {
+        this.systems.push(obj);
     }
 
     private resize() {
@@ -33,8 +38,9 @@ export class Render {
     }
 
     public update(delta: number) {
-        this.updating.forEach(function (object: GameObjectInterface) {
-            object.update(delta);
+        let that = this;
+        this.systems.forEach(function (system: any) {
+            system.update(delta);
         });
     }
 
@@ -49,10 +55,9 @@ export class Render {
         this.app.stop();
         this.resources = res;
 
-        let sample1 = new Sample();
-        let sample2 = new Sample();
+        let sample = new Sample();
 
-        sample2.setPosition(new PIXI.Point(300, 100));
+        let pl = new PlayerMovementSystem();
 
         this.app.start();
         let that = this;
