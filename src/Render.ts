@@ -1,7 +1,7 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
 import {Service} from "typedi";
-import {Sample} from "./entities/Sample";
 import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
+import {Player} from "./entities/Player";
 @Service()
 export class Render {
     public app: PIXI.Application;
@@ -55,7 +55,7 @@ export class Render {
         this.app.stop();
         this.resources = res;
 
-        let sample = new Sample();
+        let player = new Player();
 
         let pl = new PlayerMovementSystem();
 

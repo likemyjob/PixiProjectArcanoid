@@ -1,11 +1,10 @@
 import {PlayerMovementComponent} from "../components/PlayerMovementComponent";
 import {PlayerView} from "../views/PlayerView";
 import {Entity} from "../abstract/Entity";
-export class Sample extends Entity {
+import {ViewInterface} from "../interfaces/ViewtInterface";
+export class Player extends Entity {
 
-    public views: any = [
-        new PlayerView()
-    ];
+    public view:ViewInterface = new PlayerView();
 
     public components: any = {
         'PlayerMovementComponent': new PlayerMovementComponent(this),

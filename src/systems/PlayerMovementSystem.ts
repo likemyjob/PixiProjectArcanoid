@@ -2,21 +2,16 @@ import {Vector} from "../helpers/Vector";
 import {Render} from "../Render";
 import {Container} from "typedi";
 import {PlayerMovementComponent} from "../components/PlayerMovementComponent";
-import {HealthComponent} from "../components/HealthComponent";
 import {EntityInterface} from "../interfaces/EntityInterface";
 export class PlayerMovementSystem {
 
     private directionVector: Vector = new Vector(0, 0);
     private pressed: number[] = [];
     private keyCodes: any = {
-        '38': 'up',
-        '40': 'down',
         '37': 'left',
         '39': 'right',
     };
     private values: any = {
-        '38': new Vector(0, -1),
-        '40': new Vector(0, 1),
         '37': new Vector(-1, 0),
         "39": new Vector(1, 0),
     };
@@ -62,11 +57,12 @@ export class PlayerMovementSystem {
         }
     }
 
-    addPosition(component: any, newPosition: any) {
-        component.entity.views.forEach(function (playeView: any) {
-            playeView.view.position.x += newPosition.x;
-            playeView.view.position.y += newPosition.y;
-        })
+    addPosition(component: PlayerMovementComponent, newPosition: any) {
+        component.entity.view.shift(newPosition);
+    }
+
+    getPosition(component: PlayerMovementComponent): PIXI.Point {
+        return component.entity.view.getPosition();
     }
 
     assignComponents: string[] = [
@@ -83,7 +79,18 @@ export class PlayerMovementSystem {
             let module = Math.sqrt(Math.pow(this.directionVector.x, 2) + Math.pow(this.directionVector.y, 2));
             let x = component.speed * this.directionVector.x / module;
             let y = component.speed * this.directionVector.y / module;
-            this.addPosition(component, new PIXI.Point(x, y));
+
+
+            let pos = this.getPosition(component);
+
+            if (pos.x + x + component.entity.view.getWidth() >= this.render.width) {
+                return;
+            }
+            if (pos.x + x <= 0) {
+                return;
+            }
+
+            this.addPosition(component, new Vector(x, y));
         }
     }
 
