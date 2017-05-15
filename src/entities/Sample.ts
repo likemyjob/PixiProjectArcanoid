@@ -7,7 +7,7 @@ export class Sample extends Entity {
         new PlayerView()
     ];
 
-    public components: any = [
-        new PlayerMovementComponent(this)
-    ];
+    public components: any = {
+        'PlayerMovementComponent': new PlayerMovementComponent(this),
+    };
 }

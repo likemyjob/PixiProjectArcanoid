@@ -1,8 +1,9 @@
 import {Container} from "typedi";
 import {Render} from "../Render";
-export abstract class View {
+import {ViewInterface} from "../interfaces/ViewtInterface";
+export abstract class View implements ViewInterface{
 
-    protected render: Render;
+    public render: Render;
 
     constructor() {
         this.render = Container.get(Render);

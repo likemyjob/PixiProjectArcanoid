@@ -2,7 +2,7 @@ import {Render} from "../Render";
 import {View} from "../abstract/View";
 export class PlayerView extends View {
 
-    protected render: Render;
+    public render: Render;
 
     private view: PIXI.Sprite;
 

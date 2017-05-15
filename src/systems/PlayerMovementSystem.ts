@@ -1,6 +1,9 @@
 import {Vector} from "../helpers/Vector";
 import {Render} from "../Render";
 import {Container} from "typedi";
+import {PlayerMovementComponent} from "../components/PlayerMovementComponent";
+import {HealthComponent} from "../components/HealthComponent";
+import {EntityInterface} from "../interfaces/EntityInterface";
 export class PlayerMovementSystem {
 
     private directionVector: Vector = new Vector(0, 0);
@@ -59,13 +62,6 @@ export class PlayerMovementSystem {
         }
     }
 
-    // setPosition(component: any, newPosition: any) {
-    //     component.entity.views.forEach(function (view: any) {
-    //         view.position.x = newPosition.x;
-    //         view.position.y = newPosition.y;
-    //     })
-    // }
-
     addPosition(component: any, newPosition: any) {
         component.entity.views.forEach(function (playeView: any) {
             playeView.view.position.x += newPosition.x;
@@ -73,16 +69,29 @@ export class PlayerMovementSystem {
         })
     }
 
+    assignComponents: string[] = [
+        'PlayerMovementComponent',
+    ];
 
-    update(delta: any, entity: any) {
+
+    private move(component: PlayerMovementComponent) {
+        if (!(component instanceof PlayerMovementComponent)) {
+            return;
+        }
+
+        if (!this.directionVector.isNull()) {
+            let module = Math.sqrt(Math.pow(this.directionVector.x, 2) + Math.pow(this.directionVector.y, 2));
+            let x = component.speed * this.directionVector.x / module;
+            let y = component.speed * this.directionVector.y / module;
+            this.addPosition(component, new PIXI.Point(x, y));
+        }
+    }
+
+    update(delta: number, entity: EntityInterface) {
         this.render.entities.forEach((entity: any) => {
-            entity.components.forEach((component: any) => {
-                if (!this.directionVector.isNull()) {
-                    let module = Math.sqrt(Math.pow(this.directionVector.x, 2) + Math.pow(this.directionVector.y, 2));
-                    let x = component.speed * this.directionVector.x / module;
-                    let y = component.speed * this.directionVector.y / module;
-                    this.addPosition(component, new PIXI.Point(x, y));
-                }
+
+            this.assignComponents.forEach((compName: any) => {
+                this.move(entity.components[compName]);
             });
         });
     }

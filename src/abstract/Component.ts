@@ -1,11 +1,12 @@
-import {Container} from "typedi";
-import {Render} from "../Render";
-export abstract class Component {
+import {ComponentInterface} from "../interfaces/ComponentInterface";
+import {EntityInterface} from "../interfaces/EntityInterface";
+export abstract class Component implements ComponentInterface {
 
-    private render: Render;
+    public name:string;
+    public entity: EntityInterface;
 
-    constructor() {
-        this.render = Container.get(Render);
-        this.render.addEntity(this);
+    constructor(entity: any) {
+        this.entity = entity;
     }
+
 }

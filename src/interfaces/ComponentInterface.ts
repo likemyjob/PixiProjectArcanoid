@@ -1,5 +1,5 @@
-import {GameObjectInterface} from "./GameObjectInterface";
+import {EntityInterface} from "./EntityInterface";
 export interface ComponentInterface {
-    update(delta: number): void;
-    init(entity: GameObjectInterface): void;
+    name: string;
+    entity: EntityInterface;
 }

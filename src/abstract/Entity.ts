@@ -1,6 +1,13 @@
 import {Container} from "typedi";
 import {Render} from "../Render";
-export abstract class Entity {
+import {EntityInterface} from "../interfaces/EntityInterface";
+import {ViewInterface} from "../interfaces/ViewtInterface";
+import {ComponentsMap} from "../interfaces/ComponentsMap";
+import {ComponentInterface} from "../interfaces/ComponentInterface";
+export abstract class Entity implements EntityInterface {
+
+    public views: ViewInterface[] = [];
+    public components: ComponentsMap<ComponentInterface> = {};
 
     private render: Render;
 
