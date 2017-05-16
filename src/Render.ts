@@ -5,6 +5,7 @@ import {Player} from "./entities/Player";
 import {Ball} from "./entities/Ball";
 import {BallMovementSystem} from "./systems/BallMovementSystem";
 import {Vector} from "./helpers/Vector";
+import {CollisionSystem} from "./systems/CollisionSystem";
 @Service()
 export class Render {
     public app: PIXI.Application;
@@ -65,6 +66,7 @@ export class Render {
 
         let plSystem = new PlayerMovementSystem();
         let ballSystem = new BallMovementSystem();
+        let collisionSystem = new CollisionSystem();
 
         this.app.start();
         let that = this;
