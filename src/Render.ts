@@ -2,6 +2,8 @@
 import {Service} from "typedi";
 import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
 import {Player} from "./entities/Player";
+import {Ball} from "./entities/Ball";
+import {BallMovementSystem} from "./systems/BallMovementSystem";
 @Service()
 export class Render {
     public app: PIXI.Application;
@@ -56,8 +58,10 @@ export class Render {
         this.resources = res;
 
         let player = new Player();
+        let ball = new Ball();
 
-        let pl = new PlayerMovementSystem();
+        let plSystem = new PlayerMovementSystem();
+        let ballSystem = new BallMovementSystem();
 
         this.app.start();
         let that = this;

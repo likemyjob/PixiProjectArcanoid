@@ -1,9 +1,7 @@
 import {Vector} from "../helpers/Vector";
-import {Render} from "../Render";
-import {Container} from "typedi";
 import {PlayerMovementComponent} from "../components/PlayerMovementComponent";
-import {EntityInterface} from "../interfaces/EntityInterface";
-export class PlayerMovementSystem {
+import {System} from "../abstract/System";
+export class PlayerMovementSystem extends System {
 
     private directionVector: Vector = new Vector(0, 0);
     private pressed: number[] = [];
@@ -16,12 +14,9 @@ export class PlayerMovementSystem {
         "39": new Vector(1, 0),
     };
 
-    public render: Render;
-
     constructor() {
+        super();
         this.eventsListener();
-        this.render = Container.get(Render);
-        this.render.addSystem(this);
     }
 
     protected eventsListener() {
@@ -65,10 +60,6 @@ export class PlayerMovementSystem {
         return component.entity.view.getPosition();
     }
 
-    assignComponents: string[] = [
-        'PlayerMovementComponent',
-    ];
-
 
     private move(component: PlayerMovementComponent) {
         if (!(component instanceof PlayerMovementComponent)) {
@@ -94,12 +85,11 @@ export class PlayerMovementSystem {
         }
     }
 
-    update(delta: number, entity: EntityInterface) {
-        this.render.entities.forEach((entity: any) => {
+    assignComponents: string[] = [
+        'PlayerMovementComponent',
+    ];
 
-            this.assignComponents.forEach((compName: any) => {
-                this.move(entity.components[compName]);
-            });
-        });
-    }
+    executable: string[] = [
+        'move'
+    ];
 }

@@ -6,7 +6,7 @@ import {ComponentsMap} from "../interfaces/ComponentsMap";
 import {ComponentInterface} from "../interfaces/ComponentInterface";
 export abstract class Entity implements EntityInterface {
 
-    public views: ViewInterface[] = [];
+    public view: ViewInterface;
     public components: ComponentsMap<ComponentInterface> = {};
 
     private render: Render;
