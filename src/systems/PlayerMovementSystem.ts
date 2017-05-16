@@ -47,6 +47,7 @@ export class PlayerMovementSystem extends System {
 
                 this.directionVector.subVector(this.values[e.keyCode]);
 
+
                 this.pressed.splice(index, 1);
             }
         }
@@ -82,6 +83,8 @@ export class PlayerMovementSystem extends System {
             }
 
             this.addPosition(component, new Vector(x, y));
+
+            component.directionVector = this.directionVector;
         }
     }
 

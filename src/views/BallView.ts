@@ -11,7 +11,7 @@ export class BallView extends View {
         let gr = new PIXI.Graphics();
         gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);
-        gr.drawCircle(0, 0,10);
+        gr.drawCircle(0, 0, 10);
         gr.endFill();
 
         this.container.addChild(gr);
@@ -22,8 +22,8 @@ export class BallView extends View {
     }
 
     setDefaultPosition() {
-        this.container.position.x = (this.render.width - this.container.width) / 2;
-        this.container.position.y = this.render.height - this.container.height - 60;
+        this.container.position.x = (this.render.width - this.container.width / 2) / 2;
+        this.container.position.y = this.render.height - this.container.height - 42;
     }
 
 }

@@ -16,9 +16,7 @@ export class PlayerView extends View {
         gr.endFill();
 
         this.container.addChild(gr);
-
         this.setDefaultPosition();
-
         this.render.app.stage.addChild(this.container);
     }
 
