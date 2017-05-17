@@ -62,7 +62,13 @@ export class Render {
         let player = new Player();
         let ball = new Ball();
         let ball2 = new Ball();
-        ball2.view.shift(new Vector(100,0));
+        let ball3 = new Ball();
+        let ball4 = new Ball();
+        let ball5 = new Ball();
+        ball2.view.shift(new Vector(-2,-100));
+        ball3.view.shift(new Vector(-4,-120));
+        ball4.view.shift(new Vector(-6,-140));
+        ball5.view.shift(new Vector(-8,-160));
 
         let plSystem = new PlayerMovementSystem();
         let ballSystem = new BallMovementSystem();
