@@ -7,4 +7,7 @@ export class BallMovementComponent extends Component {
     public collide: boolean = false;
     public module: number = 1;
     public nextPos: Vector = new Vector(0, 0);
+    public friction: number = 0.01;
+    public gravity: number = 0.01;
+    public timeFly = 0;
 }

@@ -8,7 +8,9 @@ export class BallMovementSystem extends System {
         'BallMovementComponent'
     ];
     executable: string[] = [
-        'move'
+        'move',
+        'friction',
+        'gravity'
     ];
 
     private player: Player;
@@ -26,9 +28,37 @@ export class BallMovementSystem extends System {
         return component.entity.view.getPosition();
     }
 
+    friction(component: BallMovementComponent) {
+        if (!(component instanceof BallMovementComponent)) {
+            return;
+        }
+        if (component.speed <= 0) {
+            component.speed = 0;
+            return;
+        }
+        component.speed -= component.friction;
+    }
+
+    gravity(component: BallMovementComponent) {
+        if (!(component instanceof BallMovementComponent)) {
+            return;
+        }
+        let pos = this.getPosition(component);
+        let height = component.entity.view.getHeight();
+        if (pos.y + height / 2 >= this.render.height) {
+            component.timeFly = 0;
+            return;
+        }
+
+        component.timeFly += 1;
+
+        let g = new Vector(0, component.timeFly * component.gravity);
+
+        this.addPosition(component, g);
+    }
+
+
     move(component: BallMovementComponent) {
-
-
         if (!(component instanceof BallMovementComponent)) {
             return;
         }
@@ -37,8 +67,6 @@ export class BallMovementSystem extends System {
             if (component.collide) {
                 return;
             }
-
-
 
             let pos = this.getPosition(component);
 
