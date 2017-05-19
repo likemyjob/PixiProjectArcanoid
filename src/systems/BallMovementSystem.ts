@@ -43,6 +43,11 @@ export class BallMovementSystem extends System {
         if (!(component instanceof BallMovementComponent)) {
             return;
         }
+
+        if (component.collide) {
+            return;
+        }
+
         let pos = this.getPosition(component);
         let height = component.entity.view.getHeight();
         if (pos.y + height / 2 >= this.render.height) {
@@ -85,17 +90,7 @@ export class BallMovementSystem extends System {
                 component.directionVector.y *= -1;
             }
 
-            let playerPos = this.player.view.getPosition();
-            let playerWidth = this.player.view.getWidth();
-            let width = component.entity.view.getWidth();
-            let height = component.entity.view.getHeight();
 
-            if ((pos.x + width / 2 > playerPos.x ) && (pos.x - width / 2 < playerPos.x + playerWidth )) {
-                if (pos.y + component.nextPos.y + height / 2 >= playerPos.y) {
-                    component.directionVector.y *= -1;
-                    component.directionVector.addVector(this.player.components['PlayerMovementComponent'].directionVector);
-                }
-            }
 
             component.module = Math.sqrt(Math.pow(component.directionVector.x, 2) + Math.pow(component.directionVector.y, 2));
             component.nextPos.x = component.speed * component.directionVector.x / component.module;
