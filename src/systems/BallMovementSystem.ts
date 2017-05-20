@@ -8,9 +8,9 @@ export class BallMovementSystem extends System {
         'BallMovementComponent'
     ];
     executable: string[] = [
-        'move',
         'friction',
-        'gravity'
+        'gravity',
+        'move',
     ];
 
     private player: Player;
@@ -32,6 +32,9 @@ export class BallMovementSystem extends System {
         if (!(component instanceof BallMovementComponent)) {
             return;
         }
+        if (component.collide) {
+            return;
+        }
         if (component.speed <= 0) {
             component.speed = 0;
             return;
@@ -50,20 +53,31 @@ export class BallMovementSystem extends System {
 
         let pos = this.getPosition(component);
         let height = component.entity.view.getHeight();
-        if (pos.y + height / 2 >= this.render.height) {
+        if (pos.y + height + component.nextPos.y >= this.render.height) {
+            component.directionVector = new Vector(0, component.timeFly * component.gravity);
             component.timeFly = 0;
             return;
         }
 
         component.timeFly += 1;
+        // component.speed = component.timeFly * component.gravity;
+        let g = new Vector(0, 1);
 
-        let g = new Vector(0, component.timeFly * component.gravity);
+        // let h = this.render.height - pos.y;
+        let speed = component.timeFly * component.gravity;
 
-        this.addPosition(component, g);
+        if (component.directionVector.y < 0) {
+            g.y *= component.gravity * component.timeFly;
+            speed *= -1;
+        }
+        // component.directionVector.addVector(g);
+        component.speed += speed;
     }
 
 
     move(component: BallMovementComponent) {
+
+
         if (!(component instanceof BallMovementComponent)) {
             return;
         }
@@ -73,30 +87,12 @@ export class BallMovementSystem extends System {
                 return;
             }
 
-            let pos = this.getPosition(component);
-
-            if (pos.x + component.nextPos.x + component.entity.view.getWidth() >= this.render.width) {
-                component.directionVector.x *= -1;
-            }
-            if (pos.x + component.nextPos.x <= 0) {
-                component.directionVector.x *= -1;
-            }
-
-            if (pos.y + component.nextPos.y <= 0) {
-                component.directionVector.y *= -1;
-            }
-
-            if (pos.y + component.nextPos.y >= this.render.height) {
-                component.directionVector.y *= -1;
-            }
-
-
-
             component.module = Math.sqrt(Math.pow(component.directionVector.x, 2) + Math.pow(component.directionVector.y, 2));
-            component.nextPos.x = component.speed * component.directionVector.x / component.module;
-            component.nextPos.y = component.speed * component.directionVector.y / component.module;
-
+            component.nextPos.x += component.speed * component.directionVector.x / component.module;
+            component.nextPos.y += component.speed * component.directionVector.y / component.module;
             this.addPosition(component, component.nextPos);
+            component.nextPos = new Vector();
         }
     }
+
 }

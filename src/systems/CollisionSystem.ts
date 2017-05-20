@@ -11,7 +11,8 @@ export class CollisionSystem extends System {
     ];
     executable: string[] = [
         'checkCollideBall',
-        'checkCollidePlayer'
+        'checkCollidePlayer',
+        'fieldCollide'
     ];
 
     checkCollideBall(component: BallMovementComponent) {
@@ -54,21 +55,69 @@ export class CollisionSystem extends System {
             return;
         }
         let pos = component.entity.view.getPosition();
+        let nextPos = component.nextPos;
         let playerPos = player.view.getPosition();
         let playerWidth = player.view.getWidth();
         let playerHeight = player.view.getHeight();
         let width = component.entity.view.getWidth();
         let height = component.entity.view.getHeight();
 
-        if ((pos.x + width / 2 > playerPos.x ) && (pos.x - width / 2 < playerPos.x + playerWidth )) {
-            if ((pos.y + component.nextPos.y + height / 2 >= playerPos.y) && (playerPos.y + playerHeight <= pos.y + component.nextPos.y + height)) {
+        if ((pos.x + width / 2 + nextPos.x > playerPos.x ) && (pos.x - width / 2 + nextPos.x < playerPos.x + playerWidth )) {
+            if ((pos.y + height / 2 + nextPos.y >= playerPos.y) && (pos.y - height / 2 + nextPos.y <= playerPos.y + playerHeight )) {
                 component.collide = true;
                 console.log('player collide');
+                component.timeFly = 0;
+
+                component.directionVector.x = component.directionVector.x / component.module;
+                component.directionVector.y = component.directionVector.x / component.module;
 
                 component.directionVector.addVector(player.components['PlayerMovementComponent'].normal);
-                component.timeFly = 0;
+
+                let pv = player.components['PlayerMovementComponent'].directionVector.clone();
+                pv.multiply(player.components['PlayerMovementComponent'].impuls);
+
+                component.directionVector.addVector(pv);
+
+                component.speed = 20;
+
                 component.collide = false;
             }
+        }
+    }
+
+    fieldCollide(component: BallMovementComponent) {
+        if (!(component instanceof BallMovementComponent)) {
+            return;
+        }
+
+        if (component.collide) {
+            return;
+        }
+
+        let pos = component.entity.view.getPosition();
+        if (pos.x + component.nextPos.x + component.entity.view.getWidth() >= this.render.width) {
+            component.collide = true;
+            component.directionVector.x *= -1;
+            component.collide = false;
+        }
+        if (pos.x + component.nextPos.x <= 0) {
+            component.collide = true;
+            component.directionVector.x *= -1;
+            component.collide = false;
+        }
+
+        if (pos.y + component.nextPos.y <= 0) {
+            component.collide = true;
+            component.directionVector.y *= -1;
+            component.speed = component.speed / 2;
+            component.collide = false;
+        }
+
+        if (pos.y + component.nextPos.y >= this.render.height) {
+            component.collide = true;
+            component.directionVector.y *= -1;
+            // component.speed = 0;
+            component.collide = false;
         }
     }
 

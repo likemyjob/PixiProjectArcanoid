@@ -85,6 +85,9 @@ export class PlayerMovementSystem extends System {
             this.addPosition(component, new Vector(x, y));
 
             component.directionVector = this.directionVector;
+            component.impuls += 1;
+        } else {
+            component.impuls = 1;
         }
     }
 

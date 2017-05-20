@@ -6,4 +6,5 @@ export class PlayerMovementComponent extends Component {
     public entity: any;
     public directionVector: Vector = new Vector();
     public normal: Vector = new Vector(0, -1);
+    public impuls:number = 1;
 }
