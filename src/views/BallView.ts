@@ -22,8 +22,8 @@ export class BallView extends View {
     }
 
     setDefaultPosition() {
-        // this.container.position.x = (this.render.width - this.container.width / 2) / 2;
-        this.container.position.x = 100;
+        this.container.position.x = (this.render.width - this.container.width / 2) / 2;
+        // this.container.position.x = 100;
         this.container.position.y = this.render.height / 2 - this.container.height - 42;
     }
 

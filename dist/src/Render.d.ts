@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
-/// <reference path="../node_modules/mytest/mytt.d.ts" />
+/// <reference path="../node_modules/box2d.ts/Box2D/Box2D/Box2D.d.ts" />
 /// <reference types="pixi.js" />
 export declare class Render {
     app: PIXI.Application;

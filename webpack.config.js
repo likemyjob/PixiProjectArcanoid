@@ -10,12 +10,10 @@ module.exports = {
     },
     resolve: {
         modules: [
-            path.resolve('node_modules'),
-            path.resolve('node_modules/mytest/mytt'),
+            path.resolve('node_modules')
         ],
         alias: {
-            'typedi': path.resolve('node_modules', 'typedi'),
-            'mytest': path.resolve('../dist/node_modules/mytest/mytt')
+            'typedi': path.resolve('node_modules', 'typedi')
         },
         extensions: [".ts", ".js", ".tsx"]
     },
@@ -23,6 +21,9 @@ module.exports = {
         loaders: [
             {test: /\.tsx?$/, loader: "ts-loader"}
         ]
+    },
+    externals:{
+        'box2d': 'MyTest'
     },
     plugins: [],
     watch: true,

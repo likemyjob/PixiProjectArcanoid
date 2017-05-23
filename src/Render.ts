@@ -1,12 +1,12 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
-/// <reference path="../node_modules/mytest/mytt.ts" />
+/// <reference path="../node_modules/box2d.ts/Box2D/Box2D/Box2D.ts" />
 import {Service} from "typedi";
 import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
 import {Player} from "./entities/Player";
 import {Ball} from "./entities/Ball";
 import {BallMovementSystem} from "./systems/BallMovementSystem";
 import {CollisionSystem} from "./systems/CollisionSystem";
-import {MyTest} from "../dist/node_modules/mytest/mytt";
+import {b2Vec2} from "box2d.ts/Box2D/Box2D/Box2D";
 
 @Service()
 export class Render {
@@ -19,9 +19,8 @@ export class Render {
     private systems: any = [];
 
     constructor() {
-        let tt = new MyTest();
-        console.log(tt);
-        // let gravity: b2Vec2 = new b2Vec2(0, -10);
+        // let tt = new MyTest();
+        let gravity: b2Vec2 = new b2Vec2(0, -10);
 
         // let world: b2World = new b2World(gravity);
         PIXI.loader
