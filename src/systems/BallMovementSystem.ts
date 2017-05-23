@@ -60,17 +60,16 @@ export class BallMovementSystem extends System {
         }
 
         component.timeFly += 1;
-        // component.speed = component.timeFly * component.gravity;
         let g = new Vector(0, 1);
 
-        // let h = this.render.height - pos.y;
         let speed = component.timeFly * component.gravity;
 
         if (component.directionVector.y < 0) {
             g.y *= component.gravity * component.timeFly;
             speed *= -1;
         }
-        // component.directionVector.addVector(g);
+
+        component.directionVector.addVector(g);
         component.speed += speed;
     }
 

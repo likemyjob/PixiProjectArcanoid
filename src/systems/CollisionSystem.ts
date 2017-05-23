@@ -80,7 +80,7 @@ export class CollisionSystem extends System {
 
                 component.speed = 20;
 
-                component.collide = false;
+                // component.collide = false;
             }
         }
     }
@@ -116,6 +116,7 @@ export class CollisionSystem extends System {
         if (pos.y + component.nextPos.y >= this.render.height) {
             component.collide = true;
             component.directionVector.y *= -1;
+            pos.y = this.render.height - component.entity.view.getHeight() /2;
             // component.speed = 0;
             component.collide = false;
         }

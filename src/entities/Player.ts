@@ -9,6 +9,6 @@ export class Player extends Entity {
     public view:ViewInterface = new PlayerView();
 
     public components: any = {
-        'PlayerMovementComponent': new PlayerMovementComponent(this),
+        // 'PlayerMovementComponent': new PlayerMovementComponent(this),
     };
 }

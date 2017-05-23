@@ -1,11 +1,13 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
+/// <reference path="../node_modules/mytest/mytt.ts" />
 import {Service} from "typedi";
 import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
 import {Player} from "./entities/Player";
 import {Ball} from "./entities/Ball";
 import {BallMovementSystem} from "./systems/BallMovementSystem";
-import {Vector} from "./helpers/Vector";
 import {CollisionSystem} from "./systems/CollisionSystem";
+import {MyTest} from "../dist/node_modules/mytest/mytt";
+
 @Service()
 export class Render {
     public app: PIXI.Application;
@@ -17,6 +19,11 @@ export class Render {
     private systems: any = [];
 
     constructor() {
+        let tt = new MyTest();
+        console.log(tt);
+        // let gravity: b2Vec2 = new b2Vec2(0, -10);
+
+        // let world: b2World = new b2World(gravity);
         PIXI.loader
             .add('sample', 'Assets/sample.png')
             .load(this.onLoaded.bind(this));
