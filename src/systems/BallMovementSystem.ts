@@ -3,13 +3,16 @@ import {Vector} from "../helpers/Vector";
 import {BallMovementComponent} from "../components/BallMovementComponent";
 import {Player} from "../entities/Player";
 import {Container} from "typedi";
+import {
+    b2Vec2,
+} from "box2d.ts/Box2D/Box2D/Box2D";
 export class BallMovementSystem extends System {
     assignComponents: string[] = [
         'BallMovementComponent'
     ];
     executable: string[] = [
-        'friction',
-        'gravity',
+        // 'friction',
+        // 'gravity',
         'move',
     ];
 
@@ -75,23 +78,23 @@ export class BallMovementSystem extends System {
 
 
     move(component: BallMovementComponent) {
-
-
         if (!(component instanceof BallMovementComponent)) {
             return;
         }
 
-        if (!component.directionVector.isNull()) {
-            if (component.collide) {
-                return;
-            }
+        let position: b2Vec2 = this.render.body.GetPosition();
 
-            component.module = Math.sqrt(Math.pow(component.directionVector.x, 2) + Math.pow(component.directionVector.y, 2));
-            component.nextPos.x += component.speed * component.directionVector.x / component.module;
-            component.nextPos.y += component.speed * component.directionVector.y / component.module;
-            this.addPosition(component, component.nextPos);
-            component.nextPos = new Vector();
-        }
+        let pos = component.entity.view.getPosition();
+        pos.x = position.x;
+        pos.y = position.y;
+        //
+        // console.log(this.render.body.GetLinearVelocityFromWorldPoint(new b2Vec2(0,0),new b2Vec2(0,500)));
+        // this.render.body.SetGravityScale(10);
+        // this.render.body.ApplyLinearImpulseToCenter(new b2Vec2(100,0));
+        // this.render.body.ApplyForce(new b2Vec2(0, 1), this.render.body.GetWorldCenter());
+        console.log(this.render.body.GetLinearVelocity());
+        // this.render.body.ApplyForce(new b2Vec2(1000,0),this.render.body.GetWorldCenter())
+        // console.log(position.x.toFixed(2), position.y.toFixed(2));
     }
 
 }

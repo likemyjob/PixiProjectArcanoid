@@ -6,13 +6,13 @@ import {PlayerMovementComponent} from "../components/PlayerMovementComponent";
 import {Player} from "../entities/Player";
 export class CollisionSystem extends System {
     assignComponents: string[] = [
-        'BallMovementComponent',
-        'PlayerMovementComponent'
+        // 'BallMovementComponent',
+        // 'PlayerMovementComponent'
     ];
     executable: string[] = [
-        'checkCollideBall',
-        'checkCollidePlayer',
-        'fieldCollide'
+        // 'checkCollideBall',
+        // 'checkCollidePlayer',
+        // 'fieldCollide'
     ];
 
     checkCollideBall(component: BallMovementComponent) {

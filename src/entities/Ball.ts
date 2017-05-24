@@ -7,6 +7,6 @@ export class Ball extends Entity {
     public view: ViewInterface = new BallView();
 
     public components: any = {
-        // 'BallMovementComponent': new BallMovementComponent(this)
+        'BallMovementComponent': new BallMovementComponent(this)
     };
 }
