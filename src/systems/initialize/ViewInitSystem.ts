@@ -1,16 +1,19 @@
 import {System} from "../../abstract/System";
-import {ViewInterface} from "../../interfaces/ViewtInterface";
-import {BodyComponent} from "../../components/BodyComponent";
 import {BallView} from "../../views/BallView";
+import {PlayerView} from "../../views/PlayerView";
+import {BallComponent} from "../../components/BallComponent";
+import {PlayerComponent} from "../../components/PlayerComponent";
 export class ViewIntSystem extends System {
     assignComponents: string[] = [
-        'BallView'
+        'BallView',
+        'PlayerView'
     ];
     executable: string[] = [
-        'init'
+        'initBall',
+        'initPlayer'
     ];
 
-    init(component: ViewInterface) {
+    initBall(component: BallView) {
         if (!(component instanceof BallView)) {
             return;
         }
@@ -21,12 +24,44 @@ export class ViewIntSystem extends System {
 
         component.initialize = true;
 
-        console.log('init Body View');
 
-        let bodyComp: BodyComponent = component.entity.components['BodyComponent'];
+        let bodyComp: BallComponent = component.entity.components['BallComponent'];
 
-        component.container.position.x = bodyComp.position.x;
-        component.container.position.y = bodyComp.position.y;
+        ViewIntSystem.syncPosition(component, bodyComp);
+
+        let gr: any = component.container.getChildAt(0);
+        gr.lineStyle(2, 0x000000, 1);
+        gr.beginFill(0xEEE5E5, 1);
+        gr.drawCircle(0, 0, bodyComp.radius * 2);
+        gr.endFill();
 
     }
+
+    initPlayer(component: PlayerView) {
+        if (!(component instanceof PlayerView)) {
+            return;
+        }
+
+        if (component.initialize) {
+            return;
+        }
+
+        component.initialize = true;
+
+
+        let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
+        ViewIntSystem.syncPosition(component, bodyComp);
+
+        let gr: any = component.container.getChildAt(0);
+        gr.lineStyle(2, 0x000000, 1);
+        gr.beginFill(0xEEE5E5, 1);
+        gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
+        gr.endFill();
+    }
+
+    static syncPosition(component: any, bodyComp: any) {
+        component.container.position.x = bodyComp.position.x;
+        component.container.position.y = bodyComp.position.y;
+    }
+
 }

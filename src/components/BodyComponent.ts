@@ -3,8 +3,10 @@ import {Component} from "../abstract/Component";
 export class BodyComponent extends Component {
     initialize: boolean = false;
     body: box2d.b2Body;
-    radius: number = 5;
+    // radius: number = 5;
     density: number = 1;
     restitution: number = 1;
-    position: box2d.b2Vec2 = new box2d.b2Vec2(100, 100);
+    position: box2d.b2Vec2 = new box2d.b2Vec2(200, 100);
+    // width:number = 100;
+    // height:number = 10;
 }
