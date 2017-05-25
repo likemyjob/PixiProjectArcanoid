@@ -92,7 +92,7 @@ export class BallMovementSystem extends System {
         // this.render.body.SetGravityScale(10);
         // this.render.body.ApplyLinearImpulseToCenter(new b2Vec2(100,0));
         // this.render.body.ApplyForce(new b2Vec2(0, 1), this.render.body.GetWorldCenter());
-        console.log(this.render.body.GetLinearVelocity());
+        // console.log(this.render.body.GetLinearVelocity());
         // this.render.body.ApplyForce(new b2Vec2(1000,0),this.render.body.GetWorldCenter())
         // console.log(position.x.toFixed(2), position.y.toFixed(2));
     }

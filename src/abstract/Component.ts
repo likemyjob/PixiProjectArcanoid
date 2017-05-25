@@ -5,7 +5,7 @@ export abstract class Component implements ComponentInterface {
     public name:string;
     public entity: EntityInterface;
 
-    constructor(entity: any) {
+    constructor(entity: EntityInterface) {
         this.entity = entity;
     }
 

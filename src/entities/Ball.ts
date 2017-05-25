@@ -1,12 +1,11 @@
 import {Entity} from "../abstract/Entity";
-import {ViewInterface} from "../interfaces/ViewtInterface";
 import {BallView} from "../views/BallView";
-import {BallMovementComponent} from "../components/BallMovementComponent";
+import {BodyComponent} from "../components/BodyComponent";
+import {ComponentsMap} from "../interfaces/ComponentsMap";
+import {ComponentInterface} from "../interfaces/ComponentInterface";
 export class Ball extends Entity {
-
-    public view: ViewInterface = new BallView();
-
-    public components: any = {
-        'BallMovementComponent': new BallMovementComponent(this)
+    public components: ComponentsMap<ComponentInterface> = {
+        'BodyComponent': new BodyComponent(this),
+        'BallView': new BallView(this)
     };
 }

@@ -1,10 +1,13 @@
 import {View} from "../abstract/View";
+import {EntityInterface} from "../interfaces/EntityInterface";
 export class BallView extends View {
-
+    name: string = 'Ball';
     public container: PIXI.Container;
 
-    constructor() {
-        super();
+    public initialize: boolean = false;
+
+    constructor(entity:EntityInterface) {
+        super(entity);
 
         this.container = new PIXI.Container();
 
@@ -15,16 +18,6 @@ export class BallView extends View {
         gr.endFill();
 
         this.container.addChild(gr);
-
-        this.setDefaultPosition();
-
         this.render.app.stage.addChild(this.container);
     }
-
-    setDefaultPosition() {
-        this.container.position.x = (this.render.width - this.container.width / 2) / 2;
-        // this.container.position.x = 100;
-        this.container.position.y = this.render.height / 2 - this.container.height - 42;
-    }
-
 }

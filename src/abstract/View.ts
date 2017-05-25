@@ -1,31 +1,15 @@
 import {Container} from "typedi";
 import {Render} from "../Render";
-import {ViewInterface} from "../interfaces/ViewtInterface";
-import {Vector} from "../helpers/Vector";
-export abstract class View implements ViewInterface{
-
+import {EntityInterface} from "../interfaces/EntityInterface";
+import {Component} from "./Component";
+export abstract class View extends Component {
+    initialize: boolean = false;
     public render: Render;
 
-    public container:PIXI.Container;
+    public container: PIXI.Container;
 
-    constructor() {
+    constructor(entity: EntityInterface) {
+        super(entity);
         this.render = Container.get(Render);
-    }
-
-    shift(vector: Vector) {
-        this.container.position.x += vector.x;
-        this.container.position.y += vector.y;
-    }
-
-    getPosition() {
-        return this.container.position;
-    }
-
-    getWidth() {
-        return this.container.width;
-    }
-
-    getHeight() {
-        return this.container.height;
     }
 }

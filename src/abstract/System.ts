@@ -16,10 +16,12 @@ export abstract class System implements SystemInterface {
     update(delta: number, entity: EntityInterface) {
         this.render.entities.forEach((entity: any) => {
 
-            if(this.assignComponents.length===0){
+            if (this.assignComponents.length === 0) {
                 return;
             }
-
+            // if (this.entity.components.indexOf(compName) === -1) {
+            //     return;
+            // }
             this.assignComponents.forEach((compName: any) => {
                 let that: any = this;
                 this.executable.forEach((func: any) => {

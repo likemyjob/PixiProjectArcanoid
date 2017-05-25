@@ -1,7 +1,6 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
-/// <reference path="../node_modules/box2d.ts/Box2D/Box2D/Box2D.d.ts" />
 /// <reference types="pixi.js" />
-import { b2Vec2, b2World, b2Body } from "box2d.ts/Box2D/Box2D/Box2D";
+import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 export declare class Render {
     app: PIXI.Application;
     width: number;
@@ -9,12 +8,12 @@ export declare class Render {
     resources: any;
     entities: any;
     private systems;
-    gravity: b2Vec2;
-    world: b2World;
+    gravity: box2d.b2Vec2;
+    world: box2d.b2World;
     timeStep: number;
     velocityIterations: number;
     positionIterations: number;
-    body: b2Body;
+    body: box2d.b2Body;
     constructor();
     addEntity(obj: any): void;
     addSystem(obj: any): void;

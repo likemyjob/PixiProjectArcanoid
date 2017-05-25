@@ -1,9 +1,7 @@
 import {Render} from "../Render";
-import {Vector} from "../helpers/Vector";
-export interface ViewInterface {
+import {ComponentInterface} from "./ComponentInterface";
+export interface ViewInterface extends ComponentInterface {
+    initialize: boolean;
+    container: PIXI.Container;
     render: Render;
-    shift(vec:Vector):void;
-    getPosition():PIXI.Point;
-    getWidth():number;
-    getHeight():number;
 }

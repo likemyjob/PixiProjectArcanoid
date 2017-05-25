@@ -1,11 +1,13 @@
 import {Render} from "../Render";
 import {View} from "../abstract/View";
+import {EntityInterface} from "../interfaces/EntityInterface";
 export class PlayerView extends View {
 
+    name: string = 'PlayerView';
     public render: Render;
 
-    constructor() {
-        super();
+    constructor(entity: EntityInterface) {
+        super(entity);
 
         this.container = new PIXI.Container();
 
@@ -16,12 +18,8 @@ export class PlayerView extends View {
         gr.endFill();
 
         this.container.addChild(gr);
-        this.setDefaultPosition();
         this.render.app.stage.addChild(this.container);
     }
 
-    setDefaultPosition() {
-        this.container.position.x = (this.render.width - this.container.width) / 2;
-        this.container.position.y = this.render.height - this.container.height - 40;
-    }
+
 }

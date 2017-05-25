@@ -10,7 +10,8 @@ module.exports = {
     },
     resolve: {
         modules: [
-            path.resolve('node_modules')
+            path.resolve('node_modules'),
+            path.resolve('dist')
         ],
         alias: {
             'typedi': path.resolve('node_modules', 'typedi')
