@@ -1,9 +1,9 @@
 import {Render} from "../Render";
 import {View} from "../abstract/View";
 import {EntityInterface} from "../interfaces/EntityInterface";
-export class PlayerView extends View {
+export class WallView extends View {
 
-    name: string = 'PlayerView';
+    name: string = 'WallsView';
     public render: Render;
 
     constructor(entity: EntityInterface) {

@@ -1,8 +1,9 @@
 import {System} from "../abstract/System";
 import {BallView} from "../views/BallView";
-import {BodyComponent} from "../components/BodyComponent";
 import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 import {PlayerView} from "../views/PlayerView";
+import {PlayerComponent} from "../components/PlayerComponent";
+import {BallComponent} from "../components/BallComponent";
 export class RenderViewSystem extends System {
     assignComponents: string[] = [
         'BallView',
@@ -18,7 +19,7 @@ export class RenderViewSystem extends System {
             return;
         }
 
-        let bodyComp: BodyComponent = component.entity.components['PlayerComponent'];
+        let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
 
         let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
 
@@ -33,7 +34,7 @@ export class RenderViewSystem extends System {
             return;
         }
 
-        let bodyComp: BodyComponent = component.entity.components['BallComponent'];
+        let bodyComp: BallComponent = component.entity.components['BallComponent'];
 
         let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
 

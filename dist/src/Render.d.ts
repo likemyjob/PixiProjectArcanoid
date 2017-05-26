@@ -1,4 +1,5 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
+/// <reference path="../node_modules/box2d.ts/Box2D/Box2D/Box2D.d.ts" />
 /// <reference types="pixi.js" />
 import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 export declare class Render {

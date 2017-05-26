@@ -1,6 +1,10 @@
-import {BodyComponent} from "./BodyComponent";
 import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
-export class BallComponent extends BodyComponent {
+import {Component} from "../abstract/Component";
+export class BallComponent extends Component {
     public radius: number = 5;
+    body: box2d.b2Body;
     position: box2d.b2Vec2 = new box2d.b2Vec2(200, 100);
+    initialize: boolean = false;
+    density: number = 1;
+    restitution: number = 1;
 }

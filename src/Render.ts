@@ -1,4 +1,5 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
+/// <reference path="../node_modules/box2d.ts/Box2D/Box2D/Box2D.ts" />
 import {Service} from "typedi";
 import {Ball} from "./entities/Ball";
 import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
@@ -6,6 +7,8 @@ import {BodyIntSystem} from "./systems/initialize/BodyInitSystem";
 import {ViewIntSystem} from "./systems/initialize/ViewInitSystem";
 import {RenderViewSystem} from "./systems/RenderViewSystem";
 import {Player} from "./entities/Player";
+import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
+import {Wall} from "./entities/Wall";
 
 @Service()
 export class Render {
@@ -67,29 +70,40 @@ export class Render {
         this.app.stop();
         this.resources = res;
 
-        this.box2dCreateWorld();
+        // this.box2dCreateWorld();
         // this.addBody();
 
         // this.body.ApplyLinearImpulseToCenter(new b2Vec2(1000, 0));
 
+        let wall1 = new Wall();
+        wall1.components['WallComponent'].position.Set(1, 0);
+        wall1.components['WallComponent'].width = 10;
+        wall1.components['WallComponent'].height = this.height;
+
+        let wall2 = new Wall();
+        wall2.components['WallComponent'].position.Set(this.width - 11, 0);
+        wall2.components['WallComponent'].width = 10;
+        wall2.components['WallComponent'].height = this.height;
+
+        let wall3 = new Wall();
+        wall3.components['WallComponent'].position.Set(0, 0);
+        wall3.components['WallComponent'].width = this.width;
+        wall3.components['WallComponent'].height = 10;
+
+        let wall4 = new Wall();
+        wall4.components['WallComponent'].position.Set(0, this.height - 11);
+        wall4.components['WallComponent'].width = this.width;
+        wall4.components['WallComponent'].height = 10;
+
         let player = new Player();
         let ball = new Ball();
-        // let ball2 = new Ball();
-        // let ball3 = new Ball();
-        // let ball4 = new Ball();
-        // let ball5 = new Ball();
-        // ball2.view.shift(new Vector(-2,-100));
-        // ball3.view.shift(new Vector(-4,-120));
-        // ball4.view.shift(new Vector(-6,-140));
-        // ball5.view.shift(new Vector(-8,-160));
 
-        // let plSystem = new PlayerMovementSystem();
-        // let ballSystem = new BallMovementSystem();
-        // let collisionSystem = new CollisionSystem();
 
         let bodyIntSystem = new BodyIntSystem();
         let viewIntSystem = new ViewIntSystem();
         let renderViewSystem = new RenderViewSystem();
+
+        let plSystem = new PlayerMovementSystem();
 
 
         this.app.start();
