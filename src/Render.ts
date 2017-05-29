@@ -1,5 +1,6 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
 /// <reference path="../node_modules/box2d.ts/Box2D/Box2D/Box2D.ts" />
+/// <reference path="helpers/FPSMeter.d.ts" />
 import {Service} from "typedi";
 import {Ball} from "./entities/Ball";
 import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
@@ -69,6 +70,7 @@ export class Render {
         document.getElementById('wrapper').appendChild(this.app.view);
         this.app.stop();
         this.resources = res;
+      let  meter = new FPSMeter();
 
         // this.box2dCreateWorld();
         // this.addBody();
@@ -76,12 +78,12 @@ export class Render {
         // this.body.ApplyLinearImpulseToCenter(new b2Vec2(1000, 0));
 
         let LeftWall = new Wall();
-        LeftWall.components['WallComponent'].position.Set(5, 0);
+        LeftWall.components['WallComponent'].position.Set(0, 0);
         LeftWall.components['WallComponent'].width = 10;
         LeftWall.components['WallComponent'].height = this.height;
 
         let RightWall = new Wall();
-        RightWall.components['WallComponent'].position.Set(this.width/2 - 5, 0);
+        RightWall.components['WallComponent'].position.Set(this.width, 0);
         RightWall.components['WallComponent'].width = 10;
         RightWall.components['WallComponent'].height = this.height;
 
@@ -91,18 +93,17 @@ export class Render {
         TopWall.components['WallComponent'].height = 10;
 
         let DownWall = new Wall();
-        DownWall.components['WallComponent'].position.Set(0, this.height - 10);
+        DownWall.components['WallComponent'].position.Set(0, this.height);
         DownWall.components['WallComponent'].width = this.width;
-        DownWall.components['WallComponent'].height = 100;
+        DownWall.components['WallComponent'].height = 10;
 
         let player = new Player();
 
         let balls: any = [];
 
-        for (let i = 1; i < 10; i++) {
+        for (let i = 1; i < 150; i++) {
             balls[i] = new Ball();
-            // let comp = balls[i].components['BallComponent'];
-            // comp.position.Set(20 + i * comp.width, 300);
+            balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 10), this.getRandom(10, this.height - 10));
         }
 
 
@@ -116,6 +117,7 @@ export class Render {
         this.app.start();
         let that = this;
         this.app.ticker.add((delta: number) => {
+            meter.tick();
             for (let i: number = 0; i < 10; ++i) {
                 this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
             }
@@ -168,6 +170,10 @@ export class Render {
     //     // Add the shape to the body.
     //     let fixture: box2d.b2Fixture = this.body.CreateFixture(fixtureDef);
     // }
+
+    getRandom(min: number, max: number) {
+        return Math.random() * (max - min) + min;
+    }
 
     box2dCreateWorld() {
         // Define the ground body.

@@ -1,5 +1,6 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
 /// <reference path="../node_modules/box2d.ts/Box2D/Box2D/Box2D.d.ts" />
+/// <reference path="helpers/FPSMeter.d.ts" />
 /// <reference types="pixi.js" />
 import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 export declare class Render {
@@ -22,5 +23,6 @@ export declare class Render {
     update(delta: number): void;
     onLoaded(loader: any, res: any): void;
     addBody(): void;
+    getRandom(min: number, max: number): number;
     box2dCreateWorld(): void;
 }

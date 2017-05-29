@@ -4,6 +4,7 @@ import {PlayerView} from "../../views/PlayerView";
 import {BallComponent} from "../../components/BallComponent";
 import {PlayerComponent} from "../../components/PlayerComponent";
 import {WallView} from "../../views/WallView";
+import {WallComponent} from "../../components/WallComponent";
 export class ViewIntSystem extends System {
     assignComponents: string[] = [
         'BallView',
@@ -59,6 +60,11 @@ export class ViewIntSystem extends System {
         gr.beginFill(0xEEE5E5, 1);
         gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
         gr.endFill();
+        let gr2 = new PIXI.Graphics();
+        gr2.beginFill(0x000000, 1);
+        gr2.drawCircle(bodyComp.width / 2, bodyComp.height / 2, 25);
+        gr2.endFill();
+        component.container.addChild(gr2);
     }
 
     initWall(component: WallView) {
@@ -72,20 +78,22 @@ export class ViewIntSystem extends System {
 
         component.initialize = true;
 
-        let bodyComp: PlayerComponent = component.entity.components['WallComponent'];
-        ViewIntSystem.syncPosition(component, bodyComp);
+        let bodyComp: WallComponent = component.entity.components['WallComponent'];
+
 
         let gr: any = component.container.getChildAt(0);
         // gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);
-        gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
+        gr.drawRoundedRect(0, 0, bodyComp.width * 2, bodyComp.height * 2, 1);
         gr.endFill();
+
+        ViewIntSystem.syncPosition(component, bodyComp);
     }
 
 
     static syncPosition(component: any, bodyComp: any) {
-        component.container.position.x = bodyComp.position.x;
-        component.container.position.y = bodyComp.position.y;
+        component.container.position.x = bodyComp.position.x - bodyComp.width;
+        component.container.position.y = bodyComp.position.y - bodyComp.height;
     }
 
 }
