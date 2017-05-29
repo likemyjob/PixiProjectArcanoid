@@ -23,9 +23,11 @@ export class Render {
 
     public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 10);
     public world: box2d.b2World = new box2d.b2World(this.gravity);
+    public borderWorld: box2d.b2AABB = new box2d.b2AABB();
     public timeStep: number = 1 / 60;
-    public velocityIterations: number = 1;
-    public positionIterations: number = 1;
+    public velocityIterations: number = 8;
+    public positionIterations: number = 3;
+    public particleIterations: number = box2d.b2CalculateParticleIterations(10, 0.04, 1 / 60);
 
     public body: box2d.b2Body;
 
@@ -69,13 +71,12 @@ export class Render {
         }, false);
         document.getElementById('wrapper').appendChild(this.app.view);
         this.app.stop();
+
+        this.borderWorld.lowerBound.Set(-100.0, -100.0);
+        this.borderWorld.upperBound.Set(100.0, 100.0);
+
         this.resources = res;
-      let  meter = new FPSMeter();
-
-        // this.box2dCreateWorld();
-        // this.addBody();
-
-        // this.body.ApplyLinearImpulseToCenter(new b2Vec2(1000, 0));
+        let meter = new FPSMeter();
 
         let LeftWall = new Wall();
         LeftWall.components['WallComponent'].position.Set(0, 0);
@@ -101,7 +102,7 @@ export class Render {
 
         let balls: any = [];
 
-        for (let i = 1; i < 150; i++) {
+        for (let i = 1; i < 1450; i++) {
             balls[i] = new Ball();
             balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 10), this.getRandom(10, this.height - 10));
         }
@@ -118,9 +119,9 @@ export class Render {
         let that = this;
         this.app.ticker.add((delta: number) => {
             meter.tick();
-            for (let i: number = 0; i < 10; ++i) {
-                this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
-            }
+            // for (let i: number = 0; i < 2; ++i) {
+            this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations, this.particleIterations);
+            // }
             // console.log(this.body.GetPosition());
             that.update(delta);
         });

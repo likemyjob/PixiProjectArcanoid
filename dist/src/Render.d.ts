@@ -12,9 +12,11 @@ export declare class Render {
     private systems;
     gravity: box2d.b2Vec2;
     world: box2d.b2World;
+    borderWorld: box2d.b2AABB;
     timeStep: number;
     velocityIterations: number;
     positionIterations: number;
+    particleIterations: number;
     body: box2d.b2Body;
     constructor();
     addEntity(obj: any): void;
