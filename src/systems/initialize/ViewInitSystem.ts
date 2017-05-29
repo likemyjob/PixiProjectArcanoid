@@ -51,7 +51,6 @@ export class ViewIntSystem extends System {
 
         component.initialize = true;
 
-
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
         ViewIntSystem.syncPosition(component, bodyComp);
 
@@ -73,12 +72,11 @@ export class ViewIntSystem extends System {
 
         component.initialize = true;
 
-
         let bodyComp: PlayerComponent = component.entity.components['WallComponent'];
         ViewIntSystem.syncPosition(component, bodyComp);
 
         let gr: any = component.container.getChildAt(0);
-        gr.lineStyle(2, 0x000000, 1);
+        // gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);
         gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
         gr.endFill();

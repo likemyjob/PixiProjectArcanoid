@@ -23,8 +23,8 @@ export class Render {
     public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 10);
     public world: box2d.b2World = new box2d.b2World(this.gravity);
     public timeStep: number = 1 / 60;
-    public velocityIterations: number = 10;
-    public positionIterations: number = 10;
+    public velocityIterations: number = 1;
+    public positionIterations: number = 1;
 
     public body: box2d.b2Body;
 
@@ -75,28 +75,35 @@ export class Render {
 
         // this.body.ApplyLinearImpulseToCenter(new b2Vec2(1000, 0));
 
-        let wall1 = new Wall();
-        wall1.components['WallComponent'].position.Set(1, 0);
-        wall1.components['WallComponent'].width = 10;
-        wall1.components['WallComponent'].height = this.height;
+        let LeftWall = new Wall();
+        LeftWall.components['WallComponent'].position.Set(5, 0);
+        LeftWall.components['WallComponent'].width = 10;
+        LeftWall.components['WallComponent'].height = this.height;
 
-        let wall2 = new Wall();
-        wall2.components['WallComponent'].position.Set(this.width - 11, 0);
-        wall2.components['WallComponent'].width = 10;
-        wall2.components['WallComponent'].height = this.height;
+        let RightWall = new Wall();
+        RightWall.components['WallComponent'].position.Set(this.width/2 - 5, 0);
+        RightWall.components['WallComponent'].width = 10;
+        RightWall.components['WallComponent'].height = this.height;
 
-        let wall3 = new Wall();
-        wall3.components['WallComponent'].position.Set(0, 0);
-        wall3.components['WallComponent'].width = this.width;
-        wall3.components['WallComponent'].height = 10;
+        let TopWall = new Wall();
+        TopWall.components['WallComponent'].position.Set(0, 0);
+        TopWall.components['WallComponent'].width = this.width;
+        TopWall.components['WallComponent'].height = 10;
 
-        let wall4 = new Wall();
-        wall4.components['WallComponent'].position.Set(0, this.height - 11);
-        wall4.components['WallComponent'].width = this.width;
-        wall4.components['WallComponent'].height = 10;
+        let DownWall = new Wall();
+        DownWall.components['WallComponent'].position.Set(0, this.height - 10);
+        DownWall.components['WallComponent'].width = this.width;
+        DownWall.components['WallComponent'].height = 100;
 
         let player = new Player();
-        let ball = new Ball();
+
+        let balls: any = [];
+
+        for (let i = 1; i < 10; i++) {
+            balls[i] = new Ball();
+            // let comp = balls[i].components['BallComponent'];
+            // comp.position.Set(20 + i * comp.width, 300);
+        }
 
 
         let bodyIntSystem = new BodyIntSystem();
@@ -109,7 +116,7 @@ export class Render {
         this.app.start();
         let that = this;
         this.app.ticker.add((delta: number) => {
-            for (let i: number = 0; i < 30; ++i) {
+            for (let i: number = 0; i < 10; ++i) {
                 this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
             }
             // console.log(this.body.GetPosition());

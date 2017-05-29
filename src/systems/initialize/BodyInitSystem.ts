@@ -57,7 +57,7 @@ export class BodyIntSystem extends System {
         component.body = this.render.world.CreateBody(bodyDef);
 
         let box: box2d.b2PolygonShape = new box2d.b2PolygonShape();
-        box.SetAsBox(component.width, component.height);
+        box.SetAsBox(component.width / 2, component.height / 2);
 
         let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
         fd.shape = box;

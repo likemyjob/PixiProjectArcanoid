@@ -6,5 +6,5 @@ export class BallComponent extends Component {
     position: box2d.b2Vec2 = new box2d.b2Vec2(200, 100);
     initialize: boolean = false;
     density: number = 1;
-    restitution: number = 1;
+    restitution: number = 5;
 }
