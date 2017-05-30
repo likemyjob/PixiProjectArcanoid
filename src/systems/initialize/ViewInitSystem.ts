@@ -36,7 +36,7 @@ export class ViewIntSystem extends System {
         let gr: any = component.container.getChildAt(0);
         gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);
-        gr.drawCircle(0, 0, bodyComp.radius * 2);
+        gr.drawCircle(0, 0, bodyComp.radius-1);
         gr.endFill();
 
     }

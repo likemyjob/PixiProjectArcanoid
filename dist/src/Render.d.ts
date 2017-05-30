@@ -16,15 +16,11 @@ export declare class Render {
     timeStep: number;
     velocityIterations: number;
     positionIterations: number;
-    particleIterations: number;
-    body: box2d.b2Body;
     constructor();
     addEntity(obj: any): void;
     addSystem(obj: any): void;
     private resize();
     update(delta: number): void;
     onLoaded(loader: any, res: any): void;
-    addBody(): void;
     getRandom(min: number, max: number): number;
-    box2dCreateWorld(): void;
 }
