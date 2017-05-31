@@ -107,6 +107,8 @@ export class Render {
             balls[i].components['BallComponent'].restitution = this.getRandom(1,20)/10;
         }
 
+        
+
 
         let bodyIntSystem = new BodyIntSystem();
         let viewIntSystem = new ViewIntSystem();

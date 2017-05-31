@@ -11,5 +11,12 @@ export abstract class View extends Component {
     constructor(entity: EntityInterface) {
         super(entity);
         this.render = Container.get(Render);
+
+        this.container = new PIXI.Container();
+
+        let gr = new PIXI.Graphics();
+
+        this.container.addChild(gr);
+        this.render.app.stage.addChild(this.container);
     }
 }

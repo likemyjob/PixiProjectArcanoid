@@ -36,7 +36,7 @@ export class ViewIntSystem extends System {
         let gr: any = component.container.getChildAt(0);
         gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);
-        gr.drawCircle(0, 0, bodyComp.radius-1);
+        gr.drawCircle(0, 0, bodyComp.radius - 1);
         gr.endFill();
 
     }
@@ -55,16 +55,15 @@ export class ViewIntSystem extends System {
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
         ViewIntSystem.syncPosition(component, bodyComp);
 
+
         let gr: any = component.container.getChildAt(0);
         gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);
         gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
         gr.endFill();
-        let gr2 = new PIXI.Graphics();
-        gr2.beginFill(0x000000, 1);
-        gr2.drawCircle(bodyComp.width / 2, bodyComp.height / 2, 25);
-        gr2.endFill();
-        component.container.addChild(gr2);
+
+        component.container.pivot.x = component.container.width / 2;
+        component.container.pivot.y = component.container.height / 2;
     }
 
     initWall(component: WallView) {

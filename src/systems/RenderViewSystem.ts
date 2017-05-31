@@ -10,12 +10,10 @@ export class RenderViewSystem extends System {
     assignComponents: string[] = [
         'BallView',
         'PlayerView',
-        // 'WallView'
     ];
     executable: string[] = [
         'movePlayer',
         'moveBall',
-        // 'moveWall'
     ];
 
     movePlayer(component: PlayerView) {
@@ -26,29 +24,15 @@ export class RenderViewSystem extends System {
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
 
         let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
+        let angle: number = bodyComp.body.GetAngle();
 
         bodyComp.position = position;
 
-        component.container.position.x = position.x - bodyComp.width / 2;
-        component.container.position.y = position.y - bodyComp.height / 2;
-    }
+        component.container.position.x = position.x;
+        component.container.position.y = position.y;
 
-    // moveWall(component: WallView) {
-    //     if (!(component instanceof WallView)) {
-    //         return;
-    //     }
-    //
-    //     let bodyComp: WallComponent = component.entity.components['WallComponent'];
-    //
-    //     let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
-    //
-    //     console.log(position);
-    //
-    //     bodyComp.position = position;
-    //
-    //     component.container.position.x = position.x;
-    //     component.container.position.y = position.y;
-    // }
+        component.container.rotation = angle;
+    }
 
     moveBall(component: BallView) {
         if (!(component instanceof BallView)) {
