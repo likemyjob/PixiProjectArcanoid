@@ -102,7 +102,7 @@ export class Render {
         for (let i = 1; i < 200; i++) {
             balls[i] = new Ball();
             balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 100), this.getRandom(10, this.height - 100));
-            balls[i].components['BallComponent'].radius = 20;
+            balls[i].components['BallComponent'].radius = 10;
             balls[i].components['BallComponent'].density = 0.01;
             balls[i].components['BallComponent'].restitution = 0.1;
         }
@@ -125,7 +125,7 @@ export class Render {
 
         setInterval(() => {
             this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
-        }, 5);
+        }, 10);
 
         this.app.ticker.add((delta: number) => {
 
