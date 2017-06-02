@@ -21,10 +21,10 @@ export class Render {
     public entities: any = [];
     private systems: any = [];
 
-    public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 10);
+    public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 0.1);
     public world: box2d.b2World = new box2d.b2World(this.gravity);
     public borderWorld: box2d.b2AABB = new box2d.b2AABB();
-    public timeStep: number = 1 / 60;
+    public timeStep: number = 1 / 30;
     public velocityIterations: number = 8;
     public positionIterations: number = 3;
 
@@ -75,40 +75,43 @@ export class Render {
         this.resources = res;
         let meter = new FPSMeter();
 
-        let LeftWall = new Wall();
-        LeftWall.components['WallComponent'].position.Set(0, 0);
-        LeftWall.components['WallComponent'].width = 10;
-        LeftWall.components['WallComponent'].height = this.height;
+        // let LeftWall = new Wall();
+        // LeftWall.components['WallComponent'].position.Set(100, 0);
+        // LeftWall.components['WallComponent'].width = 10;
+        // LeftWall.components['WallComponent'].height = this.height;
+        //
+        // let RightWall = new Wall();
+        // RightWall.components['WallComponent'].position.Set(this.width-100, 0);
+        // RightWall.components['WallComponent'].width = 10;
+        // RightWall.components['WallComponent'].height = this.height;
 
-        let RightWall = new Wall();
-        RightWall.components['WallComponent'].position.Set(this.width, 0);
-        RightWall.components['WallComponent'].width = 10;
-        RightWall.components['WallComponent'].height = this.height;
-
-        let TopWall = new Wall();
-        TopWall.components['WallComponent'].position.Set(0, 0);
-        TopWall.components['WallComponent'].width = this.width;
-        TopWall.components['WallComponent'].height = 10;
+        // let TopWall = new Wall();
+        // TopWall.components['WallComponent'].position.Set(0, 0);
+        // TopWall.components['WallComponent'].width = this.width;
+        // TopWall.components['WallComponent'].height = 100;
 
         let DownWall = new Wall();
         DownWall.components['WallComponent'].position.Set(0, this.height);
         DownWall.components['WallComponent'].width = this.width;
-        DownWall.components['WallComponent'].height = 10;
+        DownWall.components['WallComponent'].height = 100;
 
         let player = new Player();
 
         let balls: any = [];
 
-        for (let i = 1; i < 100; i++) {
-            balls[i] = new Ball();
-            balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 10), this.getRandom(10, this.height - 10));
-            balls[i].components['BallComponent'].radius = this.getRandom(5,20);
-            balls[i].components['BallComponent'].density = this.getRandom(1,20);
-            balls[i].components['BallComponent'].restitution = this.getRandom(1,20)/10;
-        }
+        // for (let i = 1; i < 200; i++) {
+        //     balls[i] = new Ball();
+        //     balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 100), this.getRandom(10, this.height - 100));
+        //     balls[i].components['BallComponent'].radius = 10;
+        //     balls[i].components['BallComponent'].density = 0.01;
+        //     balls[i].components['BallComponent'].restitution = 1;
+        // }
 
-        
-
+        let ball =  new Ball();
+        ball.components['BallComponent'].position.Set(100, 100);
+        ball.components['BallComponent'].radius = 10;
+        ball.components['BallComponent'].density = 0.01;
+        ball.components['BallComponent'].restitution = 1;
 
         let bodyIntSystem = new BodyIntSystem();
         let viewIntSystem = new ViewIntSystem();
@@ -120,13 +123,12 @@ export class Render {
         this.app.start();
         let that = this;
 
-        setInterval(() => {
-            this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
-        }, 5);
-
         this.app.ticker.add((delta: number) => {
+            this.world.Step(this.timeStep*delta, this.velocityIterations, this.positionIterations);
             meter.tick();
             that.update(delta);
+            // ball.components['BallComponent'].body.ApplyForce(new box2d.b2Vec2(0,100),ball.components['BallComponent'].body.GetLocalCenter());
+            // ball.components['BallComponent'].body.ApplyLinearImpulseToCenter(new box2d.b2Vec2(0,-10));
         });
     }
 

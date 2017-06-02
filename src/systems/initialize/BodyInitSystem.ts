@@ -27,15 +27,19 @@ export class BodyIntSystem extends System {
 
         let bodyDef: box2d.b2BodyDef = new box2d.b2BodyDef();
         bodyDef.type = box2d.b2BodyType.b2_dynamicBody;
-        bodyDef.position.Set(component.position.x, component.position.y);
+        bodyDef.position.Set(component.position.x / 100, component.position.y / 100);
+        bodyDef.linearDamping = component.linearDamping;
+        bodyDef.angularDamping = component.angularDamping;
+
         component.body = this.render.world.CreateBody(bodyDef);
         let circle: box2d.b2CircleShape = new box2d.b2CircleShape();
-        circle.m_radius = component.radius;
+        circle.m_radius = component.radius / 100;
 
         let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
         fd.shape = circle;
         fd.density = component.density;
         fd.restitution = component.restitution;
+        fd.friction = component.friction;
 
         component.body.CreateFixture(fd);
     }
@@ -52,17 +56,19 @@ export class BodyIntSystem extends System {
 
         let bodyDef: box2d.b2BodyDef = new box2d.b2BodyDef();
         bodyDef.type = box2d.b2BodyType.b2_dynamicBody;
-        bodyDef.position.Set(component.position.x, component.position.y);
+        bodyDef.position.Set(component.position.x / 100, component.position.y / 100);
+        bodyDef.linearDamping = component.linearDamping;
 
         component.body = this.render.world.CreateBody(bodyDef);
 
         let box: box2d.b2PolygonShape = new box2d.b2PolygonShape();
-        box.SetAsBox(component.width / 2, component.height / 2);
+        box.SetAsBox(component.width / 100, component.height / 100);
 
         let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
         fd.shape = box;
         fd.density = component.density;
         fd.restitution = component.restitution;
+        fd.friction = component.friction;
 
         component.body.CreateFixture(fd);
     }
@@ -79,12 +85,12 @@ export class BodyIntSystem extends System {
 
         let bodyDef: box2d.b2BodyDef = new box2d.b2BodyDef();
         bodyDef.type = box2d.b2BodyType.b2_staticBody;
-        bodyDef.position.Set(component.position.x, component.position.y);
+        bodyDef.position.Set(component.position.x / 100, component.position.y / 100);
 
         component.body = this.render.world.CreateBody(bodyDef);
 
         let box: box2d.b2PolygonShape = new box2d.b2PolygonShape();
-        box.SetAsBox(component.width, component.height);
+        box.SetAsBox(component.width / 100, component.height / 100);
 
         let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
         fd.shape = box;

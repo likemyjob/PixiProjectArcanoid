@@ -64,7 +64,10 @@ export class PlayerMovementSystem extends System {
         // let y = 15 * this.directionVector.y * Math.sqrt(this.directionVector.x * this.directionVector.x + this.directionVector.y * this.directionVector.y);
         // component.body.SetPosition(component.body.GetPosition().SelfAdd(new box2d.b2Vec2(x, y)));
 
-        component.body.SetLinearVelocity(this.directionVector.Clone().SelfMul(5));
+        // component.body.SetLinearVelocity(this.directionVector.Clone().SelfMul(150));
+        // component.body.SetAngle(2);
+        // component.body.ApplyLinearImpulse(new box2d.b2Vec2(10000,0),component.body.GetLocalCenter());
+        component.body.ApplyLinearImpulse(this.directionVector.Clone().SelfMul(0.0001), component.body.GetWorldCenter());
     }
 
     assignComponents: string[] = [

@@ -7,5 +7,5 @@ export class WallComponent extends Component {
     restitution: number = 0;
     position: box2d.b2Vec2 = new box2d.b2Vec2(0, 0);
     width: number = 10;
-    height: number = 10;
+    height: number = 0.1;
 }
