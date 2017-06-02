@@ -102,12 +102,8 @@ export class ViewIntSystem extends System {
 
 
     static syncPosition(component: any, bodyComp: any) {
-        // let pos = bodyComp.position.SelfMul(100);
-
-        component.container.position.x = bodyComp.position.x;
-        component.container.position.y = bodyComp.position.y-100;
-        console.log(bodyComp.position);
-        console.log(component.container.position);
+        component.container.position.x = bodyComp.position.x - bodyComp.width / 2;
+        component.container.position.y = bodyComp.position.y - bodyComp.height / 2;
     }
 
 }

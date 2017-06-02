@@ -21,7 +21,7 @@ export class Render {
     public entities: any = [];
     private systems: any = [];
 
-    public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 0.1);
+    public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 1);
     public world: box2d.b2World = new box2d.b2World(this.gravity);
     public borderWorld: box2d.b2AABB = new box2d.b2AABB();
     public timeStep: number = 1 / 30;
@@ -75,43 +75,43 @@ export class Render {
         this.resources = res;
         let meter = new FPSMeter();
 
-        // let LeftWall = new Wall();
-        // LeftWall.components['WallComponent'].position.Set(100, 0);
-        // LeftWall.components['WallComponent'].width = 10;
-        // LeftWall.components['WallComponent'].height = this.height;
-        //
-        // let RightWall = new Wall();
-        // RightWall.components['WallComponent'].position.Set(this.width-100, 0);
-        // RightWall.components['WallComponent'].width = 10;
-        // RightWall.components['WallComponent'].height = this.height;
+        let LeftWall = new Wall();
+        LeftWall.components['WallComponent'].position.Set(5, this.height / 2);
+        LeftWall.components['WallComponent'].width = 10;
+        LeftWall.components['WallComponent'].height = this.height;
 
-        // let TopWall = new Wall();
-        // TopWall.components['WallComponent'].position.Set(0, 0);
-        // TopWall.components['WallComponent'].width = this.width;
-        // TopWall.components['WallComponent'].height = 100;
+        let RightWall = new Wall();
+        RightWall.components['WallComponent'].position.Set(this.width - 5, this.height / 2);
+        RightWall.components['WallComponent'].width = 10;
+        RightWall.components['WallComponent'].height = this.height;
+
+        let TopWall = new Wall();
+        TopWall.components['WallComponent'].position.Set(this.width / 2, 5);
+        TopWall.components['WallComponent'].width = this.width;
+        TopWall.components['WallComponent'].height = 10;
 
         let DownWall = new Wall();
-        DownWall.components['WallComponent'].position.Set(0, this.height);
+        DownWall.components['WallComponent'].position.Set(this.width / 2, this.height - 5);
         DownWall.components['WallComponent'].width = this.width;
-        DownWall.components['WallComponent'].height = 100;
+        DownWall.components['WallComponent'].height = 10;
 
-        let player = new Player();
+        // let player = new Player();
 
         let balls: any = [];
 
-        // for (let i = 1; i < 200; i++) {
-        //     balls[i] = new Ball();
-        //     balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 100), this.getRandom(10, this.height - 100));
-        //     balls[i].components['BallComponent'].radius = 10;
-        //     balls[i].components['BallComponent'].density = 0.01;
-        //     balls[i].components['BallComponent'].restitution = 1;
-        // }
+        for (let i = 1; i < 200; i++) {
+            balls[i] = new Ball();
+            balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 100), this.getRandom(10, this.height - 100));
+            balls[i].components['BallComponent'].radius = 20;
+            balls[i].components['BallComponent'].density = 0.01;
+            balls[i].components['BallComponent'].restitution = 1;
+        }
 
-        let ball =  new Ball();
-        ball.components['BallComponent'].position.Set(100, 100);
-        ball.components['BallComponent'].radius = 10;
-        ball.components['BallComponent'].density = 0.01;
-        ball.components['BallComponent'].restitution = 1;
+        // let ball = new Ball();
+        // ball.components['BallComponent'].position.Set(100, 200);
+        // ball.components['BallComponent'].radius = 20;
+        // ball.components['BallComponent'].density = 0.1;
+        // ball.components['BallComponent'].restitution = 0.1;
 
         let bodyIntSystem = new BodyIntSystem();
         let viewIntSystem = new ViewIntSystem();
@@ -124,7 +124,7 @@ export class Render {
         let that = this;
 
         this.app.ticker.add((delta: number) => {
-            this.world.Step(this.timeStep*delta, this.velocityIterations, this.positionIterations);
+            this.world.Step(this.timeStep * delta, this.velocityIterations, this.positionIterations);
             meter.tick();
             that.update(delta);
             // ball.components['BallComponent'].body.ApplyForce(new box2d.b2Vec2(0,100),ball.components['BallComponent'].body.GetLocalCenter());

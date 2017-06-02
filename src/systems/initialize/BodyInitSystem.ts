@@ -62,7 +62,7 @@ export class BodyIntSystem extends System {
         component.body = this.render.world.CreateBody(bodyDef);
 
         let box: box2d.b2PolygonShape = new box2d.b2PolygonShape();
-        box.SetAsBox(component.width / 100, component.height / 100);
+        box.SetAsBox(component.width / 2 / 100, component.height / 2 / 100);
 
         let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
         fd.shape = box;
@@ -90,7 +90,7 @@ export class BodyIntSystem extends System {
         component.body = this.render.world.CreateBody(bodyDef);
 
         let box: box2d.b2PolygonShape = new box2d.b2PolygonShape();
-        box.SetAsBox(component.width / 100, component.height / 100);
+        box.SetAsBox(component.width / 2 / 100, component.height / 2 / 100);
 
         let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
         fd.shape = box;
