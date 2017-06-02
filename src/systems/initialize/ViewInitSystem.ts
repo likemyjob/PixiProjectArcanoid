@@ -65,12 +65,12 @@ export class ViewIntSystem extends System {
         let gr: any = component.container.getChildAt(0);
         gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);
-        gr.drawRoundedRect(0, 0, bodyComp.width * 100, bodyComp.height * 100, 1);
+        gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
         gr.endFill();
 
         component.container.pivot.x = component.container.width / 2;
         component.container.pivot.y = component.container.height / 2;
-        // ViewIntSystem.syncPosition(component, bodyComp);
+        ViewIntSystem.syncPosition(component, bodyComp);
     }
 
     initWall(component: WallView) {

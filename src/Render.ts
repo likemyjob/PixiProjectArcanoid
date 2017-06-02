@@ -21,7 +21,7 @@ export class Render {
     public entities: any = [];
     private systems: any = [];
 
-    public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 1);
+    public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 0.1);
     public world: box2d.b2World = new box2d.b2World(this.gravity);
     public borderWorld: box2d.b2AABB = new box2d.b2AABB();
     public timeStep: number = 1 / 30;
@@ -95,7 +95,7 @@ export class Render {
         DownWall.components['WallComponent'].width = this.width;
         DownWall.components['WallComponent'].height = 10;
 
-        // let player = new Player();
+        let player = new Player();
 
         let balls: any = [];
 
@@ -104,7 +104,7 @@ export class Render {
             balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 100), this.getRandom(10, this.height - 100));
             balls[i].components['BallComponent'].radius = 20;
             balls[i].components['BallComponent'].density = 0.01;
-            balls[i].components['BallComponent'].restitution = 1;
+            balls[i].components['BallComponent'].restitution = 0.1;
         }
 
         // let ball = new Ball();
@@ -123,8 +123,12 @@ export class Render {
         this.app.start();
         let that = this;
 
+        setInterval(() => {
+            this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
+        }, 5);
+
         this.app.ticker.add((delta: number) => {
-            this.world.Step(this.timeStep * delta, this.velocityIterations, this.positionIterations);
+
             meter.tick();
             that.update(delta);
             // ball.components['BallComponent'].body.ApplyForce(new box2d.b2Vec2(0,100),ball.components['BallComponent'].body.GetLocalCenter());
