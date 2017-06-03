@@ -26,8 +26,8 @@ export class RenderViewSystem extends System {
 
         bodyComp.position = position.SelfMul(100);
 
-        component.container.position.x = position.x;
-        component.container.position.y = position.y;
+        component.container.position.x = Math.round(position.x);
+        component.container.position.y = Math.round(position.y);
 
         component.container.rotation = angle;
     }
@@ -39,13 +39,19 @@ export class RenderViewSystem extends System {
 
         let bodyComp: BallComponent = component.entity.components['BallComponent'];
 
+
+        component.container.rotation = bodyComp.body.GetAngle();
+
+
         let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
-        let angle: number = bodyComp.body.GetAngle();
+
+
+        // console.log(position);
         bodyComp.position = position.SelfMul(100);
 
-        component.container.position.x = position.x;
-        component.container.position.y = position.y;
+        console.log(bodyComp.position.x.toFixed(2));
 
-        component.container.rotation = angle;
+        component.container.position.x = Math.round(position.x);
+        component.container.position.y = Math.round(position.y);
     }
 }

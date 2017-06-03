@@ -6,7 +6,7 @@ export class BallComponent extends Component {
     position: box2d.b2Vec2 = new box2d.b2Vec2(200, 100);
     initialize: boolean = false;
     density: number = 0.1;
-    restitution: number = 0.001;
+    restitution: number = 0.01;
     friction = 0.0001;
     linearDamping = 0;
     angularDamping = 0;
