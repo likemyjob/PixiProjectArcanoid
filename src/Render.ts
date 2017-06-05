@@ -10,6 +10,7 @@ import {RenderViewSystem} from "./systems/RenderViewSystem";
 import {Player} from "./entities/Player";
 import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
 import {Wall} from "./entities/Wall";
+import {MouseInitSystem} from "./systems/initialize/MouseInitSystem";
 
 @Service()
 export class Render {
@@ -129,6 +130,7 @@ export class Render {
         let renderViewSystem = new RenderViewSystem();
 
         let plSystem = new PlayerMovementSystem();
+        let mSystem = new MouseInitSystem();
 
         console.log(this.particleIterations);
 

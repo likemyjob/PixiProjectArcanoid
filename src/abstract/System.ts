@@ -5,7 +5,7 @@ import {Container} from "typedi";
 export abstract class System implements SystemInterface {
 
     render: Render;
-    assignComponents: any[];
+    assignComponents: any[] = [];
 
     constructor() {
         this.render = Container.get(Render);
