@@ -5,9 +5,9 @@ export class BallComponent extends Component {
     body: box2d.b2Body;
     position: box2d.b2Vec2 = new box2d.b2Vec2(200, 100);
     initialize: boolean = false;
-    density: number = 0.1;
-    restitution: number = 0.01;
-    friction = 0.0001;
+    density: number = 1;
+    restitution: number = 0.5;
+    friction = 0.5;
     linearDamping = 0;
     angularDamping = 0;
 }

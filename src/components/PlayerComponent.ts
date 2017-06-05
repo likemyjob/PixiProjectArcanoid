@@ -6,8 +6,8 @@ export class PlayerComponent extends Component {
     height: number = 10;
     position: box2d.b2Vec2 = new box2d.b2Vec2(200, 500);
     density: number = 1;
-    restitution: number = 0;
+    restitution: number = 1;
     body: box2d.b2Body;
     friction = 0.001;
-    linearDamping = 0;
+    linearDamping = 0.8;
 }

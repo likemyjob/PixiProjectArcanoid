@@ -13,6 +13,9 @@ import {Wall} from "./entities/Wall";
 
 @Service()
 export class Render {
+
+    public static SIZE = 30;
+
     public app: PIXI.Application;
     public width: number;
     public height: number;
@@ -21,12 +24,15 @@ export class Render {
     public entities: any = [];
     private systems: any = [];
 
-    public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 0.1);
+    public gravity: box2d.b2Vec2 = new box2d.b2Vec2(0, 1);
     public world: box2d.b2World = new box2d.b2World(this.gravity);
     public borderWorld: box2d.b2AABB = new box2d.b2AABB();
-    public timeStep: number = 1 / 30;
+    public timeStep: number = 1 / 60;
     public velocityIterations: number = 8;
     public positionIterations: number = 3;
+
+    public hz = 60;
+    public particleIterations: number = box2d.b2CalculateParticleIterations(10, 0.04, 1 / this.hz);
 
     constructor() {
         PIXI.loader
@@ -69,8 +75,13 @@ export class Render {
         document.getElementById('wrapper').appendChild(this.app.view);
         this.app.stop();
 
-        this.borderWorld.lowerBound.Set(-100.0, -100.0);
-        this.borderWorld.upperBound.Set(100.0, 100.0);
+        this.borderWorld.lowerBound.Set(-1000 / Render.SIZE, -1000 / Render.SIZE);
+        this.borderWorld.upperBound.Set(1000 / Render.SIZE, 1000 / Render.SIZE);
+
+        this.world.SetAllowSleeping(true);
+        this.world.SetWarmStarting(true);
+        this.world.SetContinuousPhysics(true);
+        this.world.SetSubStepping(false);
 
         this.resources = res;
         let meter = new FPSMeter();
@@ -99,12 +110,12 @@ export class Render {
 
         let balls: any = [];
 
-        for (let i = 1; i < 30; i++) {
+        for (let i = 1; i < 10; i++) {
             balls[i] = new Ball();
             balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width + 100), this.getRandom(10, this.height - 100));
             balls[i].components['BallComponent'].radius = 10;
-            balls[i].components['BallComponent'].density = 0.01;
-            balls[i].components['BallComponent'].restitution = 1;
+            // balls[i].components['BallComponent'].density = 0.01;
+            // balls[i].components['BallComponent'].restitution = 0.5;
         }
 
         // let ball = new Ball();
@@ -118,6 +129,8 @@ export class Render {
         let renderViewSystem = new RenderViewSystem();
 
         let plSystem = new PlayerMovementSystem();
+
+        console.log(this.particleIterations);
 
 
         this.app.start();

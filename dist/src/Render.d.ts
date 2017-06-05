@@ -4,6 +4,7 @@
 /// <reference types="pixi.js" />
 import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 export declare class Render {
+    static SIZE: number;
     app: PIXI.Application;
     width: number;
     height: number;
@@ -16,6 +17,8 @@ export declare class Render {
     timeStep: number;
     velocityIterations: number;
     positionIterations: number;
+    hz: number;
+    particleIterations: number;
     constructor();
     addEntity(obj: any): void;
     addSystem(obj: any): void;

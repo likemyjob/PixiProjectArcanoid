@@ -67,7 +67,7 @@ export class PlayerMovementSystem extends System {
         // component.body.SetLinearVelocity(this.directionVector.Clone().SelfMul(150));
         // component.body.SetAngle(2);
         // component.body.ApplyLinearImpulse(new box2d.b2Vec2(10000,0),component.body.GetLocalCenter());
-        component.body.ApplyLinearImpulse(this.directionVector.Clone().SelfMul(0.01), component.body.GetWorldCenter());
+        component.body.ApplyLinearImpulse(this.directionVector.Clone().SelfMul(1), component.body.GetWorldCenter());
     }
 
     assignComponents: string[] = [

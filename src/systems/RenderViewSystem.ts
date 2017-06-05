@@ -4,6 +4,7 @@ import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 import {PlayerView} from "../views/PlayerView";
 import {PlayerComponent} from "../components/PlayerComponent";
 import {BallComponent} from "../components/BallComponent";
+import {Render} from "../Render";
 export class RenderViewSystem extends System {
     assignComponents: string[] = [
         'BallView',
@@ -24,7 +25,7 @@ export class RenderViewSystem extends System {
         let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
         let angle: number = bodyComp.body.GetAngle();
 
-        bodyComp.position = position.SelfMul(100);
+        bodyComp.position = position.SelfMul(Render.SIZE);
 
         component.container.position.x = Math.round(position.x);
         component.container.position.y = Math.round(position.y);
@@ -47,9 +48,9 @@ export class RenderViewSystem extends System {
 
 
         // console.log(position);
-        bodyComp.position = position.SelfMul(100);
+        bodyComp.position = position.SelfMul(Render.SIZE);
 
-        console.log(bodyComp.position.x.toFixed(2));
+        // console.log(bodyComp.position.x.toFixed(2));
 
         component.container.position.x = Math.round(position.x);
         component.container.position.y = Math.round(position.y);
