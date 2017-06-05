@@ -5,21 +5,13 @@ import {PlayerComponent} from "../../components/PlayerComponent";
 import {WallComponent} from "../../components/WallComponent";
 import {Render} from "../../Render";
 export class BodyIntSystem extends System {
-    assignComponents: string[] = [
-        'BallComponent',
-        'PlayerComponent',
-        'WallComponent'
-    ];
-    executable: string[] = [
-        'initBall',
-        'initPlayer',
-        'initWall'
-    ];
+    assignComponents: any = {
+        'BallComponent': ['initBall'],
+        'PlayerComponent': ['initPlayer'],
+        'WallComponent': ['initWall']
+    };
 
     initBall(component: BallComponent) {
-        if (!(component instanceof BallComponent)) {
-            return;
-        }
         if (component.initialize) {
             return;
         }
@@ -46,9 +38,6 @@ export class BodyIntSystem extends System {
     }
 
     initPlayer(component: PlayerComponent) {
-        if (!(component instanceof PlayerComponent)) {
-            return;
-        }
         if (component.initialize) {
             return;
         }
@@ -75,9 +64,6 @@ export class BodyIntSystem extends System {
     }
 
     initWall(component: WallComponent) {
-        if (!(component instanceof WallComponent)) {
-            return;
-        }
         if (component.initialize) {
             return;
         }

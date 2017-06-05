@@ -5,8 +5,7 @@ import {Container} from "typedi";
 export abstract class System implements SystemInterface {
 
     render: Render;
-    assignComponents: string[];
-    executable: string[];
+    assignComponents: any[];
 
     constructor() {
         this.render = Container.get(Render);
@@ -15,19 +14,20 @@ export abstract class System implements SystemInterface {
 
     update(delta: number, entity: EntityInterface) {
         this.render.entities.forEach((entity: any) => {
-
             if (this.assignComponents.length === 0) {
                 return;
             }
-            // if (this.entity.components.indexOf(compName) === -1) {
-            //     return;
-            // }
-            this.assignComponents.forEach((compName: any) => {
-                let that: any = this;
-                this.executable.forEach((func: any) => {
-                    that[func](entity.components[compName]);
-                });
-            });
+            let that: any = this;
+            let compName: string;
+            for (compName in that.assignComponents) {
+                let executable: any = that.assignComponents[compName];
+                let comp = entity.components[compName];
+                if (comp) {
+                    executable.forEach(function (func: any) {
+                        that[func](comp);
+                    });
+                }
+            }
         });
     }
 }

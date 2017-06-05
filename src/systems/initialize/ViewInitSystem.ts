@@ -6,22 +6,13 @@ import {PlayerComponent} from "../../components/PlayerComponent";
 import {WallView} from "../../views/WallView";
 import {WallComponent} from "../../components/WallComponent";
 export class ViewIntSystem extends System {
-    assignComponents: string[] = [
-        'BallView',
-        'PlayerView',
-        'WallView'
-    ];
-    executable: string[] = [
-        'initBall',
-        'initPlayer',
-        'initWall'
-    ];
+    assignComponents: any = {
+        'BallView': ['initBall'],
+        'PlayerView': ['initPlayer'],
+        'WallView': ['initWall']
+    };
 
     initBall(component: BallView) {
-        if (!(component instanceof BallView)) {
-            return;
-        }
-
         if (component.initialize) {
             return;
         }
@@ -51,10 +42,6 @@ export class ViewIntSystem extends System {
     }
 
     initPlayer(component: PlayerView) {
-        if (!(component instanceof PlayerView)) {
-            return;
-        }
-
         if (component.initialize) {
             return;
         }
@@ -74,10 +61,6 @@ export class ViewIntSystem extends System {
     }
 
     initWall(component: WallView) {
-        if (!(component instanceof WallView)) {
-            return;
-        }
-
         if (component.initialize) {
             return;
         }

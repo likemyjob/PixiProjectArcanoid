@@ -53,10 +53,6 @@ export class PlayerMovementSystem extends System {
     }
 
     private move(component: PlayerComponent) {
-        if (!(component instanceof PlayerComponent)) {
-            return;
-        }
-
         if ((this.directionVector.x == 0) && (this.directionVector.y == 0)) {
             return;
         }
@@ -70,11 +66,7 @@ export class PlayerMovementSystem extends System {
         component.body.ApplyLinearImpulse(this.directionVector.Clone().SelfMul(1), component.body.GetWorldCenter());
     }
 
-    assignComponents: string[] = [
-        'PlayerComponent',
-    ];
-
-    executable: string[] = [
-        'move'
-    ];
+    assignComponents: any = {
+        'PlayerComponent': ['move']
+    };
 }

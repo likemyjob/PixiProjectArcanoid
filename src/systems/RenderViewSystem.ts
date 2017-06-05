@@ -6,20 +6,12 @@ import {PlayerComponent} from "../components/PlayerComponent";
 import {BallComponent} from "../components/BallComponent";
 import {Render} from "../Render";
 export class RenderViewSystem extends System {
-    assignComponents: string[] = [
-        'BallView',
-        'PlayerView',
-    ];
-    executable: string[] = [
-        'movePlayer',
-        'moveBall',
-    ];
+    assignComponents: any = {
+        'BallView': ['moveBall'],
+        'PlayerView': ['movePlayer'],
+    };
 
     movePlayer(component: PlayerView) {
-        if (!(component instanceof PlayerView)) {
-            return;
-        }
-
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
 
         let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
@@ -34,19 +26,9 @@ export class RenderViewSystem extends System {
     }
 
     moveBall(component: BallView) {
-        if (!(component instanceof BallView)) {
-            return;
-        }
-
         let bodyComp: BallComponent = component.entity.components['BallComponent'];
-
-
         component.container.rotation = bodyComp.body.GetAngle();
-
-
         let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
-
-
         // console.log(position);
         bodyComp.position = position.SelfMul(Render.SIZE);
 
