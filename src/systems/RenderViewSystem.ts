@@ -1,10 +1,10 @@
 import {System} from "../abstract/System";
 import {BallView} from "../views/BallView";
-import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 import {PlayerView} from "../views/PlayerView";
 import {PlayerComponent} from "../components/PlayerComponent";
 import {BallComponent} from "../components/BallComponent";
 import {Render} from "../Render";
+import b2Vec2 = Box2D.Common.Math.b2Vec2;
 export class RenderViewSystem extends System {
     assignComponents: any = {
         'BallView': ['moveBall'],
@@ -14,10 +14,12 @@ export class RenderViewSystem extends System {
     movePlayer(component: PlayerView) {
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
 
-        let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
+        let position: b2Vec2 = bodyComp.body.GetPosition();
         let angle: number = bodyComp.body.GetAngle();
 
-        bodyComp.position = position.SelfMul(Render.SIZE);
+        position.Multiply(Render.SIZE);
+
+        bodyComp.position = position;
 
         component.container.position.x = Math.round(position.x);
         component.container.position.y = Math.round(position.y);
@@ -28,11 +30,10 @@ export class RenderViewSystem extends System {
     moveBall(component: BallView) {
         let bodyComp: BallComponent = component.entity.components['BallComponent'];
         component.container.rotation = bodyComp.body.GetAngle();
-        let position: box2d.b2Vec2 = bodyComp.body.GetPosition();
-        // console.log(position);
-        bodyComp.position = position.SelfMul(Render.SIZE);
+        let position: b2Vec2 = bodyComp.body.GetPosition();
 
-        // console.log(bodyComp.position.x.toFixed(2));
+        position.Multiply(Render.SIZE);
+        bodyComp.position = position;
 
         component.container.position.x = Math.round(position.x);
         component.container.position.y = Math.round(position.y);

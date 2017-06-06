@@ -13,7 +13,8 @@ module.exports = {
             path.resolve('node_modules')
         ],
         alias: {
-            'typedi': path.resolve('node_modules', 'typedi')
+            'typedi': path.resolve('node_modules', 'typedi'),
+            'box2dweb': path.resolve('node_modules', 'box2d')
         },
         extensions: [".ts", ".js", ".tsx"]
     },
@@ -22,9 +23,7 @@ module.exports = {
             {test: /\.tsx?$/, loader: "ts-loader"}
         ]
     },
-    externals: {
-        'box2d': 'MyTest'
-    },
+    externals: {},
     plugins: [],
     watch: true,
     devtool: "eval"

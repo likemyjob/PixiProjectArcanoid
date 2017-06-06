@@ -1,9 +1,13 @@
-import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 import {System} from "../../abstract/System";
 import {BallComponent} from "../../components/BallComponent";
 import {PlayerComponent} from "../../components/PlayerComponent";
 import {WallComponent} from "../../components/WallComponent";
 import {Render} from "../../Render";
+import b2BodyDef = Box2D.Dynamics.b2BodyDef;
+import b2Body = Box2D.Dynamics.b2Body;
+import b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
+import b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
+import b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
 export class BodyIntSystem extends System {
     assignComponents: any = {
         'BallComponent': ['initBall'],
@@ -18,23 +22,23 @@ export class BodyIntSystem extends System {
 
         component.initialize = true;
 
-        let bodyDef: box2d.b2BodyDef = new box2d.b2BodyDef();
-        bodyDef.type = box2d.b2BodyType.b2_dynamicBody;
+        let bodyDef: b2BodyDef = new b2BodyDef();
+        bodyDef.type = b2Body.b2_dynamicBody;
         bodyDef.position.Set(component.position.x / Render.SIZE, component.position.y / Render.SIZE);
         bodyDef.linearDamping = component.linearDamping;
         bodyDef.angularDamping = component.angularDamping;
 
         component.body = this.render.world.CreateBody(bodyDef);
-        let circle: box2d.b2CircleShape = new box2d.b2CircleShape();
-        circle.m_radius = component.radius / Render.SIZE;
+        let circle: b2CircleShape = new b2CircleShape();
+        circle.SetRadius(component.radius / Render.SIZE);
 
-        let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
+        let fd: b2FixtureDef = new b2FixtureDef();
         fd.shape = circle;
         fd.density = component.density;
         fd.restitution = component.restitution;
         fd.friction = component.friction;
 
-        component.body.CreateFixture(fd, 1);
+        component.body.CreateFixture(fd);
     }
 
     initPlayer(component: PlayerComponent) {
@@ -44,23 +48,23 @@ export class BodyIntSystem extends System {
 
         component.initialize = true;
 
-        let bodyDef: box2d.b2BodyDef = new box2d.b2BodyDef();
-        bodyDef.type = box2d.b2BodyType.b2_dynamicBody;
+        let bodyDef: b2BodyDef = new b2BodyDef();
+        bodyDef.type = b2Body.b2_dynamicBody;
         bodyDef.position.Set(component.position.x / Render.SIZE, component.position.y / Render.SIZE);
         bodyDef.linearDamping = component.linearDamping;
 
         component.body = this.render.world.CreateBody(bodyDef);
 
-        let box: box2d.b2PolygonShape = new box2d.b2PolygonShape();
+        let box: b2PolygonShape = new b2PolygonShape();
         box.SetAsBox(component.width / 2 / Render.SIZE, component.height / 2 / Render.SIZE);
 
-        let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
+        let fd: b2FixtureDef = new b2FixtureDef();
         fd.shape = box;
         fd.density = component.density;
         fd.restitution = component.restitution;
         fd.friction = component.friction;
 
-        component.body.CreateFixture(fd, 1);
+        component.body.CreateFixture(fd);
     }
 
     initWall(component: WallComponent) {
@@ -70,20 +74,20 @@ export class BodyIntSystem extends System {
 
         component.initialize = true;
 
-        let bodyDef: box2d.b2BodyDef = new box2d.b2BodyDef();
-        bodyDef.type = box2d.b2BodyType.b2_staticBody;
+        let bodyDef: b2BodyDef = new b2BodyDef();
+        bodyDef.type = b2Body.b2_staticBody;
         bodyDef.position.Set(component.position.x / Render.SIZE, component.position.y / Render.SIZE);
 
         component.body = this.render.world.CreateBody(bodyDef);
 
-        let box: box2d.b2PolygonShape = new box2d.b2PolygonShape();
+        let box: b2PolygonShape = new b2PolygonShape();
         box.SetAsBox(component.width / 2 / Render.SIZE, component.height / 2 / Render.SIZE);
 
-        let fd: box2d.b2FixtureDef = new box2d.b2FixtureDef();
+        let fd: b2FixtureDef = new b2FixtureDef();
         fd.shape = box;
         fd.density = component.density;
         fd.restitution = component.restitution;
 
-        component.body.CreateFixture(fd, 1);
+        component.body.CreateFixture(fd);
     }
 }

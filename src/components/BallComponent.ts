@@ -1,9 +1,10 @@
-import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 import {Component} from "../abstract/Component";
+import b2Body = Box2D.Dynamics.b2Body;
+import b2Vec2 = Box2D.Common.Math.b2Vec2;
 export class BallComponent extends Component {
     public radius: number = 0.5;
-    body: box2d.b2Body;
-    position: box2d.b2Vec2 = new box2d.b2Vec2(200, 100);
+    body: b2Body;
+    position: b2Vec2 = new b2Vec2(200, 100);
     initialize: boolean = false;
     density: number = 1;
     restitution: number = 0.5;

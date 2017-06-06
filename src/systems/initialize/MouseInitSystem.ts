@@ -1,6 +1,4 @@
-import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
 import {System} from "../../abstract/System";
-import {Render} from "../../Render";
 import {Ball} from "../../entities/Ball";
 export class MouseInitSystem extends System {
 

@@ -1,17 +1,17 @@
 import {System} from "../abstract/System";
 import {PlayerComponent} from "../components/PlayerComponent";
-import * as box2d from "box2d.ts/Box2D/Box2D/Box2D";
+import b2Vec2 = Box2D.Common.Math.b2Vec2;
 export class PlayerMovementSystem extends System {
 
-    private directionVector: box2d.b2Vec2 = new box2d.b2Vec2();
+    private directionVector: b2Vec2 = new b2Vec2();
     private pressed: number[] = [];
     private keyCodes: any = {
         '37': 'left',
         '39': 'right',
     };
     private values: any = {
-        '37': new box2d.b2Vec2(-1, 0),
-        "39": new box2d.b2Vec2(1, 0),
+        '37': new b2Vec2(-1, 0),
+        "39": new b2Vec2(1, 0),
     };
 
     constructor() {
@@ -33,7 +33,7 @@ export class PlayerMovementSystem extends System {
         if (e.keyCode in this.keyCodes) {
             if (this.pressed.indexOf(e.keyCode) == -1) {
 
-                this.directionVector.SelfAdd(this.values[e.keyCode]);
+                this.directionVector.Add(this.values[e.keyCode]);
 
                 this.pressed.push(e.keyCode)
             }
@@ -45,7 +45,7 @@ export class PlayerMovementSystem extends System {
             let index = this.pressed.indexOf(e.keyCode);
             if (index >= 0) {
 
-                this.directionVector.SelfSub(this.values[e.keyCode]);
+                this.directionVector.Subtract(this.values[e.keyCode]);
 
                 this.pressed.splice(index, 1);
             }
@@ -63,7 +63,9 @@ export class PlayerMovementSystem extends System {
         // component.body.SetLinearVelocity(this.directionVector.Clone().SelfMul(150));
         // component.body.SetAngle(2);
         // component.body.ApplyLinearImpulse(new box2d.b2Vec2(10000,0),component.body.GetLocalCenter());
-        component.body.ApplyLinearImpulse(this.directionVector.Clone().SelfMul(1), component.body.GetWorldCenter());
+        let i = this.directionVector.Copy();
+        i.Multiply(1);
+        component.body.ApplyImpulse(i, component.body.GetWorldCenter());
     }
 
     assignComponents: any = {
