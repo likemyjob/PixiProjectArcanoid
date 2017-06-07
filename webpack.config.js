@@ -14,7 +14,7 @@ module.exports = {
         ],
         alias: {
             'typedi': path.resolve('node_modules', 'typedi'),
-            'box2dweb': path.resolve('node_modules', 'box2d')
+            'Box2d': path.resolve('node_modules', 'box2dweb')
         },
         extensions: [".ts", ".js", ".tsx"]
     },
