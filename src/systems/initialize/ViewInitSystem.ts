@@ -5,11 +5,14 @@ import {BallComponent} from "../../components/BallComponent";
 import {PlayerComponent} from "../../components/PlayerComponent";
 import {WallView} from "../../views/WallView";
 import {WallComponent} from "../../components/WallComponent";
+import {EnemyView} from "../../views/EnemyView";
+import {EnemyComponent} from "../../components/EnemyComponent";
 export class ViewIntSystem extends System {
     assignComponents: any = {
         'BallView': ['initBall'],
         'PlayerView': ['initPlayer'],
-        'WallView': ['initWall']
+        'WallView': ['initWall'],
+        'EnemyView': ['initEnemy']
     };
 
     initBall(component: BallView) {
@@ -19,10 +22,7 @@ export class ViewIntSystem extends System {
 
         component.initialize = true;
 
-
         let bodyComp: BallComponent = component.entity.components['BallComponent'];
-
-        // ViewIntSystem.syncPosition(component, bodyComp);
 
         let gr: any = component.container.getChildAt(0);
         gr.lineStyle(2, 0x000000, 1);
@@ -38,7 +38,6 @@ export class ViewIntSystem extends System {
         gr2.lineTo(0, -bodyComp.radius);
         gr2.endFill();
         component.container.addChild(gr2);
-
     }
 
     initPlayer(component: PlayerView) {
@@ -76,13 +75,26 @@ export class ViewIntSystem extends System {
         gr.beginFill(0xEEE5E5, 1);
         gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
         gr.endFill();
-
-        // component.container.pivot.x = component.container.width / 2;
-        // component.container.pivot.y = component.container.height / 2;
-
-
     }
 
+    initEnemy(component: EnemyView) {
+        if (component.initialize) {
+            return;
+        }
+
+        component.initialize = true;
+
+        let bodyComp: EnemyComponent = component.entity.components['EnemyComponent'];
+
+        ViewIntSystem.syncPosition(component, bodyComp);
+
+        let gr: any = component.container.getChildAt(0);
+        gr.beginFill(0xEEE5E5, 1);
+        gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
+        gr.endFill();
+
+        component.container.rotation = bodyComp.angle;
+    }
 
     static syncPosition(component: any, bodyComp: any) {
         component.container.position.x = bodyComp.position.x - bodyComp.width / 2;

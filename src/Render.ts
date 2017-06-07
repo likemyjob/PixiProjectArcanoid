@@ -9,6 +9,8 @@ import {RenderViewSystem} from "./systems/RenderViewSystem";
 import {ViewIntSystem} from "./systems/initialize/ViewInitSystem";
 import {Player} from "./entities/Player";
 import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
+import {MouseInitSystem} from "./systems/initialize/MouseInitSystem";
+import {Enemy} from "./entities/Enemy";
 // import {Ball} from "./entities/Ball";
 // import {BodyIntSystem} from "./systems/initialize/BodyInitSystem";
 // import {ViewIntSystem} from "./systems/initialize/ViewInitSystem";
@@ -108,39 +110,42 @@ export class Render {
         DownWall.components['WallComponent'].height = 100;
         //
         let player = new Player();
-        //
+        player.components['PlayerComponent'].position.Set(this.width / 2, this.height - 60);
+
+
+        let enemis: any = [];
+
+        let maxEnemy = 10;
+        let distance = 50;
+        let shift = (maxEnemy - 1) * distance / 2;
+        for (let i = 0; i < maxEnemy; i++) {
+            for (let j = 0; j < maxEnemy; j++) {
+                enemis[i * j] = new Enemy();
+                enemis[i * j].components['EnemyComponent'].position.Set(j*10 + this.width / 2 + i * distance - shift, this.height - 500 - j * distance + shift);
+            }
+        }
+
+
         let balls: any = [];
         //
-        for (let i = 1; i < 600; i++) {
-            balls[i] = new Ball();
-            balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width+10), this.getRandom(10, this.height - 110));
-            balls[i].components['BallComponent'].radius = 10;
-            balls[i].components['BallComponent'].density = 0.01;
-            balls[i].components['BallComponent'].restitution = 1;
-        }
+        // for (let i = 1; i < 600; i++) {
+        //     balls[i] = new Ball();
+        //     balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width+10), this.getRandom(10, this.height - 110));
+        //     balls[i].components['BallComponent'].radius = 10;
+        //     balls[i].components['BallComponent'].density = 1;
+        //     balls[i].components['BallComponent'].restitution = 0.01;
+        // }
         //
         let ball = new Ball();
-        ball.components['BallComponent'].position.Set(100, 200);
-        ball.components['BallComponent'].radius = 20;
-        ball.components['BallComponent'].density = 0.1;
-        ball.components['BallComponent'].restitution = 1;
-        // //
+        ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
+
         let bodyIntSystem = new BodyIntSystem();
         let viewIntSystem = new ViewIntSystem();
         let renderViewSystem = new RenderViewSystem();
-        //
-        let plSystem = new PlayerMovementSystem();
-        // let mSystem = new MouseInitSystem();
 
-        // let can: any = document.getElementById("test");
-        //
-        // let debugDraw = new this.box2d.Dynamics.b2DebugDraw();
-        // debugDraw.SetSprite(can.getContext("2d"));
-        // debugDraw.SetDrawScale(30.0);
-        // debugDraw.SetFillAlpha(0.5);
-        // debugDraw.SetLineThickness(1.0);
-        // debugDraw.SetFlags(this.box2d.Dynamics.b2DebugDraw.e_shapeBit | this.box2d.Dynamics.b2DebugDraw.e_jointBit);
-        // this.world.SetDebugDraw(debugDraw);
+        let plSystem = new PlayerMovementSystem();
+        let mSystem = new MouseInitSystem();
+
 
         this.init();
 

@@ -65,7 +65,7 @@ export class PlayerMovementSystem extends System {
         // component.body.SetAngle(2);
         // component.body.ApplyLinearImpulse(new box2d.b2Vec2(10000,0),component.body.GetLocalCenter());
         let i = this.directionVector.Copy();
-        i.Multiply(1);
+        i.Multiply(3);
         component.body.ApplyImpulse(i, component.body.GetWorldCenter());
     }
 

@@ -19,8 +19,5 @@ export class MouseInitSystem extends System {
     public initBall(e: MouseEvent) {
         let ball = new Ball();
         ball.components['BallComponent'].position.Set(e.clientX, e.clientY);
-        ball.components['BallComponent'].radius = 10;
-        ball.components['BallComponent'].density = 0.01;
-        ball.components['BallComponent'].restitution = 1;
     }
 }
