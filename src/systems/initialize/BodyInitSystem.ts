@@ -22,7 +22,7 @@ export class BodyIntSystem extends System {
         component.initialize = true;
 
         let bodyDef: b2BodyDef = new this.render.box2d.Dynamics.b2BodyDef();
-        bodyDef.type = this.render.box2d.Dynamics.b2_dynamicBody;
+        bodyDef.type = this.render.box2d.Dynamics.b2Body.b2_dynamicBody;
         bodyDef.position.Set(component.position.x / Render.SIZE, component.position.y / Render.SIZE);
         // bodyDef.linearDamping = component.linearDamping;
         // bodyDef.angularDamping = component.angularDamping;
@@ -33,9 +33,9 @@ export class BodyIntSystem extends System {
 
         let fd: b2FixtureDef = new this.render.box2d.Dynamics.b2FixtureDef();
         fd.shape = circle;
-        // fd.density = component.density;
-        // fd.restitution = component.restitution;
-        // fd.friction = component.friction;
+        fd.density = component.density;
+        fd.restitution = component.restitution;
+        fd.friction = component.friction;
 
         component.body.CreateFixture(fd);
     }
@@ -47,23 +47,25 @@ export class BodyIntSystem extends System {
 
         component.initialize = true;
 
-        let bodyDef: b2BodyDef = new this.render.box2d.Dynamics.b2BodyDef();
-        bodyDef.type = this.render.box2d.b2Body.b2_dynamicBody;
-        bodyDef.position.Set(component.position.x / Render.SIZE, component.position.y / Render.SIZE);
-        bodyDef.linearDamping = component.linearDamping;
+        let b2Body = this.render.box2d.Dynamics.b2Body,
+            b2BodyDef = this.render.box2d.Dynamics.b2BodyDef,
+            b2FixtureDef = this.render.box2d.Dynamics.b2FixtureDef,
+            b2PolygonShape = this.render.box2d.Collision.Shapes.b2PolygonShape
+        ;
 
+        let fixDef = new b2FixtureDef;
+        fixDef.density = component.density;
+        fixDef.friction = component.friction;
+        fixDef.restitution = component.restitution;
+
+        let bodyDef = new b2BodyDef;
+        bodyDef.type = b2Body.b2_dynamicBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(component.width / 2 / Render.SIZE, component.height / 2 / Render.SIZE);
+        bodyDef.position.x = Math.random() * 10;
+        bodyDef.position.y = Math.random() * 10;
         component.body = this.render.world.CreateBody(bodyDef);
-
-        let box: b2PolygonShape = new this.render.box2d.Collision.b2PolygonShape();
-        box.SetAsBox(component.width / 2 / Render.SIZE, component.height / 2 / Render.SIZE);
-
-        let fd: b2FixtureDef = new this.render.box2d.Dynamics.b2FixtureDef();
-        fd.shape = box;
-        fd.density = component.density;
-        fd.restitution = component.restitution;
-        fd.friction = component.friction;
-
-        component.body.CreateFixture(fd);
+        component.body.CreateFixture(fixDef);
     }
 
     initWall(component: WallComponent) {
@@ -73,20 +75,26 @@ export class BodyIntSystem extends System {
 
         component.initialize = true;
 
-        let bodyDef: b2BodyDef = new this.render.box2d.Dynamics.b2BodyDef();
-        bodyDef.type = this.render.box2d.Dynamics.b2_staticBody;
+        let b2Body = this.render.box2d.Dynamics.b2Body,
+            b2BodyDef = this.render.box2d.Dynamics.b2BodyDef,
+            b2FixtureDef = this.render.box2d.Dynamics.b2FixtureDef,
+            b2PolygonShape = this.render.box2d.Collision.Shapes.b2PolygonShape
+        ;
+
+        let fixDef = new b2FixtureDef;
+        fixDef.density = component.density;
+        fixDef.restitution = component.restitution;
+
+        let bodyDef = new b2BodyDef;
+
+        // create ground
+        bodyDef.type = b2Body.b2_staticBody;
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(component.width / 2 / Render.SIZE, component.height / 2 / Render.SIZE);
+
         bodyDef.position.Set(component.position.x / Render.SIZE, component.position.y / Render.SIZE);
 
         component.body = this.render.world.CreateBody(bodyDef);
-
-        let box: b2PolygonShape = new this.render.box2d.Collision.Shapes.b2PolygonShape();
-        box.SetAsBox(component.width / 2 / Render.SIZE, component.height / 2 / Render.SIZE);
-
-        let fd: b2FixtureDef = new this.render.box2d.Dynamics.b2FixtureDef();
-        fd.shape = box;
-        fd.density = component.density;
-        fd.restitution = component.restitution;
-
-        component.body.CreateFixture(fd);
+        component.body.CreateFixture(fixDef);
     }
 }

@@ -14,7 +14,7 @@ export class RenderViewSystem extends System {
     movePlayer(component: PlayerView) {
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
 
-        let position: b2Vec2 = bodyComp.body.GetPosition();
+        let position: b2Vec2 = bodyComp.body.GetPosition().Copy();
         let angle: number = bodyComp.body.GetAngle();
 
         position.Multiply(Render.SIZE);
@@ -29,14 +29,14 @@ export class RenderViewSystem extends System {
 
     moveBall(component: BallView) {
         let bodyComp: BallComponent = component.entity.components['BallComponent'];
-        // component.container.rotation = bodyComp.body.GetAngle();
+        component.container.rotation = bodyComp.body.GetAngle();
         let position: b2Vec2 = bodyComp.body.GetPosition().Copy();
 
-        bodyComp.body.ApplyForce(this.render.box2d.Common.Math.b2Vec2(0, -1000000), bodyComp.body.GetWorldCenter());
+        // bodyComp.body.ApplyForce(this.render.box2d.Common.Math.b2Vec2(0, -1000000), bodyComp.body.GetWorldCenter());
 
         position.Multiply(Render.SIZE);
         bodyComp.position = position;
-        console.log(bodyComp.position);
+        // console.log(bodyComp.position);
         component.container.position.x = Math.round(position.x);
         component.container.position.y = Math.round(position.y);
     }

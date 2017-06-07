@@ -1,17 +1,18 @@
 import {System} from "../abstract/System";
 import {PlayerComponent} from "../components/PlayerComponent";
 import b2Vec2 = Box2D.Common.Math.b2Vec2;
+let box2d = require("box2dweb/box2d.js");
 export class PlayerMovementSystem extends System {
 
-    private directionVector: b2Vec2 = new b2Vec2();
+    private directionVector: b2Vec2 = new box2d.Common.Math.b2Vec2();
     private pressed: number[] = [];
     private keyCodes: any = {
         '37': 'left',
         '39': 'right',
     };
     private values: any = {
-        '37': new b2Vec2(-1, 0),
-        "39": new b2Vec2(1, 0),
+        '37': new box2d.Common.Math.b2Vec2(-1, 0),
+        "39": new box2d.Common.Math.b2Vec2(1, 0),
     };
 
     constructor() {
