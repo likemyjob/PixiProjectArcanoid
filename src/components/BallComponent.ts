@@ -8,8 +8,8 @@ export class BallComponent extends Component {
     position: b2Vec2 = new box2d.Common.Math.b2Vec2(200, 100);
     initialize: boolean = false;
     density: number = 1;
-    restitution: number = 1;
+    restitution: number = 0.9;
     friction = 0.05;
-    linearDamping = 0.1;
-    angularDamping = 0.1;
+    linearDamping = 0.05;
+    angularDamping = 0.5;
 }

@@ -17,6 +17,7 @@ export declare class Render {
     velocityIterations: number;
     positionIterations: number;
     hz: number;
+    stop: boolean;
     constructor();
     addEntity(obj: any): void;
     addSystem(obj: any): void;

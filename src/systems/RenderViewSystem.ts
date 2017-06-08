@@ -4,11 +4,14 @@ import {PlayerView} from "../views/PlayerView";
 import {PlayerComponent} from "../components/PlayerComponent";
 import {BallComponent} from "../components/BallComponent";
 import {Render} from "../Render";
+import {EnemyComponent} from "../components/EnemyComponent";
 import b2Vec2 = Box2D.Common.Math.b2Vec2;
+let box2d = require("box2dweb/box2d.js");
 export class RenderViewSystem extends System {
     assignComponents: any = {
         'BallView': ['moveBall'],
         'PlayerView': ['movePlayer'],
+        'EnemyComponent': ['destroy']
     };
 
     movePlayer(component: PlayerView) {
@@ -39,5 +42,35 @@ export class RenderViewSystem extends System {
         // console.log(bodyComp.position);
         component.container.position.x = Math.round(position.x);
         component.container.position.y = Math.round(position.y);
+
+        // let list = bodyComp.body.GetContactList();
+        // if (list) {
+        //     let player = Container.get(Player);
+        //     let playerBody = player.components['PlayerComponent'].body;
+        //     if (list.other == playerBody) {
+        //         console.log('player');
+        //
+        //         let v = bodyComp.body.GetLinearVelocity().Copy();
+        //
+        //         if (v.Length() < 40) {
+        //             v.Multiply(1.1);
+        //         }
+        //         bodyComp.body.SetLinearVelocity(v);
+        //     }
+        // }
+
+    }
+
+    destroy(component: EnemyComponent) {
+        if (component.shouldBeDestroy) {
+            this.render.app.stage.removeChild(component.entity.components['EnemyView'].container);
+
+            // render.stop = true;
+            this.render.world.DestroyBody(component.body);
+            // render.stop = false;
+
+            let index = this.render.entities.indexOf(component.entity);
+            this.render.entities.splice(index, 1);
+        }
     }
 }
