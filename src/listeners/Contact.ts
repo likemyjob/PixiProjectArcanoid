@@ -10,6 +10,11 @@ export class Contact implements b2ContactListener {
     }
 
     EndContact(contact: Box2D.Dynamics.Contacts.b2Contact) {
+
+
+    }
+
+    PostSolve(contact: Box2D.Dynamics.Contacts.b2Contact, impulse: b2ContactImpulse) {
         let a = contact.GetFixtureA().GetBody();
         let b = contact.GetFixtureB().GetBody();
         if (a != b) {
@@ -37,11 +42,6 @@ export class Contact implements b2ContactListener {
 
 
         }
-
-    }
-
-    PostSolve(contact: Box2D.Dynamics.Contacts.b2Contact, impulse: b2ContactImpulse) {
-
     }
 
     PreSolve(contact: Box2D.Dynamics.Contacts.b2Contact, oldManifold: Box2D.Collision.b2Manifold) {

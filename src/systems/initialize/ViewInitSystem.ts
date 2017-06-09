@@ -71,7 +71,6 @@ export class ViewIntSystem extends System {
         ViewIntSystem.syncPosition(component, bodyComp);
 
         let gr: any = component.container.getChildAt(0);
-        // gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);
         gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
         gr.endFill();
@@ -86,14 +85,18 @@ export class ViewIntSystem extends System {
 
         let bodyComp: EnemyComponent = component.entity.components['EnemyComponent'];
 
-        ViewIntSystem.syncPosition(component, bodyComp);
+        component.container.rotation = bodyComp.angle;
 
         let gr: any = component.container.getChildAt(0);
         gr.beginFill(0xEEE5E5, 1);
         gr.drawRoundedRect(0, 0, bodyComp.width, bodyComp.height, 1);
         gr.endFill();
 
-        component.container.rotation = bodyComp.angle;
+        component.container.pivot.x = component.container.width / 2;
+        component.container.pivot.y = component.container.height / 2;
+
+        component.container.position.x = bodyComp.position.x;
+        component.container.position.y = bodyComp.position.y;
     }
 
     static syncPosition(component: any, bodyComp: any) {

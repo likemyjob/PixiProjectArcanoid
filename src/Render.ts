@@ -126,7 +126,7 @@ export class Render {
         for (let i = 0; i < maxEnemy; i++) {
             for (let j = 0; j < maxEnemy; j++) {
                 enemies[i * j] = new Enemy();
-                enemies[i * j].components['EnemyComponent'].position.Set(j * 10 + this.width / 2 + i * distance - shift, this.height - 500 - j * distance + shift);
+                enemies[i * j].components['EnemyComponent'].position.Set(j * 10 + this.width / 2 + i * distance - shift, this.height/4 - j * distance + shift);
             }
         }
 

@@ -55,6 +55,7 @@ export class PlayerMovementSystem extends System {
 
     private move(component: PlayerComponent) {
         if ((this.directionVector.x == 0) && (this.directionVector.y == 0)) {
+            component.body.GetLinearVelocity().Multiply(0);
             return;
         }
         // let x = 15 * this.directionVector.x * Math.sqrt(this.directionVector.x * this.directionVector.x + this.directionVector.y * this.directionVector.y);
