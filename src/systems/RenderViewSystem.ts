@@ -17,58 +17,30 @@ export class RenderViewSystem extends System {
     movePlayer(component: PlayerView) {
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
 
-        let position: b2Vec2 = bodyComp.body.GetPosition().Copy();
-        let angle: number = bodyComp.body.GetAngle();
-
-        position.Multiply(Render.SIZE);
-
-        bodyComp.position = position;
-
-        component.container.position.x = Math.round(position.x);
-        component.container.position.y = Math.round(position.y);
-
-        component.container.rotation = angle;
+        RenderViewSystem.syncPosition(component, bodyComp);
     }
 
     moveBall(component: BallView) {
         let bodyComp: BallComponent = component.entity.components['BallComponent'];
+        RenderViewSystem.syncPosition(component, bodyComp);
+    }
+
+
+    static syncPosition(component: any, bodyComp: any) {
         component.container.rotation = bodyComp.body.GetAngle();
         let position: b2Vec2 = bodyComp.body.GetPosition().Copy();
-
-        // bodyComp.body.ApplyForce(this.render.box2d.Common.Math.b2Vec2(0, -1000000), bodyComp.body.GetWorldCenter());
-
+        let angle: number = bodyComp.body.GetAngle();
         position.Multiply(Render.SIZE);
         bodyComp.position = position;
-        // console.log(bodyComp.position);
         component.container.position.x = Math.round(position.x);
         component.container.position.y = Math.round(position.y);
-
-        // let list = bodyComp.body.GetContactList();
-        // if (list) {
-        //     let player = Container.get(Player);
-        //     let playerBody = player.components['PlayerComponent'].body;
-        //     if (list.other == playerBody) {
-        //         console.log('player');
-        //
-        //         let v = bodyComp.body.GetLinearVelocity().Copy();
-        //
-        //         if (v.Length() < 40) {
-        //             v.Multiply(1.1);
-        //         }
-        //         bodyComp.body.SetLinearVelocity(v);
-        //     }
-        // }
-
+        component.container.rotation = angle;
     }
 
     destroy(component: EnemyComponent) {
         if (component.shouldBeDestroy) {
             this.render.app.stage.removeChild(component.entity.components['EnemyView'].container);
-
-            // render.stop = true;
             this.render.world.DestroyBody(component.body);
-            // render.stop = false;
-
             let index = this.render.entities.indexOf(component.entity);
             this.render.entities.splice(index, 1);
         }

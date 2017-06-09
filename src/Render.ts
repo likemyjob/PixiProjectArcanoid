@@ -2,27 +2,11 @@
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
 /// <reference path="helpers/FPSMeter.d.ts" />
 import {Container, Service} from "typedi";
-import {Wall} from "./entities/Wall";
-import {BodyIntSystem} from "./systems/initialize/BodyInitSystem";
 import {Ball} from "./entities/Ball";
-import {RenderViewSystem} from "./systems/RenderViewSystem";
-import {ViewIntSystem} from "./systems/initialize/ViewInitSystem";
 import {Player} from "./entities/Player";
-import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
-import {MouseInitSystem} from "./systems/initialize/MouseInitSystem";
-import {Enemy} from "./entities/Enemy";
 import {Contact} from "./listeners/Contact";
+import {SystemManager} from "./systems/SystemManager";
 import b2ContactListener = Box2D.Dynamics.b2ContactListener;
-// import {Ball} from "./entities/Ball";
-// import {BodyIntSystem} from "./systems/initialize/BodyInitSystem";
-// import {ViewIntSystem} from "./systems/initialize/ViewInitSystem";
-// import {RenderViewSystem} from "./systems/RenderViewSystem";
-// import {Player} from "./entities/Player";
-// import {PlayerMovementSystem} from "./systems/PlayerMovementSystem";
-// import {Wall} from "./entities/Wall";
-// import {MouseInitSystem} from "./systems/initialize/MouseInitSystem";
-// import b2World = Box2D.Dynamics.b2World;
-// import b2Vec2 = Box2D.Common.Math.b2Vec2;
 @Service()
 export class Render {
 
@@ -93,67 +77,13 @@ export class Render {
         this.resources = res;
         let meter = new FPSMeter();
 
-        let LeftWall = new Wall();
-        LeftWall.components['WallComponent'].position.Set(5, this.height / 2);
-        LeftWall.components['WallComponent'].width = 10;
-        LeftWall.components['WallComponent'].height = this.height;
-
-        let RightWall = new Wall();
-        RightWall.components['WallComponent'].position.Set(this.width - 5, this.height / 2);
-        RightWall.components['WallComponent'].width = 10;
-        RightWall.components['WallComponent'].height = this.height;
-
-        let TopWall = new Wall();
-        TopWall.components['WallComponent'].position.Set(this.width / 2, 5);
-        TopWall.components['WallComponent'].width = this.width;
-        TopWall.components['WallComponent'].height = 10;
-
-        let DownWall = new Wall();
-        DownWall.components['WallComponent'].position.Set(this.width / 2, this.height - 5);
-        DownWall.components['WallComponent'].width = this.width;
-        DownWall.components['WallComponent'].height = 100;
-
-
         let player = Container.get(Player);
         player.components['PlayerComponent'].position.Set(this.width / 2, this.height - 60);
 
-
-        let enemies: any = [];
-
-        let maxEnemy = 5;
-        let distance = 50;
-        let shift = (maxEnemy - 1) * distance / 2;
-        for (let i = 0; i < maxEnemy; i++) {
-            for (let j = 0; j < maxEnemy; j++) {
-                enemies[i * j] = new Enemy();
-                enemies[i * j].components['EnemyComponent'].position.Set(j * 10 + this.width / 2 + i * distance - shift, this.height/4 - j * distance + shift);
-            }
-        }
-
-
-        let balls: any = [];
-        //
-        // for (let i = 1; i < 600; i++) {
-        //     balls[i] = new Ball();
-        //     balls[i].components['BallComponent'].position.Set(this.getRandom(10, this.width+10), this.getRandom(10, this.height - 110));
-        //     balls[i].components['BallComponent'].radius = 10;
-        //     balls[i].components['BallComponent'].density = 1;
-        //     balls[i].components['BallComponent'].restitution = 0.01;
-        // }
-        //
         let ball = new Ball();
         ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
 
-        let bodyIntSystem = new BodyIntSystem();
-
-        let viewIntSystem = new ViewIntSystem();
-        let renderViewSystem = new RenderViewSystem();
-
-        let plSystem = new PlayerMovementSystem();
-        let mSystem = new MouseInitSystem();
-
-
-
+        let systemManager = new SystemManager();
 
         this.init();
 
@@ -178,31 +108,11 @@ export class Render {
         return Math.random() * (max - min) + min;
     }
 
-
     init() {
-        let b2Vec2 = this.box2d.Common.Math.b2Vec2
-            , b2AABB = this.box2d.Collision.b2AABB
-            , b2BodyDef = this.box2d.Dynamics.b2BodyDef
-            , b2Body = this.box2d.Dynamics.b2Body
-            , b2FixtureDef = this.box2d.Dynamics.b2FixtureDef
-            , b2Fixture = this.box2d.Dynamics.b2Fixture
-            , b2World = this.box2d.Dynamics.b2World
-            , b2MassData = this.box2d.Collision.Shapes.b2MassData
-            , b2PolygonShape = this.box2d.Collision.Shapes.b2PolygonShape
-            , b2CircleShape = this.box2d.Collision.Shapes.b2CircleShape
-            , b2DebugDraw = this.box2d.Dynamics.b2DebugDraw
-            , b2MouseJointDef = this.box2d.Dynamics.Joints.b2MouseJointDef,
-            b2ContactListener = this.box2d.Dynamics.b2ContactListener
-        ;
-
-        // this.world = new b2World(
-        //     new b2Vec2(0, 10)    //gravity
-        //     , true                 //allow sleep
-        // );
+        let b2DebugDraw = this.box2d.Dynamics.b2DebugDraw;
 
         let contactListener = new Contact();
         this.world.SetContactListener(contactListener);
-
 
         //setup debug draw
         let debugDraw = new b2DebugDraw();

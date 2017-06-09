@@ -30,7 +30,6 @@ export class Contact implements b2ContactListener {
 
             let render = Container.get(Render);
 
-            console.log(render.entities.length);
             render.entities.forEach(function (entity: EntityInterface, index: number) {
                 let comp = entity.components['EnemyComponent'];
                 if (comp) {

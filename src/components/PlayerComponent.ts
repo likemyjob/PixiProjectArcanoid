@@ -10,6 +10,7 @@ export class PlayerComponent extends Component {
     density: number = 1;
     restitution: number = 0;
     body: b2Body;
-    friction:number = 0.5;
-    linearDamping:number = 0.1;
+    friction: number = 0.5;
+    linearDamping: number = 0.1;
+    angle: number = 0;
 }

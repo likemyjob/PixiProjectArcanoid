@@ -16,11 +16,9 @@ export class ViewIntSystem extends System {
     };
 
     initBall(component: BallView) {
-        if (component.initialize) {
+        if (ViewIntSystem.checkInit(component)) {
             return;
         }
-
-        component.initialize = true;
 
         let bodyComp: BallComponent = component.entity.components['BallComponent'];
 
@@ -41,11 +39,9 @@ export class ViewIntSystem extends System {
     }
 
     initPlayer(component: PlayerView) {
-        if (component.initialize) {
+        if (ViewIntSystem.checkInit(component)) {
             return;
         }
-
-        component.initialize = true;
 
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
         let gr: any = component.container.getChildAt(0);
@@ -60,11 +56,9 @@ export class ViewIntSystem extends System {
     }
 
     initWall(component: WallView) {
-        if (component.initialize) {
+        if (ViewIntSystem.checkInit(component)) {
             return;
         }
-
-        component.initialize = true;
 
         let bodyComp: WallComponent = component.entity.components['WallComponent'];
 
@@ -77,11 +71,9 @@ export class ViewIntSystem extends System {
     }
 
     initEnemy(component: EnemyView) {
-        if (component.initialize) {
+        if (ViewIntSystem.checkInit(component)) {
             return;
         }
-
-        component.initialize = true;
 
         let bodyComp: EnemyComponent = component.entity.components['EnemyComponent'];
 
@@ -97,6 +89,14 @@ export class ViewIntSystem extends System {
 
         component.container.position.x = bodyComp.position.x;
         component.container.position.y = bodyComp.position.y;
+    }
+
+    static checkInit(component: any) {
+        if (component.initialize) {
+            return component.initialize;
+        }
+
+        component.initialize = true;
     }
 
     static syncPosition(component: any, bodyComp: any) {
