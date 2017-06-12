@@ -6,6 +6,7 @@ import {PlayerMovementSystem} from "./PlayerMovementSystem";
 import {MouseInitSystem} from "./initialize/MouseInitSystem";
 import {WallManager} from "./initialize/WallManager";
 import {EnemyManager} from "./EnemyManager";
+import {Container} from "typedi";
 export class SystemManager extends System {
     constructor() {
         super();
@@ -20,7 +21,7 @@ export class SystemManager extends System {
         new MouseInitSystem();
 
         new WallManager();
-        new EnemyManager();
+        Container.get(EnemyManager);
     }
 }
 

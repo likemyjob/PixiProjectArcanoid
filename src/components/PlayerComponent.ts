@@ -5,7 +5,7 @@ let box2d = require("box2dweb/box2d.js");
 export class PlayerComponent extends Component {
     initialize: boolean = false;
     width: number = 200;
-    height: number = 10;
+    height: number = 20;
     position: b2Vec2 = new box2d.Common.Math.b2Vec2(200, 500);
     density: number = 1;
     restitution: number = 0;

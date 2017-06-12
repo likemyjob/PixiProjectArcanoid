@@ -33,9 +33,7 @@ export class PlayerMovementSystem extends System {
     private keyDown(e: KeyboardEvent) {
         if (e.keyCode in this.keyCodes) {
             if (this.pressed.indexOf(e.keyCode) == -1) {
-
                 this.directionVector.Add(this.values[e.keyCode]);
-
                 this.pressed.push(e.keyCode)
             }
         }
@@ -45,9 +43,7 @@ export class PlayerMovementSystem extends System {
         if (e.keyCode in this.keyCodes) {
             let index = this.pressed.indexOf(e.keyCode);
             if (index >= 0) {
-
                 this.directionVector.Subtract(this.values[e.keyCode]);
-
                 this.pressed.splice(index, 1);
             }
         }
@@ -60,9 +56,9 @@ export class PlayerMovementSystem extends System {
         }
 
         let i = this.directionVector.Copy();
-        i.Multiply(5);
+        i.Multiply(10);
         component.body.ApplyImpulse(i, component.body.GetWorldCenter());
-        component.body.SetAngle(Math.PI / 50 * this.directionVector.x);
+        // component.body.SetAngle(Math.PI / 50 * this.directionVector.x);
     }
 
     assignComponents: any = {

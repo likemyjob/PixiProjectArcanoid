@@ -9,10 +9,9 @@ import {SystemManager} from "./systems/SystemManager";
 import {UI} from "./entities/UI";
 import {EntityInterface} from "./interfaces/EntityInterface";
 import b2ContactListener = Box2D.Dynamics.b2ContactListener;
+import {EnemyManager} from "./systems/EnemyManager";
 @Service()
 export class Render {
-
-
     public box2d = require("box2dweb/box2d.js");
     public static SIZE = 20;
 
@@ -22,7 +21,7 @@ export class Render {
     public resources: any;
 
     public entities: any = [];
-    private systems: any = [];
+    public systems: any = [];
 
     public gravity: Box2D.Common.Math.b2Vec2 = new this.box2d.Common.Math.b2Vec2(0, 10);
     public world: Box2D.Dynamics.b2World = new this.box2d.Dynamics.b2World(this.gravity, true);
@@ -89,7 +88,6 @@ export class Render {
 
         let systemManager = new SystemManager();
 
-
         this.init();
 
         this.app.start();
@@ -137,7 +135,7 @@ export class Render {
     restart() {
         let player = Container.get(Player);
 
-        this.entities.forEach((entity: EntityInterface, index: number) => {
+        this.entities.forEach((entity: EntityInterface) => {
             if (entity instanceof Ball) {
                 let ballComp = entity.components['BallComponent'];
                 ballComp.shouldBeDestroy = true;
@@ -146,10 +144,13 @@ export class Render {
                 player.components['HealthComponent'].health = 100;
             }
         });
+
+        let enemyManager = Container.get(EnemyManager);
+        enemyManager.removeAll();
+
         this.stop = false;
         let ball = new Ball();
         ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
-        player.components['PlayerComponent'].position.Set(this.width / 2, this.height - 60);
     }
 
 }

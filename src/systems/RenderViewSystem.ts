@@ -9,19 +9,23 @@ import {UserInterfaceView} from "../views/UserInterfaceView";
 import {Container} from "typedi";
 import {Player} from "../entities/Player";
 import b2Vec2 = Box2D.Common.Math.b2Vec2;
+import {ComponentInterface} from "../interfaces/ComponentInterface";
+import {SystemInterface} from "../interfaces/SystemInterface";
+import {EnemyManager} from "./EnemyManager";
+import {EntityInterface} from "../interfaces/EntityInterface";
+import {Enemy} from "../entities/Enemy";
 let box2d = require("box2dweb/box2d.js");
 export class RenderViewSystem extends System {
     assignComponents: any = {
         'BallView': ['moveBall'],
         'PlayerView': ['movePlayer'],
-        'EnemyComponent': ['destroy'],
+        'EnemyComponent': ['destroyEnemy', 'checkWin'],
         'UserInterfaceView': ['displayHealthPlayer'],
-        'BallComponent': ['destroy2']
+        'BallComponent': ['destroyBall']
     };
 
     movePlayer(component: PlayerView) {
         let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
-
         RenderViewSystem.syncPosition(component, bodyComp);
     }
 
@@ -40,7 +44,6 @@ export class RenderViewSystem extends System {
         }
     }
 
-
     static syncPosition(component: any, bodyComp: any) {
         component.container.rotation = bodyComp.body.GetAngle();
         let position: b2Vec2 = bodyComp.body.GetPosition().Copy();
@@ -52,22 +55,40 @@ export class RenderViewSystem extends System {
         component.container.rotation = angle;
     }
 
-    destroy(component: EnemyComponent) {
+    destroy(component: ComponentInterface | any, view: string) {
         if (component.shouldBeDestroy) {
-            this.render.app.stage.removeChild(component.entity.components['EnemyView'].container);
+            this.render.app.stage.removeChild(component.entity.components[view].container);
             this.render.world.DestroyBody(component.body);
             let index = this.render.entities.indexOf(component.entity);
-            this.render.entities.splice(index, 1);
+            delete this.render.entities[index];
         }
     }
 
-    destroy2(component: BallComponent) {
-        if (component.shouldBeDestroy) {
-            let container = component.entity.components['BallView'].container;
-            this.render.app.stage.removeChild(container);
-            this.render.world.DestroyBody(component.body);
-            let index = this.render.entities.indexOf(component.entity);
-            this.render.entities.splice(index, 1);
+    destroyEnemy(component: EnemyComponent) {
+        this.destroy(component, 'EnemyView');
+    }
+
+    destroyBall(component: BallComponent) {
+        this.destroy(component, 'BallView');
+    }
+
+    checkWin(component: EnemyComponent) {
+        if (this.render.stop) {
+            return;
         }
+
+        let count = 0;
+        this.render.entities.forEach((entity: EntityInterface) => {
+            if (entity instanceof Enemy) {
+                count++;
+            }
+        });
+
+        if (count == 0) {
+            console.log('Win');
+            let enemyManager = Container.get(EnemyManager);
+            enemyManager.nextLevel();
+        }
+
     }
 }

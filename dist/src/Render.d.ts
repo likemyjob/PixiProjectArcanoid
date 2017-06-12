@@ -9,7 +9,7 @@ export declare class Render {
     height: number;
     resources: any;
     entities: any;
-    private systems;
+    systems: any;
     gravity: Box2D.Common.Math.b2Vec2;
     world: Box2D.Dynamics.b2World;
     b2AABB: Box2D.Collision.b2AABB;
