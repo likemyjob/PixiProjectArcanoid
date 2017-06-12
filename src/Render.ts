@@ -7,6 +7,7 @@ import {Player} from "./entities/Player";
 import {Contact} from "./listeners/Contact";
 import {SystemManager} from "./systems/SystemManager";
 import b2ContactListener = Box2D.Dynamics.b2ContactListener;
+import {UI} from "./entities/UI";
 @Service()
 export class Render {
 
@@ -80,10 +81,14 @@ export class Render {
         let player = Container.get(Player);
         player.components['PlayerComponent'].position.Set(this.width / 2, this.height - 60);
 
+        let ui = new UI();
+
         let ball = new Ball();
         ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
 
         let systemManager = new SystemManager();
+
+
 
         this.init();
 

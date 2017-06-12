@@ -18,25 +18,17 @@ export class Contact implements b2ContactListener {
         let a = contact.GetFixtureA().GetBody();
         let b = contact.GetFixtureB().GetBody();
         if (a != b) {
-            let player = Container.get(Player);
-            let playerBody = player.components['PlayerComponent'].body;
-            if (a == playerBody) {
-                let v = b.GetLinearVelocity().Copy();
-                v.Multiply(40 / v.Length());
 
-                b.SetLinearVelocity(v);
+            if (Contact.findPlayer(a, b)) {
                 return;
             }
 
             let render = Container.get(Render);
 
-            render.entities.forEach(function (entity: EntityInterface, index: number) {
-                let comp = entity.components['EnemyComponent'];
-                if (comp) {
-                    if (comp.body == a) {
-                        comp.shouldBeDestroy = true;
-                    }
-                }
+            render.entities.forEach((entity: EntityInterface) => {
+                //find enemy
+                Contact.findEnemy(entity, a);
+                Contact.findGround(entity, a);
             });
 
 
@@ -44,5 +36,45 @@ export class Contact implements b2ContactListener {
     }
 
     PreSolve(contact: Box2D.Dynamics.Contacts.b2Contact, oldManifold: Box2D.Collision.b2Manifold) {
+    }
+
+    private static findPlayer(a: Box2D.Dynamics.b2Body, b: Box2D.Dynamics.b2Body) {
+        let player = Container.get(Player);
+        let playerBody = player.components['PlayerComponent'].body;
+        if (a == playerBody) {
+            let v = b.GetLinearVelocity().Copy();
+            v.Multiply(40 / v.Length());
+
+            b.SetLinearVelocity(v);
+            return true;
+        }
+    }
+
+    private static findEnemy(entity: EntityInterface, body: Box2D.Dynamics.b2Body) {
+        let comp = entity.components['EnemyComponent'];
+        if (comp) {
+            if (comp.body == body) {
+                comp.shouldBeDestroy = true;
+            }
+        }
+    }
+
+    private static findGround(entity: EntityInterface, body: Box2D.Dynamics.b2Body) {
+        if (entity.name == 'DownWall') {
+            let comp = entity.components['WallComponent'];
+            if (comp) {
+                if (comp.body == body) {
+                    console.log('DownWall');
+                    let player = Container.get(Player);
+
+                    if (player.components['HealthComponent'].health <= 0) {
+                        let render = Container.get(Render);
+                        render.stop = true;
+                    } else {
+                        player.components['HealthComponent'].health -= 10;
+                    }
+                }
+            }
+        }
     }
 }

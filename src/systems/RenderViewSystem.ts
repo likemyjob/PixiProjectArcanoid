@@ -5,13 +5,17 @@ import {PlayerComponent} from "../components/PlayerComponent";
 import {BallComponent} from "../components/BallComponent";
 import {Render} from "../Render";
 import {EnemyComponent} from "../components/EnemyComponent";
+import {UserInterfaceView} from "../views/UserInterfaceView";
+import {Container} from "typedi";
+import {Player} from "../entities/Player";
 import b2Vec2 = Box2D.Common.Math.b2Vec2;
 let box2d = require("box2dweb/box2d.js");
 export class RenderViewSystem extends System {
     assignComponents: any = {
         'BallView': ['moveBall'],
         'PlayerView': ['movePlayer'],
-        'EnemyComponent': ['destroy']
+        'EnemyComponent': ['destroy'],
+        'UserInterfaceView': ['displayHealthPlayer']
     };
 
     movePlayer(component: PlayerView) {
@@ -23,6 +27,16 @@ export class RenderViewSystem extends System {
     moveBall(component: BallView) {
         let bodyComp: BallComponent = component.entity.components['BallComponent'];
         RenderViewSystem.syncPosition(component, bodyComp);
+    }
+
+    displayHealthPlayer(component: UserInterfaceView) {
+        let player = Container.get(Player);
+        let hp = player.components['HealthComponent'].health;
+        component.helper.setHp(hp);
+
+        if (hp <= 0) {
+            this.render.stop = true;
+        }
     }
 
 

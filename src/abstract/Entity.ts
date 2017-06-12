@@ -5,6 +5,7 @@ import {ComponentsMap} from "../interfaces/ComponentsMap";
 import {ComponentInterface} from "../interfaces/ComponentInterface";
 export abstract class Entity implements EntityInterface {
 
+    name: string = '';
     public components: ComponentsMap<ComponentInterface> = {};
 
     private render: Render;
