@@ -12,4 +12,5 @@ export class BallComponent extends Component {
     friction = 0.05;
     linearDamping = 0.05;
     angularDamping = 0.5;
+    shouldBeDestroy:boolean = false;
 }

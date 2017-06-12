@@ -17,7 +17,11 @@ export class MouseInitSystem extends System {
     }
 
     public initBall(e: MouseEvent) {
-        let ball = new Ball();
-        ball.components['BallComponent'].position.Set(e.clientX, e.clientY);
+        if (this.render.stop) {
+            this.render.restart();
+        } else {
+            let ball = new Ball();
+            ball.components['BallComponent'].position.Set(e.clientX, e.clientY);
+        }
     }
 }

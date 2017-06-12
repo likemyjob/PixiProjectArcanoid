@@ -6,8 +6,9 @@ import {Ball} from "./entities/Ball";
 import {Player} from "./entities/Player";
 import {Contact} from "./listeners/Contact";
 import {SystemManager} from "./systems/SystemManager";
-import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 import {UI} from "./entities/UI";
+import {EntityInterface} from "./interfaces/EntityInterface";
+import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 @Service()
 export class Render {
 
@@ -89,7 +90,6 @@ export class Render {
         let systemManager = new SystemManager();
 
 
-
         this.init();
 
         this.app.start();
@@ -132,6 +132,24 @@ export class Render {
         debugDraw.SetLineThickness(1.0);
         debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
         this.world.SetDebugDraw(debugDraw);
+    }
+
+    restart() {
+        let player = Container.get(Player);
+
+        this.entities.forEach((entity: EntityInterface, index: number) => {
+            if (entity instanceof Ball) {
+                let ballComp = entity.components['BallComponent'];
+                ballComp.shouldBeDestroy = true;
+            }
+            if (entity instanceof UI) {
+                player.components['HealthComponent'].health = 100;
+            }
+        });
+        this.stop = false;
+        let ball = new Ball();
+        ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
+        player.components['PlayerComponent'].position.Set(this.width / 2, this.height - 60);
     }
 
 }

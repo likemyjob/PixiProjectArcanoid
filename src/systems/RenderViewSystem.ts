@@ -15,7 +15,8 @@ export class RenderViewSystem extends System {
         'BallView': ['moveBall'],
         'PlayerView': ['movePlayer'],
         'EnemyComponent': ['destroy'],
-        'UserInterfaceView': ['displayHealthPlayer']
+        'UserInterfaceView': ['displayHealthPlayer'],
+        'BallComponent': ['destroy2']
     };
 
     movePlayer(component: PlayerView) {
@@ -54,6 +55,16 @@ export class RenderViewSystem extends System {
     destroy(component: EnemyComponent) {
         if (component.shouldBeDestroy) {
             this.render.app.stage.removeChild(component.entity.components['EnemyView'].container);
+            this.render.world.DestroyBody(component.body);
+            let index = this.render.entities.indexOf(component.entity);
+            this.render.entities.splice(index, 1);
+        }
+    }
+
+    destroy2(component: BallComponent) {
+        if (component.shouldBeDestroy) {
+            let container = component.entity.components['BallView'].container;
+            this.render.app.stage.removeChild(container);
             this.render.world.DestroyBody(component.body);
             let index = this.render.entities.indexOf(component.entity);
             this.render.entities.splice(index, 1);

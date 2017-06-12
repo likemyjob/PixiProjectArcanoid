@@ -26,4 +26,5 @@ export declare class Render {
     onLoaded(loader: any, res: any): void;
     getRandom(min: number, max: number): number;
     init(): void;
+    restart(): void;
 }
