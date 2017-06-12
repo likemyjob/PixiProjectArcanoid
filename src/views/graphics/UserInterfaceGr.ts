@@ -15,13 +15,13 @@ export class UserInterfaceGr {
         this.initHpBar();
         this.initText();
 
-        this.container.position.set(100, 100);
+        this.container.position.set(20, 50);
     }
 
     initPanel() {
         let gr = new PIXI.Graphics();
         gr.beginFill(0xA9A9A9, 0.5);
-        gr.drawRoundedRect(0, 0, 200, 140, 1);
+        gr.drawRoundedRect(0, 0, 65, 140, 1);
         gr.endFill();
         this.container.addChild(gr);
     }
