@@ -1,17 +1,17 @@
 import {Container} from "typedi";
-import {Render} from "../Render";
 import {EntityInterface} from "../interfaces/EntityInterface";
 import {ComponentsMap} from "../interfaces/ComponentsMap";
 import {ComponentInterface} from "../interfaces/ComponentInterface";
+import {EntityManager} from "../listeners/EntityManager";
 export abstract class Entity implements EntityInterface {
 
     name: string = '';
     public components: ComponentsMap<ComponentInterface> = {};
 
-    private render: Render;
+    private em: EntityManager;
 
     constructor() {
-        this.render = Container.get(Render);
-        this.render.addEntity(this);
+        this.em = Container.get(EntityManager);
+        this.em.addEntity(this);
     }
 }

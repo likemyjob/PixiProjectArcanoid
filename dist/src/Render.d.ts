@@ -1,7 +1,7 @@
 /// <reference path="../node_modules/@types/box2d/index.d.ts" />
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
 /// <reference path="helpers/FPSMeter.d.ts" />
-import { ListenerEntity } from "./listeners/ListenerEntity";
+import { EntityManager } from "./listeners/EntityManager";
 export declare class Render {
     box2d: any;
     static SIZE: number;
@@ -19,10 +19,8 @@ export declare class Render {
     positionIterations: number;
     hz: number;
     stop: boolean;
-    listenerEntity: ListenerEntity;
+    entityManager: EntityManager;
     constructor();
-    addEntity(obj: any): void;
-    addSystem(obj: any): void;
     private resize();
     update(delta: number): void;
     onLoaded(loader: any, res: any): void;

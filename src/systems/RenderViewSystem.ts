@@ -34,15 +34,15 @@ export class RenderViewSystem extends System {
         RenderViewSystem.syncPosition(component, bodyComp);
     }
 
-    displayHealthPlayer(component: UserInterfaceView) {
-        let player = Container.get(Player);
-        let hp = player.components['HealthComponent'].health;
-        component.helper.setHp(hp);
-
-        if (hp <= 0) {
-            this.render.stop = true;
-        }
-    }
+    // displayHealthPlayer(component: UserInterfaceView) {
+    //     let player = Container.get(Player);
+    //     let hp = player.components['HealthComponent'].health;
+    //     component.helper.setHp(hp);
+    //
+    //     if (hp <= 0) {
+    //         this.render.stop = true;
+    //     }
+    // }
 
     static syncPosition(component: any, bodyComp: any) {
         component.container.rotation = bodyComp.body.GetAngle();
@@ -55,40 +55,40 @@ export class RenderViewSystem extends System {
         component.container.rotation = angle;
     }
 
-    destroy(component: ComponentInterface | any, view: string) {
-        if (component.shouldBeDestroy) {
-            this.render.app.stage.removeChild(component.entity.components[view].container);
-            this.render.world.DestroyBody(component.body);
-            let index = this.render.entities.indexOf(component.entity);
-            delete this.render.entities[index];
-        }
-    }
+    // destroy(component: ComponentInterface | any, view: string) {
+    //     if (component.shouldBeDestroy) {
+    //         this.render.app.stage.removeChild(component.entity.components[view].container);
+    //         this.render.world.DestroyBody(component.body);
+    //         let index = this.render.entities.indexOf(component.entity);
+    //         delete this.render.entities[index];
+    //     }
+    // }
 
-    destroyEnemy(component: EnemyComponent) {
-        this.destroy(component, 'EnemyView');
-    }
-
-    destroyBall(component: BallComponent) {
-        this.destroy(component, 'BallView');
-    }
+    // destroyEnemy(component: EnemyComponent) {
+    //     this.destroy(component, 'EnemyView');
+    // }
+    //
+    // destroyBall(component: BallComponent) {
+    //     this.destroy(component, 'BallView');
+    // }
 
     checkWin(component: EnemyComponent) {
-        if (this.render.stop) {
-            return;
-        }
+        // if (this.render.stop) {
+        //     return;
+        // }
 
-        let count = 0;
-        this.render.entities.forEach((entity: EntityInterface) => {
-            if (entity instanceof Enemy) {
-                count++;
-            }
-        });
+        // let count = 0;
+        // this.render.entities.forEach((entity: EntityInterface) => {
+        //     if (entity instanceof Enemy) {
+        //         count++;
+        //     }
+        // });
 
-        if (count == 0) {
-            console.log('Win');
-            let enemyManager = Container.get(EnemyManager);
-            enemyManager.nextLevel();
-        }
+        // if (count == 0) {
+        //     console.log('Win');
+        //     let enemyManager = Container.get(EnemyManager);
+        //     enemyManager.nextLevel();
+        // }
 
     }
 }

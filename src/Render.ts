@@ -9,8 +9,8 @@ import {SystemManager} from "./systems/SystemManager";
 import {UI} from "./entities/UI";
 import {EntityInterface} from "./interfaces/EntityInterface";
 import {EnemyManager} from "./systems/EnemyManager";
-import {ListenerEntity} from "./listeners/ListenerEntity";
 import b2ContactListener = Box2D.Dynamics.b2ContactListener;
+import {EntityManager} from "./listeners/EntityManager";
 @Service()
 export class Render {
     public box2d = require("box2dweb/box2d.js");
@@ -35,20 +35,12 @@ export class Render {
 
     public stop = false;
 
-    public listenerEntity: ListenerEntity;
+    public entityManager: EntityManager;
 
     constructor() {
         PIXI.loader
             .add('sample', 'Assets/sample.png')
             .load(this.onLoaded.bind(this));
-    }
-
-    addEntity(obj: any) {
-        this.entities.push(obj);
-    }
-
-    addSystem(obj: any) {
-        this.systems.push(obj);
     }
 
     private resize() {
@@ -63,7 +55,7 @@ export class Render {
     }
 
     public update(delta: number) {
-        this.listenerEntity.update();
+        this.entityManager.update();
     }
 
     public onLoaded(loader: any, res: any) {
@@ -91,7 +83,7 @@ export class Render {
 
         this.init();
 
-        this.listenerEntity = Container.get(ListenerEntity);
+        this.entityManager = Container.get(EntityManager);
 
         this.app.start();
         let that = this;
