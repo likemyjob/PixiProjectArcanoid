@@ -1,8 +1,7 @@
 import {ComponentInterface} from "../interfaces/ComponentInterface";
 import {EntityInterface} from "../interfaces/EntityInterface";
 export abstract class Component implements ComponentInterface {
-
-    public name:string;
+    initialize: boolean = false;
     public entity: EntityInterface;
 
     constructor(entity: EntityInterface) {

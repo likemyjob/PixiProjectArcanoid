@@ -1,13 +1,9 @@
-import {PlayerView} from "../PlayerView";
 import {ViewIntSystem} from "../../systems/initialize/ViewInitSystem";
-import {PlayerComponent} from "../../components/PlayerComponent";
+import {PhysicsComponent} from "../../components/PhysicsComponent";
+import {PixiView} from "../PixiView";
 export class PlayerGr {
-    static initPlayer(component: PlayerView) {
-        if (ViewIntSystem.checkInit(component)) {
-            return;
-        }
-
-        let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
+    static initPlayer(component: PixiView) {
+        let bodyComp: PhysicsComponent = component.entity.components['PhysicsComponent'];
         let gr: any = component.container.getChildAt(0);
         gr.lineStyle(2, 0x000000, 1);
         gr.beginFill(0xEEE5E5, 1);

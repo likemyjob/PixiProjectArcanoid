@@ -16,51 +16,37 @@ export class BodyIntSystem extends System {
         'EnemyComponent': ['initEnemy']
     };
 
-    initBall(component: BallComponent) {
-        if (component.initialize) {
-            return;
-        }
-
-        component.initialize = true;
-
-        let bodyDef: b2BodyDef = new this.render.box2d.Dynamics.b2BodyDef();
-        bodyDef.type = this.render.box2d.Dynamics.b2Body.b2_dynamicBody;
-        bodyDef.position.Set(component.position.x / Render.SIZE, component.position.y / Render.SIZE);
-        bodyDef.linearDamping = component.linearDamping;
-        bodyDef.angularDamping = component.angularDamping;
-
-        component.body = this.render.world.CreateBody(bodyDef);
-        let circle: b2CircleShape = new this.render.box2d.Collision.Shapes.b2CircleShape(component.radius / Render.SIZE);
-
-        let fd: b2FixtureDef = new this.render.box2d.Dynamics.b2FixtureDef();
-        fd.shape = circle;
-        fd.density = component.density;
-        fd.restitution = component.restitution;
-        fd.friction = component.friction;
-
-        component.body.CreateFixture(fd);
+    setComponent() {
+        this.component = this.entity.components['PhysicsComponent'];
     }
 
-    initPlayer(component: PlayerComponent) {
-        if (component.initialize) {
+    initBall() {
+        if (this.component.initialize) {
             return;
         }
-
-        component.initialize = true;
-
+        this.component.initialize = true;
         let b2Body = this.render.box2d.Dynamics.b2Body;
-        this.createBodyBox(component, b2Body.b2_dynamicBody);
+        this.createBody(b2Body.b2_dynamicBody, 'circle');
     }
 
-    initWall(component: WallComponent) {
-        if (component.initialize) {
+    initPlayer() {
+        if (this.component.initialize) {
+            return;
+        }
+        this.component.initialize = true;
+        let b2Body = this.render.box2d.Dynamics.b2Body;
+        this.createBody(b2Body.b2_dynamicBody, 'box');
+    }
+
+    initWall() {
+        if (this.component.initialize) {
             return;
         }
 
-        component.initialize = true;
+        this.component.initialize = true;
 
         let b2Body = this.render.box2d.Dynamics.b2Body;
-        this.createBodyBox(component, b2Body.b2_staticBody);
+        this.createBody(b2Body.b2_staticBody, 'box');
     }
 
     initEnemy(component: EnemyComponent) {
@@ -70,7 +56,7 @@ export class BodyIntSystem extends System {
         component.initialize = true;
 
         let b2Body = this.render.box2d.Dynamics.b2Body;
-        this.createBodyBox(component, b2Body.b2_staticBody);
+        this.createBody(b2Body.b2_staticBody, 'box');
     }
 
     private createBodyBox(component: any, type: any) {
@@ -93,5 +79,40 @@ export class BodyIntSystem extends System {
 
         component.body = this.render.world.CreateBody(bodyDef);
         component.body.CreateFixture(fixDef);
+    }
+
+    private createBody(type: any, form: string) {
+        let b2BodyDef = this.render.box2d.Dynamics.b2BodyDef,
+            b2FixtureDef = this.render.box2d.Dynamics.b2FixtureDef,
+            b2CircleShape = this.render.box2d.Collision.Shapes.b2CircleShape,
+            b2PolygonShape = this.render.box2d.Collision.Shapes.b2PolygonShape;
+
+        let bodyDef: b2BodyDef = new b2BodyDef();
+        bodyDef.type = type;
+        bodyDef.position.Set(this.component.position.x / Render.SIZE, this.component.position.y / Render.SIZE);
+        bodyDef.linearDamping = this.component.linearDamping;
+        bodyDef.angularDamping = this.component.angularDamping;
+
+        this.component.body = this.render.world.CreateBody(bodyDef);
+
+        let shape: any;
+        switch (form) {
+            case 'circle':
+                shape = new b2CircleShape(this.component.radius / Render.SIZE);
+                break;
+            default :
+                shape = new b2PolygonShape;
+                shape.SetAsBox(this.component.width / 2 / Render.SIZE, this.component.height / 2 / Render.SIZE);
+                break;
+        }
+
+
+        let fd: b2FixtureDef = new b2FixtureDef();
+        fd.shape = shape;
+        fd.density = this.component.density;
+        fd.restitution = this.component.restitution;
+        fd.friction = this.component.friction;
+
+        this.component.body.CreateFixture(fd);
     }
 }

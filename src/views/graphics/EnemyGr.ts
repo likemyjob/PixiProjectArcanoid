@@ -1,13 +1,13 @@
-import {EnemyView} from "../EnemyView";
 import {ViewIntSystem} from "../../systems/initialize/ViewInitSystem";
-import {EnemyComponent} from "../../components/EnemyComponent";
+import {PixiView} from "../PixiView";
+import {PhysicsComponent} from "../../components/PhysicsComponent";
 export class EnemyGr {
-    static initEnemy(component: EnemyView) {
+    static initEnemy(component: PixiView) {
         if (ViewIntSystem.checkInit(component)) {
             return;
         }
 
-        let bodyComp: EnemyComponent = component.entity.components['EnemyComponent'];
+        let bodyComp: PhysicsComponent = component.entity.components['PhysicsComponent'];
 
         component.container.rotation = bodyComp.angle;
 

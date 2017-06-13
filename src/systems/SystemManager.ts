@@ -15,13 +15,14 @@ export class SystemManager extends System {
 
     static initSystems() {
         new BodyIntSystem();
-        new ViewIntSystem();
-        new RenderViewSystem();
-        new PlayerMovementSystem();
-        new MouseInitSystem();
-
         new WallManager();
-        Container.get(EnemyManager);
+        new MouseInitSystem();
+        // new ViewIntSystem();
+        // new RenderViewSystem();
+        // new PlayerMovementSystem();
+
+
+        // Container.get(EnemyManager);
     }
 }
 

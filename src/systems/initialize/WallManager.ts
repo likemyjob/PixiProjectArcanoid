@@ -10,26 +10,26 @@ export class WallManager extends System {
     createWalls() {
         let LeftWall = new Wall();
         LeftWall.name = 'LeftWall';
-        LeftWall.components['WallComponent'].position.Set(5, this.render.height / 2);
-        LeftWall.components['WallComponent'].width = 10;
-        LeftWall.components['WallComponent'].height = this.render.height;
+        LeftWall.components['PhysicsComponent'].position.Set(5, this.render.height / 2);
+        LeftWall.components['PhysicsComponent'].width = 10;
+        LeftWall.components['PhysicsComponent'].height = this.render.height;
 
         let RightWall = new Wall();
         RightWall.name = 'RightWall';
-        RightWall.components['WallComponent'].position.Set(this.render.width - 5, this.render.height / 2);
-        RightWall.components['WallComponent'].width = 10;
-        RightWall.components['WallComponent'].height = this.render.height;
+        RightWall.components['PhysicsComponent'].position.Set(this.render.width - 5, this.render.height / 2);
+        RightWall.components['PhysicsComponent'].width = 10;
+        RightWall.components['PhysicsComponent'].height = this.render.height;
 
         let TopWall = new Wall();
         TopWall.name = 'TopWall';
-        TopWall.components['WallComponent'].position.Set(this.render.width / 2, 5);
-        TopWall.components['WallComponent'].width = this.render.width;
-        TopWall.components['WallComponent'].height = 10;
+        TopWall.components['PhysicsComponent'].position.Set(this.render.width / 2, 5);
+        TopWall.components['PhysicsComponent'].width = this.render.width;
+        TopWall.components['PhysicsComponent'].height = 10;
 
         let DownWall = new Wall();
         DownWall.name = 'DownWall';
-        DownWall.components['WallComponent'].position.Set(this.render.width / 2, this.render.height - 5);
-        DownWall.components['WallComponent'].width = this.render.width;
-        DownWall.components['WallComponent'].height = 100;
+        DownWall.components['PhysicsComponent'].position.Set(this.render.width / 2, this.render.height - 5);
+        DownWall.components['PhysicsComponent'].width = this.render.width;
+        DownWall.components['PhysicsComponent'].height = 100;
     }
 }

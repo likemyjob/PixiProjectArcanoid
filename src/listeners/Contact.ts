@@ -16,24 +16,24 @@ export class Contact implements b2ContactListener {
     }
 
     PostSolve(contact: Box2D.Dynamics.Contacts.b2Contact, impulse: b2ContactImpulse) {
-        let a = contact.GetFixtureA().GetBody();
-        let b = contact.GetFixtureB().GetBody();
-        if (a != b) {
-
-            if (Contact.findPlayer(a, b, impulse)) {
-                return;
-            }
-
-            let render = Container.get(Render);
-
-            render.entities.forEach((entity: EntityInterface) => {
-                //find enemy
-                Contact.findEnemy(entity, a);
-                Contact.findGround(entity, a);
-            });
-
-
-        }
+        // let a = contact.GetFixtureA().GetBody();
+        // let b = contact.GetFixtureB().GetBody();
+        // if (a != b) {
+        //
+        //     if (Contact.findPlayer(a, b, impulse)) {
+        //         return;
+        //     }
+        //
+        //     let render = Container.get(Render);
+        //
+        //     render.entities.forEach((entity: EntityInterface) => {
+        //         //find enemy
+        //         Contact.findEnemy(entity, a);
+        //         Contact.findGround(entity, a);
+        //     });
+        //
+        //
+        // }
     }
 
     PreSolve(contact: Box2D.Dynamics.Contacts.b2Contact, oldManifold: Box2D.Collision.b2Manifold) {

@@ -1,13 +1,13 @@
-import {WallView} from "../WallView";
 import {ViewIntSystem} from "../../systems/initialize/ViewInitSystem";
-import {WallComponent} from "../../components/WallComponent";
+import {PixiView} from "../PixiView";
+import {PhysicsComponent} from "../../components/PhysicsComponent";
 export class WallGr {
-    static  initWall(component: WallView) {
+    static  initWall(component: PixiView) {
         if (ViewIntSystem.checkInit(component)) {
             return;
         }
 
-        let bodyComp: WallComponent = component.entity.components['WallComponent'];
+        let bodyComp: PhysicsComponent = component.entity.components['PhysicsComponent'];
 
         ViewIntSystem.syncPosition(component, bodyComp);
 

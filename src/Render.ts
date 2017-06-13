@@ -72,18 +72,17 @@ export class Render {
         let meter = new FPSMeter();
 
         let player = Container.get(Player);
-        player.components['PlayerComponent'].position.Set(this.width / 2, this.height - 60);
+        player.components['PhysicsComponent'].position.Set(this.width / 2, this.height - 60);
 
-        let ui = new UI();
+        // let ui = new UI();
 
-        let ball = new Ball();
-        ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
+        // let ball = new Ball();
+        // ball.components['PhysicsComponent'].position.Set(this.width / 2, this.height / 2);
 
+        this.entityManager = Container.get(EntityManager);
         let systemManager = new SystemManager();
 
         this.init();
-
-        this.entityManager = Container.get(EntityManager);
 
         this.app.start();
         let that = this;

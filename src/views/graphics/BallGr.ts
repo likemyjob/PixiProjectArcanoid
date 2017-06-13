@@ -1,13 +1,8 @@
-import {BallView} from "../BallView";
-import {ViewIntSystem} from "../../systems/initialize/ViewInitSystem";
-import {BallComponent} from "../../components/BallComponent";
+import {PixiView} from "../PixiView";
+import {PhysicsComponent} from "../../components/PhysicsComponent";
 export class BallGr {
-    static initBall(component: BallView) {
-        if (ViewIntSystem.checkInit(component)) {
-            return;
-        }
-
-        let bodyComp: BallComponent = component.entity.components['BallComponent'];
+    static initBall(component: PixiView) {
+        let bodyComp: PhysicsComponent = component.entity.components['PhysicsComponent'];
 
         let gr: any = component.container.getChildAt(0);
         gr.lineStyle(1, 0x000080, 1);

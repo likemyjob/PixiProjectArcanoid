@@ -11,15 +11,20 @@ import {UserInterfaceView} from "../../views/UserInterfaceView";
 import {UserInterfaceGr} from "../../views/graphics/UserInterfaceGr";
 export class ViewIntSystem extends System {
     assignComponents: any = {
-        'BallView': ['initBall'],
+        'BallComponent': ['initBall'],
         'PlayerView': ['initPlayer'],
         'WallView': ['initWall'],
         'EnemyView': ['initEnemy'],
         'UserInterfaceView': ['initUserInterface'],
     };
 
+    setComponent() {
+        this.component = this.entity.components['PixiView'];
+        return this.component.initialize;
+    }
+
     initBall(component: BallView) {
-        BallGr.initBall(component);
+        // BallGr.initBall();
     }
 
     initPlayer(component: PlayerView) {

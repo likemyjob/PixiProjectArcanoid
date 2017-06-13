@@ -21,7 +21,7 @@ export class MouseInitSystem extends System {
             this.render.restart();
         } else {
             let ball = new Ball();
-            ball.components['BallComponent'].position.Set(e.clientX, e.clientY);
+            ball.components['PhysicsComponent'].position.Set(e.clientX, e.clientY);
         }
     }
 }
