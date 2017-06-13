@@ -56,7 +56,7 @@ export class PlayerMovementSystem extends System {
         }
 
         let i = this.directionVector.Copy();
-        i.Multiply(10);
+        i.Multiply(50);
         component.body.ApplyImpulse(i, component.body.GetWorldCenter());
         // component.body.SetAngle(Math.PI / 50 * this.directionVector.x);
     }

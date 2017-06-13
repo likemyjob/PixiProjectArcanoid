@@ -7,7 +7,7 @@ export class PlayerComponent extends Component {
     width: number = 200;
     height: number = 20;
     position: b2Vec2 = new box2d.Common.Math.b2Vec2(200, 500);
-    density: number = 1;
+    density: number = 5;
     restitution: number = 0;
     body: b2Body;
     friction: number = 0.5;

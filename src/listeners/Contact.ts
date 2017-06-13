@@ -4,6 +4,7 @@ import {Container} from "typedi";
 import {Player} from "../entities/Player";
 import {Render} from "../Render";
 import {EntityInterface} from "../interfaces/EntityInterface";
+import {Ball} from "../entities/Ball";
 let box2d = require("box2dweb/box2d.js");
 export class Contact implements b2ContactListener {
     BeginContact(contact: Box2D.Dynamics.Contacts.b2Contact) {
@@ -19,7 +20,7 @@ export class Contact implements b2ContactListener {
         let b = contact.GetFixtureB().GetBody();
         if (a != b) {
 
-            if (Contact.findPlayer(a, b)) {
+            if (Contact.findPlayer(a, b, impulse)) {
                 return;
             }
 
@@ -38,11 +39,25 @@ export class Contact implements b2ContactListener {
     PreSolve(contact: Box2D.Dynamics.Contacts.b2Contact, oldManifold: Box2D.Collision.b2Manifold) {
     }
 
-    private static findPlayer(a: Box2D.Dynamics.b2Body, b: Box2D.Dynamics.b2Body) {
+    private static findPlayer(a: Box2D.Dynamics.b2Body, b: Box2D.Dynamics.b2Body, i: any) {
         let player = Container.get(Player);
         let playerBody = player.components['PlayerComponent'].body;
-        if (a == playerBody) {
-            let v = b.GetLinearVelocity().Copy();
+        let ball: any = null;
+        let render = Container.get(Render);
+        render.entities.forEach((e: any) => {
+            if (e instanceof Ball) {
+                ball = e;
+                return;
+            }
+        });
+
+        ball = ball.components['BallComponent'].body;
+
+        if (a == playerBody && b == ball) {
+            console.log(i);
+           // console.log();
+            ball.GetLinearVelocity().Add(new box2d.Common.Math.b2Vec2(0, 10));
+            let v = ball.GetLinearVelocity().Copy();
             v.Multiply(40 / v.Length());
 
             b.SetLinearVelocity(v);
