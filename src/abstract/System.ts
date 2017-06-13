@@ -12,22 +12,21 @@ export abstract class System implements SystemInterface {
         this.render.addSystem(this);
     }
 
-    update(delta: number, entity: EntityInterface) {
-        this.render.entities.forEach((entity: any) => {
-            if (this.assignComponents.length === 0) {
-                return;
+    update(entity: EntityInterface) {
+        if (this.assignComponents.length === 0) {
+            return;
+        }
+        let that: any = this;
+        let compName: string;
+        for (compName in that.assignComponents) {
+            let executable: any = that.assignComponents[compName];
+            let comp = entity.components[compName];
+            if (comp) {
+                executable.forEach(function (func: any) {
+                    that[func](comp);
+                });
             }
-            let that: any = this;
-            let compName: string;
-            for (compName in that.assignComponents) {
-                let executable: any = that.assignComponents[compName];
-                let comp = entity.components[compName];
-                if (comp) {
-                    executable.forEach(function (func: any) {
-                        that[func](comp);
-                    });
-                }
-            }
-        });
+        }
+
     }
 }

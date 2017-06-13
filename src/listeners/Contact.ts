@@ -54,9 +54,7 @@ export class Contact implements b2ContactListener {
         ball = ball.components['BallComponent'].body;
 
         if (a == playerBody && b == ball) {
-            console.log(i);
            // console.log();
-            ball.GetLinearVelocity().Add(new box2d.Common.Math.b2Vec2(0, 10));
             let v = ball.GetLinearVelocity().Copy();
             v.Multiply(40 / v.Length());
 

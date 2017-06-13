@@ -1,6 +1,7 @@
 /// <reference path="../node_modules/@types/box2d/index.d.ts" />
 /// <reference path="../node_modules/@types/pixi.js/index.d.ts" />
 /// <reference path="helpers/FPSMeter.d.ts" />
+import { ListenerEntity } from "./listeners/ListenerEntity";
 export declare class Render {
     box2d: any;
     static SIZE: number;
@@ -18,6 +19,7 @@ export declare class Render {
     positionIterations: number;
     hz: number;
     stop: boolean;
+    listenerEntity: ListenerEntity;
     constructor();
     addEntity(obj: any): void;
     addSystem(obj: any): void;

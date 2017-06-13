@@ -8,8 +8,9 @@ import {Contact} from "./listeners/Contact";
 import {SystemManager} from "./systems/SystemManager";
 import {UI} from "./entities/UI";
 import {EntityInterface} from "./interfaces/EntityInterface";
-import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 import {EnemyManager} from "./systems/EnemyManager";
+import {ListenerEntity} from "./listeners/ListenerEntity";
+import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 @Service()
 export class Render {
     public box2d = require("box2dweb/box2d.js");
@@ -33,6 +34,8 @@ export class Render {
     public hz = 60;
 
     public stop = false;
+
+    public listenerEntity: ListenerEntity;
 
     constructor() {
         PIXI.loader
@@ -60,9 +63,7 @@ export class Render {
     }
 
     public update(delta: number) {
-        this.systems.forEach(function (system: any) {
-            system.update(delta);
-        });
+        this.listenerEntity.update();
     }
 
     public onLoaded(loader: any, res: any) {
@@ -89,6 +90,8 @@ export class Render {
         let systemManager = new SystemManager();
 
         this.init();
+
+        this.listenerEntity = Container.get(ListenerEntity);
 
         this.app.start();
         let that = this;
