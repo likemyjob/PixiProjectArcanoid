@@ -4,7 +4,8 @@ import {EntityInterface} from "../interfaces/EntityInterface";
 import {Container, Service} from "typedi";
 import {Player} from "../entities/Player";
 import {Ball} from "../entities/Ball";
-import {UI} from "../entities/UI";
+import {DestroyComponent} from "../components/DestroyComponent";
+import {EntityManager} from "../listeners/EntityManager";
 @Service()
 export class EnemyManager extends System {
     enemies: any = [];
@@ -61,12 +62,12 @@ export class EnemyManager extends System {
     }
 
     removeAll() {
-        // this.enemies.forEach((entity: EntityInterface) => {
-        //     entity.components['EnemyComponent'].shouldBeDestroy = true;
-        // });
-        // this.enemies = [];
-        // this.level = 1;
-        // this.createLevel();
+        this.enemies.forEach((entity: EntityInterface) => {
+            entity.components['DestroyComponent'] = new DestroyComponent(entity);
+        });
+        this.enemies = [];
+        this.level = 1;
+        this.createLevel();
     }
 
     nextLevel() {
@@ -75,22 +76,24 @@ export class EnemyManager extends System {
     }
 
     clear() {
-        // this.enemies = [];
-        // let player = Container.get(Player);
-        //
-        // this.render.entities.forEach((entity: EntityInterface) => {
-        //     if (entity instanceof Ball) {
-        //         let ballComp = entity.components['BallComponent'];
-        //         ballComp.shouldBeDestroy = true;
-        //     }
-        //     if (entity instanceof UI) {
-        //         player.components['HealthComponent'].health = 100;
-        //     }
-        // });
-        //
-        // this.createLevel();
-        //
-        // let ball = new Ball();
-        // ball.components['BallComponent'].position.Set(this.render.width / 2, this.render.height - 120);
+
+        let player = Container.get(Player);
+        let em = Container.get(EntityManager);
+
+        let ball = em.findEntity(Ball);
+        ball.components['DestroyComponent'] = new DestroyComponent(ball);
+
+        this.enemies.forEach((entity: EntityInterface) => {
+            entity.components['DestroyComponent'] = new DestroyComponent(entity);
+        });
+
+        player.components['HealthComponent'].health = 100;
+
+        this.enemies = [];
+
+        this.createLevel();
+
+        let newBall = new Ball();
+        newBall.components['BallComponent'].position.Set(this.render.width / 2, this.render.height - 120);
     }
 }

@@ -11,6 +11,7 @@ import {EntityInterface} from "./interfaces/EntityInterface";
 import {EnemyManager} from "./systems/EnemyManager";
 import {EntityManager} from "./listeners/EntityManager";
 import b2ContactListener = Box2D.Dynamics.b2ContactListener;
+import {DestroyComponent} from "./components/DestroyComponent";
 @Service()
 export class Render {
     public box2d = require("box2dweb/box2d.js");
@@ -128,24 +129,19 @@ export class Render {
     }
 
     restart() {
+        let em = Container.get(EntityManager);
         let player = Container.get(Player);
 
-        this.entities.forEach((entity: EntityInterface) => {
-            if (entity instanceof Ball) {
-                let ballComp = entity.components['BallComponent'];
-                ballComp.shouldBeDestroy = true;
-            }
-            if (entity instanceof UI) {
-                player.components['HealthComponent'].health = 100;
-            }
-        });
+        let ball = em.findEntity(Ball);
+        ball.components['DestroyComponent'] = new DestroyComponent(ball);
+        player.components['HealthComponent'].health = 100;
 
         let enemyManager = Container.get(EnemyManager);
         enemyManager.removeAll();
 
         this.stop = false;
-        let ball = new Ball();
-        ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
+        // let ball = new Ball();
+        // ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
     }
 
 }

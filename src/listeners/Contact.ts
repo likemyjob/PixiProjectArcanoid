@@ -2,11 +2,10 @@ import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 import b2ContactImpulse = Box2D.Dynamics.b2ContactImpulse;
 import {Container} from "typedi";
 import {Player} from "../entities/Player";
-import {Render} from "../Render";
-import {EntityInterface} from "../interfaces/EntityInterface";
 import {Ball} from "../entities/Ball";
 import {EntityManager} from "./EntityManager";
 import {DestroyComponent} from "../components/DestroyComponent";
+import {Render} from "../Render";
 let box2d = require("box2dweb/box2d.js");
 export class Contact implements b2ContactListener {
     BeginContact(contact: Box2D.Dynamics.Contacts.b2Contact) {
@@ -27,6 +26,10 @@ export class Contact implements b2ContactListener {
             }
 
             if (Contact.findEnemy(a, b)) {
+                return;
+            }
+
+            if (Contact.findGround(a, b)) {
                 return;
             }
 
@@ -69,27 +72,33 @@ export class Contact implements b2ContactListener {
         if (entityA && entityB) {
             console.log('contact');
             entityA.components['DestroyComponent'] = new DestroyComponent(entityA);
+            return true;
         }
 
         return false;
     }
 
-    private static findGround(entity: EntityInterface, body: Box2D.Dynamics.b2Body) {
-        if (entity.name == 'DownWall') {
-            let comp = entity.components['WallComponent'];
-            if (comp) {
-                if (comp.body == body) {
-                    console.log('DownWall');
-                    let player = Container.get(Player);
+    private static findGround(a: Box2D.Dynamics.b2Body, b: Box2D.Dynamics.b2Body) {
+        let em = Container.get(EntityManager);
+        let entityA = em.findEntityByBody(a, 'WallComponent');
+        let entityB = em.findEntityByBody(b, 'BallComponent');
 
-                    if (player.components['HealthComponent'].health <= 0) {
-                        let render = Container.get(Render);
-                        render.stop = true;
-                    } else {
-                        player.components['HealthComponent'].health -= 10;
-                    }
-                }
-            }
+        if (!entityA && !entityB) {
+            return false;
         }
+
+        if (entityA.name == 'DownWall') {
+            console.log('ground');
+            let player = Container.get(Player);
+            if (player.components['HealthComponent'].health <= 0) {
+                let render = Container.get(Render);
+                render.stop = true;
+            } else {
+                player.components['HealthComponent'].health -= 10;
+            }
+            console.log(player.components['HealthComponent'].health);
+        }
+
+        return false;
     }
 }
