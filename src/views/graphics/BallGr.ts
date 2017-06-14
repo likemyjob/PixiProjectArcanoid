@@ -18,5 +18,10 @@ export class BallGr {
         gr2.lineTo(0, -bodyComp.radius);
         gr2.endFill();
         component.container.addChild(gr2);
+
+        // component.container.pivot.x = bodyComp.radius;
+        // component.container.pivot.y = bodyComp.radius;
+
+        component.container.position.set(bodyComp.position.x, bodyComp.position.y);
     }
 }

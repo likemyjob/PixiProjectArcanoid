@@ -49,17 +49,21 @@ export class PlayerMovementSystem extends System {
         }
     }
 
-    // private move(component: PlayerComponent) {
-    //     if ((this.directionVector.x == 0) && (this.directionVector.y == 0)) {
-    //         component.body.GetLinearVelocity().Multiply(0);
-    //         return;
-    //     }
-    //
-    //     let i = this.directionVector.Copy();
-    //     i.Multiply(50);
-    //     component.body.ApplyImpulse(i, component.body.GetWorldCenter());
-    //     // component.body.SetAngle(Math.PI / 50 * this.directionVector.x);
-    // }
+    private move() {
+        if ((this.directionVector.x == 0) && (this.directionVector.y == 0)) {
+            this.component.body.GetLinearVelocity().Multiply(0);
+            return;
+        }
+
+        let i = this.directionVector.Copy();
+        i.Multiply(50);
+        this.component.body.ApplyImpulse(i, this.component.body.GetWorldCenter());
+        // component.body.SetAngle(Math.PI / 50 * this.directionVector.x);
+    }
+
+    setComponent() {
+        this.component = this.entity.components['PhysicsComponent'];
+    }
 
     assignComponents: any = {
         'PlayerComponent': ['move']

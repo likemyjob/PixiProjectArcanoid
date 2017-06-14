@@ -14,5 +14,5 @@ export class PhysicsComponent extends Component {
     linearDamping: number = 0.1;
     angularDamping: number = 0.1;
     angle: number = 0;
-    radius: number = 20;
+    radius: number = 10;
 }

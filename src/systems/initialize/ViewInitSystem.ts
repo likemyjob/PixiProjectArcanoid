@@ -1,50 +1,56 @@
 import {System} from "../../abstract/System";
-import {BallView} from "../../views/BallView";
-import {PlayerView} from "../../views/PlayerView";
-import {WallView} from "../../views/WallView";
-import {EnemyView} from "../../views/EnemyView";
-import {BallGr} from "../../views/graphics/BallGr";
-import {PlayerGr} from "../../views/graphics/PlayerGr";
 import {WallGr} from "../../views/graphics/WallGr";
 import {EnemyGr} from "../../views/graphics/EnemyGr";
 import {UserInterfaceView} from "../../views/UserInterfaceView";
-import {UserInterfaceGr} from "../../views/graphics/UserInterfaceGr";
+import {BallGr} from "../../views/graphics/BallGr";
+import {PlayerGr} from "../../views/graphics/PlayerGr";
 export class ViewIntSystem extends System {
     assignComponents: any = {
         'BallComponent': ['initBall'],
-        'PlayerView': ['initPlayer'],
-        'WallView': ['initWall'],
-        'EnemyView': ['initEnemy'],
-        'UserInterfaceView': ['initUserInterface'],
+        'PlayerComponent': ['initPlayer'],
+        'WallComponent': ['initWall'],
+        'EnemyComponent': ['initEnemy'],
+        // 'UserInterfaceView': ['initUserInterface'],
     };
 
     setComponent() {
         this.component = this.entity.components['PixiView'];
-        return this.component.initialize;
     }
 
-    initBall(component: BallView) {
-        // BallGr.initBall();
+    initBall() {
+        if (this.checkInit()) {
+            return;
+        }
+        BallGr.initBall(this.component);
     }
 
-    initPlayer(component: PlayerView) {
-        PlayerGr.initPlayer(component);
+    initPlayer() {
+        if (this.checkInit()) {
+            return;
+        }
+        PlayerGr.initPlayer(this.component);
     }
 
-    initWall(component: WallView) {
-        WallGr.initWall(component);
+    initWall() {
+        if (this.checkInit()) {
+            return;
+        }
+        WallGr.initWall(this.component);
     }
 
-    initEnemy(component: EnemyView) {
-        EnemyGr.initEnemy(component);
+    initEnemy() {
+        if (this.checkInit()) {
+            return;
+        }
+        EnemyGr.initEnemy(this.component);
     }
 
     initUserInterface(component: UserInterfaceView) {
-        if (ViewIntSystem.checkInit(component)) {
-            return;
-        }
-
-        component.helper = new UserInterfaceGr(component);
+        // if (ViewIntSystem.checkInit(component)) {
+        //     return;
+        // }
+        //
+        // component.helper = new UserInterfaceGr(component);
 
         // component.container.removeChildAt(0);
         // PanelGr.createPanel(component);
@@ -58,12 +64,11 @@ export class ViewIntSystem extends System {
 
     }
 
-    static checkInit(component: any) {
-        if (component.initialize) {
-            return component.initialize;
+    checkInit() {
+        if (this.component.initialize) {
+            return this.component.initialize;
         }
-
-        component.initialize = true;
+        this.component.initialize = true;
     }
 
     static syncPosition(component: any, bodyComp: any) {

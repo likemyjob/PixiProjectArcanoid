@@ -9,8 +9,8 @@ import {SystemManager} from "./systems/SystemManager";
 import {UI} from "./entities/UI";
 import {EntityInterface} from "./interfaces/EntityInterface";
 import {EnemyManager} from "./systems/EnemyManager";
-import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 import {EntityManager} from "./listeners/EntityManager";
+import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 @Service()
 export class Render {
     public box2d = require("box2dweb/box2d.js");
@@ -72,12 +72,13 @@ export class Render {
         let meter = new FPSMeter();
 
         let player = Container.get(Player);
-        player.components['PhysicsComponent'].position.Set(this.width / 2, this.height - 60);
-
+        player.components['PhysicsComponent'].position.Set(this.width / 2, this.height - 65);
+        player.components['PhysicsComponent'].height = 20;
         // let ui = new UI();
 
-        // let ball = new Ball();
-        // ball.components['PhysicsComponent'].position.Set(this.width / 2, this.height / 2);
+        let ball = new Ball();
+        ball.components['PhysicsComponent'].position.Set(this.width / 2, this.height / 2);
+        ball.components['PhysicsComponent'].restitution = 1;
 
         this.entityManager = Container.get(EntityManager);
         let systemManager = new SystemManager();

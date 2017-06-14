@@ -32,9 +32,10 @@ export abstract class System implements SystemInterface {
         let compName: string;
         for (compName in that.assignComponents) {
             let executable: any = that.assignComponents[compName];
-            if (this.entity.components[compName]) {
+            let comp = this.entity.components[compName];
+            if (comp) {
                 executable.forEach(function (func: any) {
-                    that[func]();
+                    that[func](comp);
                 });
             }
         }

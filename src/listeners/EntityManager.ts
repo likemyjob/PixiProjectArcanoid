@@ -22,12 +22,19 @@ export class EntityManager {
     }
 
     destroyEntity(entity: EntityInterface) {
-        if (entity.components['DestroyComponent']) {
-            this.render.app.stage.removeChild(entity.components['ViewComponent'].container);
-            this.render.world.DestroyBody(entity.components['PhysicsComponent'].body);
-            let index = this.entities.indexOf(entity);
-            delete this.entities[index];
-        }
+        this.render.app.stage.removeChild(entity.components['PixiView'].container);
+        this.render.world.DestroyBody(entity.components['PhysicsComponent'].body);
+        let index = this.entities.indexOf(entity);
+        this.entities.splice(index, 1);
+        // delete this.entities[index];
+    }
+
+    findEntity(className: any) {
+        return this.entities.find((e: any) => (e instanceof className));
+    }
+
+    findEntityByBody(body: Box2D.Dynamics.b2Body, component: string): EntityInterface {
+        return this.entities.find((e: any) => ((e.components[component] && body == e.components['PhysicsComponent'].body)));
     }
 
     update() {

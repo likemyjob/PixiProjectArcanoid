@@ -34,7 +34,10 @@ export class EnemyManager extends System {
         for (let i = 0; i < maxEnemy; i++) {
             for (let j = 0; j < maxEnemy; j++) {
                 this.enemies[index] = new Enemy();
-                this.enemies[index].components['EnemyComponent'].position.Set(j * 10 + this.render.width / 2 + i * distance - shift, this.render.height / 4 - j * distance + shift);
+                this.enemies[index].components['PhysicsComponent'].position.Set(j * 10 + this.render.width / 2 + i * distance - shift, this.render.height / 4 - j * distance + shift);
+                this.enemies[index].components['PhysicsComponent'].width = 20;
+                this.enemies[index].components['PhysicsComponent'].height = 20;
+
                 index++;
             }
         }
@@ -48,20 +51,22 @@ export class EnemyManager extends System {
         for (let i = 0; i < maxEnemy; i++) {
             for (let j = 0; j < maxEnemy; j++) {
                 this.enemies[index] = new Enemy();
-                this.enemies[index].components['EnemyComponent'].position.Set(j * 10 + this.render.width / 2 + i * distance - shift, this.render.height / 4 - j * distance + shift);
-                this.enemies[index].components['EnemyComponent'].angle = Math.PI / 4;
+                this.enemies[index].components['PhysicsComponent'].position.Set(j * 10 + this.render.width / 2 + i * distance - shift, this.render.height / 4 - j * distance + shift);
+                this.enemies[index].components['PhysicsComponent'].angle = Math.PI / 4;
+                this.enemies[index].components['PhysicsComponent'].width = 20;
+                this.enemies[index].components['PhysicsComponent'].height = 20;
                 index++;
             }
         }
     }
 
     removeAll() {
-        this.enemies.forEach((entity: EntityInterface) => {
-            entity.components['EnemyComponent'].shouldBeDestroy = true;
-        });
-        this.enemies = [];
-        this.level = 1;
-        this.createLevel();
+        // this.enemies.forEach((entity: EntityInterface) => {
+        //     entity.components['EnemyComponent'].shouldBeDestroy = true;
+        // });
+        // this.enemies = [];
+        // this.level = 1;
+        // this.createLevel();
     }
 
     nextLevel() {
@@ -70,22 +75,22 @@ export class EnemyManager extends System {
     }
 
     clear() {
-        this.enemies = [];
-        let player = Container.get(Player);
-
-        this.render.entities.forEach((entity: EntityInterface) => {
-            if (entity instanceof Ball) {
-                let ballComp = entity.components['BallComponent'];
-                ballComp.shouldBeDestroy = true;
-            }
-            if (entity instanceof UI) {
-                player.components['HealthComponent'].health = 100;
-            }
-        });
-
-        this.createLevel();
-
-        let ball = new Ball();
-        ball.components['BallComponent'].position.Set(this.render.width / 2, this.render.height - 120);
+        // this.enemies = [];
+        // let player = Container.get(Player);
+        //
+        // this.render.entities.forEach((entity: EntityInterface) => {
+        //     if (entity instanceof Ball) {
+        //         let ballComp = entity.components['BallComponent'];
+        //         ballComp.shouldBeDestroy = true;
+        //     }
+        //     if (entity instanceof UI) {
+        //         player.components['HealthComponent'].health = 100;
+        //     }
+        // });
+        //
+        // this.createLevel();
+        //
+        // let ball = new Ball();
+        // ball.components['BallComponent'].position.Set(this.render.width / 2, this.render.height - 120);
     }
 }

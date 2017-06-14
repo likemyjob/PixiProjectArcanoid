@@ -1,37 +1,21 @@
 import {System} from "../abstract/System";
-import {BallView} from "../views/BallView";
-import {PlayerView} from "../views/PlayerView";
-import {PlayerComponent} from "../components/PlayerComponent";
 import {BallComponent} from "../components/BallComponent";
 import {Render} from "../Render";
 import {EnemyComponent} from "../components/EnemyComponent";
-import {UserInterfaceView} from "../views/UserInterfaceView";
-import {Container} from "typedi";
-import {Player} from "../entities/Player";
 import b2Vec2 = Box2D.Common.Math.b2Vec2;
-import {ComponentInterface} from "../interfaces/ComponentInterface";
-import {SystemInterface} from "../interfaces/SystemInterface";
-import {EnemyManager} from "./EnemyManager";
-import {EntityInterface} from "../interfaces/EntityInterface";
-import {Enemy} from "../entities/Enemy";
+import {PixiView} from "../views/PixiView";
 let box2d = require("box2dweb/box2d.js");
 export class RenderViewSystem extends System {
     assignComponents: any = {
-        'BallView': ['moveBall'],
-        'PlayerView': ['movePlayer'],
-        'EnemyComponent': ['destroyEnemy', 'checkWin'],
-        'UserInterfaceView': ['displayHealthPlayer'],
-        'BallComponent': ['destroyBall']
+        'PixiView': ['move'],
     };
 
-    movePlayer(component: PlayerView) {
-        let bodyComp: PlayerComponent = component.entity.components['PlayerComponent'];
-        RenderViewSystem.syncPosition(component, bodyComp);
-    }
-
-    moveBall(component: BallView) {
-        let bodyComp: BallComponent = component.entity.components['BallComponent'];
-        RenderViewSystem.syncPosition(component, bodyComp);
+    move(component: PixiView) {
+        // console.log(component);
+        if(this.entity.components['DynamicComponent']) {
+            let bodyComp: BallComponent = this.entity.components['PhysicsComponent'];
+            RenderViewSystem.syncPosition(component, bodyComp);
+        }
     }
 
     // displayHealthPlayer(component: UserInterfaceView) {
