@@ -22,6 +22,7 @@ export class MouseInitSystem extends System {
         } else {
             let ball = new Ball();
             ball.components['PhysicsComponent'].position.Set(e.clientX, e.clientY);
+            ball.components['PhysicsComponent'].restitution = 1;
         }
     }
 }

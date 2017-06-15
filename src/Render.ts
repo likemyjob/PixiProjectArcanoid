@@ -6,12 +6,10 @@ import {Ball} from "./entities/Ball";
 import {Player} from "./entities/Player";
 import {Contact} from "./listeners/Contact";
 import {SystemManager} from "./systems/SystemManager";
-import {UI} from "./entities/UI";
-import {EntityInterface} from "./interfaces/EntityInterface";
 import {EnemyManager} from "./systems/EnemyManager";
 import {EntityManager} from "./listeners/EntityManager";
-import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 import {DestroyComponent} from "./components/DestroyComponent";
+import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 @Service()
 export class Render {
     public box2d = require("box2dweb/box2d.js");
@@ -137,7 +135,8 @@ export class Render {
         player.components['HealthComponent'].health = 100;
 
         let enemyManager = Container.get(EnemyManager);
-        enemyManager.removeAll();
+        enemyManager.level = 1;
+        enemyManager.clear();
 
         this.stop = false;
         // let ball = new Ball();

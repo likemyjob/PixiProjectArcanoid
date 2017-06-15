@@ -1,10 +1,8 @@
 import {System} from "../abstract/System";
 import {Enemy} from "../entities/Enemy";
-import {EntityInterface} from "../interfaces/EntityInterface";
 import {Container, Service} from "typedi";
 import {Player} from "../entities/Player";
 import {Ball} from "../entities/Ball";
-import {DestroyComponent} from "../components/DestroyComponent";
 import {EntityManager} from "../listeners/EntityManager";
 @Service()
 export class EnemyManager extends System {
@@ -61,14 +59,7 @@ export class EnemyManager extends System {
         }
     }
 
-    removeAll() {
-        this.enemies.forEach((entity: EntityInterface) => {
-            entity.components['DestroyComponent'] = new DestroyComponent(entity);
-        });
-        this.enemies = [];
-        this.level = 1;
-        this.createLevel();
-    }
+
 
     nextLevel() {
         this.level++;
@@ -76,24 +67,35 @@ export class EnemyManager extends System {
     }
 
     clear() {
-
+        this.enemies = [];
         let player = Container.get(Player);
         let em = Container.get(EntityManager);
 
-        let ball = em.findEntity(Ball);
-        ball.components['DestroyComponent'] = new DestroyComponent(ball);
-
-        this.enemies.forEach((entity: EntityInterface) => {
-            entity.components['DestroyComponent'] = new DestroyComponent(entity);
-        });
+        em.removeSetOfEntities(Ball);
+        em.removeSetOfEntities(Enemy);
 
         player.components['HealthComponent'].health = 100;
 
-        this.enemies = [];
+        console.log(this.enemies);
 
         this.createLevel();
 
         let newBall = new Ball();
-        newBall.components['BallComponent'].position.Set(this.render.width / 2, this.render.height - 120);
+        newBall.components['PhysicsComponent'].position.Set(this.render.width / 2, this.render.height - 120);
+        newBall.components['PhysicsComponent'].restitution = 1;
+    }
+
+    removeEnemy(enemy: Enemy) {
+        let index = this.enemies.indexOf(enemy);
+        this.enemies.splice(index, 1);
+    }
+
+    checkWin() {
+        let em = Container.get(EntityManager);
+        if (!em.findEntity(Enemy)) {
+            console.log('WIN!!!');
+            this.nextLevel();
+            this.clear();
+        }
     }
 }

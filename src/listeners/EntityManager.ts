@@ -2,6 +2,7 @@ import {Container, Service} from "typedi";
 import {EntityInterface} from "../interfaces/EntityInterface";
 import {SystemInterface} from "../interfaces/SystemInterface";
 import {Render} from "../Render";
+import {DestroyComponent} from "../components/DestroyComponent";
 Service();
 export class EntityManager {
 
@@ -35,6 +36,14 @@ export class EntityManager {
 
     findEntityByBody(body: Box2D.Dynamics.b2Body, component: string): EntityInterface {
         return this.entities.find((e: any) => ((e.components[component] && body == e.components['PhysicsComponent'].body)));
+    }
+
+    removeSetOfEntities(entity: any) {
+        this.entities.forEach((e: EntityInterface) => {
+            if (e instanceof entity) {
+                e.components['DestroyComponent'] = new DestroyComponent(e);
+            }
+        });
     }
 
     update() {

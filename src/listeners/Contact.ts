@@ -6,6 +6,7 @@ import {Ball} from "../entities/Ball";
 import {EntityManager} from "./EntityManager";
 import {DestroyComponent} from "../components/DestroyComponent";
 import {Render} from "../Render";
+import {Wall} from "../entities/Wall";
 let box2d = require("box2dweb/box2d.js");
 export class Contact implements b2ContactListener {
     BeginContact(contact: Box2D.Dynamics.Contacts.b2Contact) {
@@ -53,6 +54,9 @@ export class Contact implements b2ContactListener {
         let playerBody = player.components['PhysicsComponent'].body;
         let em = Container.get(EntityManager);
         let ball = em.findEntity(Ball);
+        if (!ball) {
+            return;
+        }
         ball = ball.components['PhysicsComponent'].body;
 
         if (a == playerBody && b == ball) {
@@ -85,6 +89,10 @@ export class Contact implements b2ContactListener {
 
         if (!entityA && !entityB) {
             return false;
+        }
+
+        if (!(entityA instanceof Wall)) {
+            return;
         }
 
         if (entityA.name == 'DownWall') {
