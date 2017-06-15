@@ -1,8 +1,10 @@
 import {Entity} from "../abstract/Entity";
-import {UserInterfaceView} from "../views/UserInterfaceView";
+import {PixiView} from "../views/PixiView";
+import {UIComponent} from "../components/UIComponent";
 export class UI extends Entity {
     name = 'UI';
     public components: any = {
-        'UserInterfaceView': new UserInterfaceView(this),
+        'UIComponent': new UIComponent(this),
+        'PixiView': new PixiView(this),
     }
 }

@@ -76,8 +76,6 @@ export class EnemyManager extends System {
 
         player.components['HealthComponent'].health = 100;
 
-        console.log(this.enemies);
-
         this.createLevel();
 
         let newBall = new Ball();
@@ -93,7 +91,6 @@ export class EnemyManager extends System {
     checkWin() {
         let em = Container.get(EntityManager);
         if (!em.findEntity(Enemy)) {
-            console.log('WIN!!!');
             this.nextLevel();
             this.clear();
         }

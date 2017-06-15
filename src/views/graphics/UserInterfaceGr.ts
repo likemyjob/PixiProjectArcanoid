@@ -1,5 +1,5 @@
-import {UserInterfaceView} from "../UserInterfaceView";
 import {TextGr} from "./TextGr";
+import {PixiView} from "../PixiView";
 export class UserInterfaceGr {
     container: PIXI.Container;
     hp: PIXI.Graphics;
@@ -8,7 +8,7 @@ export class UserInterfaceGr {
 
     textGr: TextGr = new TextGr();
 
-    constructor(component: UserInterfaceView) {
+    constructor(component: PixiView) {
         this.container = component.container;
         this.container.removeChildAt(0);
         this.initPanel();

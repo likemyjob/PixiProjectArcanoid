@@ -1,16 +1,16 @@
 import {System} from "../../abstract/System";
 import {WallGr} from "../../views/graphics/WallGr";
 import {EnemyGr} from "../../views/graphics/EnemyGr";
-import {UserInterfaceView} from "../../views/UserInterfaceView";
 import {BallGr} from "../../views/graphics/BallGr";
 import {PlayerGr} from "../../views/graphics/PlayerGr";
+import {UserInterfaceGr} from "../../views/graphics/UserInterfaceGr";
 export class ViewIntSystem extends System {
     assignComponents: any = {
         'BallComponent': ['initBall'],
         'PlayerComponent': ['initPlayer'],
         'WallComponent': ['initWall'],
         'EnemyComponent': ['initEnemy'],
-        // 'UserInterfaceView': ['initUserInterface'],
+        'UIComponent': ['initUI'],
     };
 
     setComponent() {
@@ -45,23 +45,12 @@ export class ViewIntSystem extends System {
         EnemyGr.initEnemy(this.component);
     }
 
-    initUserInterface(component: UserInterfaceView) {
-        // if (ViewIntSystem.checkInit(component)) {
-        //     return;
-        // }
-        //
-        // component.helper = new UserInterfaceGr(component);
+    initUI() {
+        if (this.checkInit()) {
+            return;
+        }
 
-        // component.container.removeChildAt(0);
-        // PanelGr.createPanel(component);
-        // HpGr.createHpBar(component);
-        // let textGr = new TextGr();
-        //
-        // let hp = textGr.createText(component, 'HP', 'hpStyle');
-        // hp.position.set(10, 110);
-        //
-        // component.container.position.set(100, 100);
-
+        this.component.helper = new UserInterfaceGr(this.component);
     }
 
     checkInit() {

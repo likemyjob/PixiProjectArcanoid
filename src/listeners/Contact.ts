@@ -33,16 +33,6 @@ export class Contact implements b2ContactListener {
             if (Contact.findGround(a, b)) {
                 return;
             }
-
-            // let render = Container.get(Render);
-            //
-            // render.entities.forEach((entity: EntityInterface) => {
-            //     //find enemy
-            //     Contact.findEnemy(entity, a);
-            //     Contact.findGround(entity, a);
-            // });
-
-
         }
     }
 
@@ -74,7 +64,6 @@ export class Contact implements b2ContactListener {
         let entityB = em.findEntityByBody(b, 'BallComponent');
 
         if (entityA && entityB) {
-            console.log('contact');
             entityA.components['DestroyComponent'] = new DestroyComponent(entityA);
             return true;
         }
@@ -96,7 +85,6 @@ export class Contact implements b2ContactListener {
         }
 
         if (entityA.name == 'DownWall') {
-            console.log('ground');
             let player = Container.get(Player);
             if (player.components['HealthComponent'].health <= 0) {
                 let render = Container.get(Render);
@@ -104,7 +92,6 @@ export class Contact implements b2ContactListener {
             } else {
                 player.components['HealthComponent'].health -= 10;
             }
-            console.log(player.components['HealthComponent'].health);
         }
 
         return false;

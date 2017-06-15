@@ -10,6 +10,7 @@ import {EnemyManager} from "./systems/EnemyManager";
 import {EntityManager} from "./listeners/EntityManager";
 import {DestroyComponent} from "./components/DestroyComponent";
 import b2ContactListener = Box2D.Dynamics.b2ContactListener;
+import {UI} from "./entities/UI";
 @Service()
 export class Render {
     public box2d = require("box2dweb/box2d.js");
@@ -73,7 +74,8 @@ export class Render {
         let player = Container.get(Player);
         player.components['PhysicsComponent'].position.Set(this.width / 2, this.height - 65);
         player.components['PhysicsComponent'].height = 20;
-        // let ui = new UI();
+
+        let ui = new UI();
 
         let ball = new Ball();
         ball.components['PhysicsComponent'].position.Set(this.width / 2, this.height / 2);
@@ -139,8 +141,6 @@ export class Render {
         enemyManager.clear();
 
         this.stop = false;
-        // let ball = new Ball();
-        // ball.components['BallComponent'].position.Set(this.width / 2, this.height - 120);
     }
 
 }
