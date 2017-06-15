@@ -1,7 +1,4 @@
 import {System} from "../../abstract/System";
-import {BallComponent} from "../../components/BallComponent";
-import {PlayerComponent} from "../../components/PlayerComponent";
-import {WallComponent} from "../../components/WallComponent";
 import {Render} from "../../Render";
 import {EnemyComponent} from "../../components/EnemyComponent";
 import b2BodyDef = Box2D.Dynamics.b2BodyDef;
@@ -13,7 +10,8 @@ export class BodyIntSystem extends System {
         'BallComponent': ['initBall'],
         'PlayerComponent': ['initPlayer'],
         'WallComponent': ['initWall'],
-        'EnemyComponent': ['initEnemy']
+        'EnemyComponent': ['initEnemy'],
+        'BonusComponent': ['initBonus']
     };
 
     setComponent() {
@@ -47,6 +45,15 @@ export class BodyIntSystem extends System {
 
         let b2Body = this.render.box2d.Dynamics.b2Body;
         this.createBody(b2Body.b2_staticBody, 'box');
+    }
+
+    initBonus() {
+        if (this.component.initialize) {
+            return;
+        }
+        this.component.initialize = true;
+        let b2Body = this.render.box2d.Dynamics.b2Body;
+        this.createBody(b2Body.b2_dynamicBody, 'box');
     }
 
     initEnemy(component: EnemyComponent) {

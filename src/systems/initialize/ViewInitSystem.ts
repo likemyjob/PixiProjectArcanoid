@@ -11,6 +11,7 @@ export class ViewIntSystem extends System {
         'WallComponent': ['initWall'],
         'EnemyComponent': ['initEnemy'],
         'UIComponent': ['initUI'],
+        'BonusComponent': ['initBonus'],
     };
 
     setComponent() {
@@ -25,6 +26,13 @@ export class ViewIntSystem extends System {
     }
 
     initPlayer() {
+        if (this.checkInit()) {
+            return;
+        }
+        PlayerGr.initPlayer(this.component);
+    }
+
+    initBonus() {
         if (this.checkInit()) {
             return;
         }
