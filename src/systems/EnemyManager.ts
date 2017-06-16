@@ -103,10 +103,7 @@ export class EnemyManager extends System {
     removeEnemy(enemy: Enemy) {
         let index = this.enemies.indexOf(enemy);
         this.enemies.splice(index, 1);
-        let bonus = new Bonus();
-        bonus.components['PhysicsComponent'].width = 10;
-        bonus.components['PhysicsComponent'].heidht = 10;
-        bonus.components['PhysicsComponent'].position = enemy.components['PhysicsComponent'].position;
+
     }
 
     checkWin() {

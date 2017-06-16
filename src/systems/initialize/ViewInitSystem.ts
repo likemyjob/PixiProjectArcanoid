@@ -36,7 +36,8 @@ export class ViewIntSystem extends System {
         if (this.checkInit()) {
             return;
         }
-        PlayerGr.initPlayer(this.component);
+        // PlayerGr.initPlayer(this.component);
+        BallGr.initBall(this.component);
     }
 
     initWall() {

@@ -11,6 +11,7 @@ import {EntityManager} from "./listeners/EntityManager";
 import {DestroyComponent} from "./components/DestroyComponent";
 import b2ContactListener = Box2D.Dynamics.b2ContactListener;
 import {UI} from "./entities/UI";
+import {Bonus} from "./entities/Bonus";
 @Service()
 export class Render {
     public box2d = require("box2dweb/box2d.js");
@@ -80,6 +81,12 @@ export class Render {
         let ball = new Ball();
         ball.components['PhysicsComponent'].position.Set(this.width / 2, this.height / 2);
         ball.components['PhysicsComponent'].restitution = 1;
+
+
+        let bonus = new Bonus();
+        bonus.components['PhysicsComponent'].width = 10;
+        bonus.components['PhysicsComponent'].heidht = 10;
+        bonus.components['PhysicsComponent'].position.Set(this.width / 2, this.height / 2);
 
         this.entityManager = Container.get(EntityManager);
         let systemManager = new SystemManager();

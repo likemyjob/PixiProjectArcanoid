@@ -5,10 +5,16 @@ import {Player} from "../entities/Player";
 import {Ball} from "../entities/Ball";
 import {EntityManager} from "./EntityManager";
 import {DestroyComponent} from "../components/DestroyComponent";
-import {Render} from "../Render";
 import {Wall} from "../entities/Wall";
 let box2d = require("box2dweb/box2d.js");
 export class Contact implements b2ContactListener {
+
+    private contactList: string[] = [
+        'Contact.player',
+        'Contact.enemy',
+        'Contact.ground'
+    ];
+
     BeginContact(contact: Box2D.Dynamics.Contacts.b2Contact) {
     }
 
@@ -22,78 +28,73 @@ export class Contact implements b2ContactListener {
         let b = contact.GetFixtureB().GetBody();
         if (a != b) {
 
-            if (Contact.findPlayer(a, b, impulse)) {
-                return;
-            }
-
-            if (Contact.findEnemy(a, b)) {
-                return;
-            }
-
-            if (Contact.findGround(a, b)) {
-                return;
-            }
+            // let that: any = this;
+            this.contactList.forEach((executeble: any) => {
+                let arr = executeble.split(',');
+                
+                // if (arr[0][1](a, b)) return;
+            });
+            // if (Contact.player(a, b)) {
+            //     return;
+            // }
+            //
+            // if (Contact.enemy(a, b)) {
+            //     return;
+            // }
+            //
+            // if (Contact.ground(a, b)) {
+            //     return;
+            // }
         }
     }
 
     PreSolve(contact: Box2D.Dynamics.Contacts.b2Contact, oldManifold: Box2D.Collision.b2Manifold) {
     }
 
-    private static findPlayer(a: Box2D.Dynamics.b2Body, b: Box2D.Dynamics.b2Body, i: any) {
-        let player = Container.get(Player);
-        let playerBody = player.components['PhysicsComponent'].body;
-        let em = Container.get(EntityManager);
-        let ball = em.findEntity(Ball);
-        if (!ball) {
-            return;
+    private static player(a: Box2D.Dynamics.b2Body | any, b: Box2D.Dynamics.b2Body | any) {
+        if (a.name != 'Player' || b.name != 'Ball') {
+            return false;
         }
-        ball = ball.components['PhysicsComponent'].body;
+        console.log('player contact');
 
-        if (a == playerBody && b == ball) {
-            let v = ball.GetLinearVelocity().Copy();
-            v.Multiply(40 / v.Length());
+        let v = b.GetLinearVelocity().Copy();
+        v.Multiply(40 / v.Length());
 
-            b.SetLinearVelocity(v);
-            return true;
-        }
+        b.SetLinearVelocity(v);
+        return true;
     }
 
-    private static findEnemy(a: Box2D.Dynamics.b2Body, b: Box2D.Dynamics.b2Body) {
-        let em = Container.get(EntityManager);
-        let entityA = em.findEntityByBody(a, 'EnemyComponent');
-        let entityB = em.findEntityByBody(b, 'BallComponent');
-
-        if (entityA && entityB) {
-            entityA.components['DestroyComponent'] = new DestroyComponent(entityA);
-            return true;
-        }
-
-        return false;
-    }
-
-    private static findGround(a: Box2D.Dynamics.b2Body, b: Box2D.Dynamics.b2Body) {
-        let em = Container.get(EntityManager);
-        let entityA = em.findEntityByBody(a, 'WallComponent');
-        let entityB = em.findEntityByBody(b, 'BallComponent');
-
-        if (!entityA && !entityB) {
+    private static enemy(a: Box2D.Dynamics.b2Body | any, b: Box2D.Dynamics.b2Body | any) {
+        if (a.name != 'Enemy' || b.name != 'Ball') {
             return false;
         }
 
-        if (!(entityA instanceof Wall)) {
-            return;
+        let em = Container.get(EntityManager);
+        let entityA = em.findEntityByBody(a, 'EnemyComponent');
+
+        entityA.components['DestroyComponent'] = new DestroyComponent(entityA);
+        return true;
+    }
+
+    private static ground(a: Box2D.Dynamics.b2Body | any, b: Box2D.Dynamics.b2Body | any) {
+        if (a.name != 'Wall' || b.name != 'Ball') {
+            return false;
         }
+
+        let em = Container.get(EntityManager);
+        let entityA = em.findEntityByBody(a, 'WallComponent');
 
         if (entityA.name == 'DownWall') {
-            let player = Container.get(Player);
-            if (player.components['HealthComponent'].health <= 0) {
-                let render = Container.get(Render);
-                render.stop = true;
-            } else {
-                player.components['HealthComponent'].health -= 10;
-            }
+            console.log('ground');
+            // let player = Container.get(Player);
+            // if (player.components['HealthComponent'].health <= 0) {
+            //     let render = Container.get(Render);
+            //     render.stop = true;
+            // } else {
+            //     player.components['HealthComponent'].health -= 10;
+            // }
+            return true;
         }
-
         return false;
     }
 }

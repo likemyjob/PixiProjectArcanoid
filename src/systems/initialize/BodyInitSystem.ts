@@ -25,6 +25,7 @@ export class BodyIntSystem extends System {
         this.component.initialize = true;
         let b2Body = this.render.box2d.Dynamics.b2Body;
         this.createBody(b2Body.b2_dynamicBody, 'circle');
+        this.component.body.name = 'Ball';
     }
 
     initPlayer() {
@@ -34,6 +35,7 @@ export class BodyIntSystem extends System {
         this.component.initialize = true;
         let b2Body = this.render.box2d.Dynamics.b2Body;
         this.createBody(b2Body.b2_dynamicBody, 'box');
+        this.component.body.name = 'Player';
     }
 
     initWall() {
@@ -45,6 +47,7 @@ export class BodyIntSystem extends System {
 
         let b2Body = this.render.box2d.Dynamics.b2Body;
         this.createBody(b2Body.b2_staticBody, 'box');
+        this.component.body.name = 'Wall';
     }
 
     initBonus() {
@@ -54,6 +57,7 @@ export class BodyIntSystem extends System {
         this.component.initialize = true;
         let b2Body = this.render.box2d.Dynamics.b2Body;
         this.createBody(b2Body.b2_dynamicBody, 'box');
+        this.component.body.name = 'Bonus';
     }
 
     initEnemy(component: EnemyComponent) {
@@ -64,6 +68,7 @@ export class BodyIntSystem extends System {
 
         let b2Body = this.render.box2d.Dynamics.b2Body;
         this.createBody(b2Body.b2_staticBody, 'box');
+        this.component.body.name = 'Enemy';
     }
 
     private createBodyBox(component: any, type: any) {
